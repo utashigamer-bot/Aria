@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>ARIA — Neural Interface</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;500;600&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{
+  --void:#000810;--deep:#010d1f;--surface:#071628;
+  --neon:#00f5ff;--neon2:#7b2fff;--plasma:#ff2d9b;
+  --acid:#39ff14;--amber:#ffaa00;--red:#ff3333;
+  --text:#b8d4f0;--muted:#2a4060;--muted2:#3a5878;
+  --mono:'Share Tech Mono',monospace;
+  --title:'Orbitron',monospace;
+  --body:'Rajdhani',sans-serif;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{height:100%;height:100dvh;overflow:hidden;background:var(--void);color:var(--text);font-family:var(--body);font-size:13px;}
+
+/* ═══ CANVAS BG ═══ */
+#bgCanvas{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+/* ═══ GLOBAL FX ═══ */
+#gfx{position:fixed;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
+.grid-h{position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 39px,rgba(0,245,255,0.025) 39px,rgba(0,245,255,0.025) 40px);}
+.grid-v{position:absolute;inset:0;background:repeating-linear-gradient(90deg,transparent,transparent 39px,rgba(0,245,255,0.025) 39px,rgba(0,245,255,0.025) 40px);}
+.scan{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(0,245,255,0.5),rgba(255,255,255,0.8),rgba(0,245,255,0.5),transparent);animation:scanAnim 14s linear infinite;pointer-events:none;}
+@keyframes scanAnim{from{top:-1px;opacity:.25}to{top:100vh;opacity:.05}}
+.corner{position:fixed;width:44px;height:44px;z-index:5;pointer-events:none;}
+.corner::before,.corner::after{content:'';position:absolute;background:var(--neon);animation:cornerGlow 3s ease-in-out infinite;}
+.corner::before{width:100%;height:1px;}.corner::after{width:1px;height:100%;}
+.corner.tl{top:0;left:0;}.corner.tr{top:0;right:0;transform:scaleX(-1);}
+.corner.bl{bottom:0;left:0;transform:scaleY(-1);}.corner.br{bottom:0;right:0;transform:scale(-1,-1);}
+.corner.tr::before,.corner.tr::after{animation-delay:.75s;}
+.corner.bl::before,.corner.bl::after{animation-delay:1.5s;}
+.corner.br::before,.corner.br::after{animation-delay:2.25s;}
+@keyframes cornerGlow{0%,100%{opacity:.4;box-shadow:0 0 3px var(--neon)}50%{opacity:1;box-shadow:0 0 12px var(--neon),0 0 24px var(--neon)}}
+
+/* ═══ BOOT SCREEN ═══ */
+#boot{
+  position:fixed;inset:0;z-index:9999;
+  background:var(--void);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:18px;
+  transition:opacity 1s ease;
+}
+#boot.gone{opacity:0;pointer-events:none;}
+.boot-ring{
+  width:120px;height:120px;position:relative;
+  animation:bootRing 1.2s cubic-bezier(.2,1,.3,1) both;
+}
+@keyframes bootRing{from{opacity:0;transform:scale(.2) rotate(-180deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+.boot-ring svg{width:100%;height:100%;filter:drop-shadow(0 0 18px var(--neon));}
+.boot-ring-label{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--title);font-size:12px;font-weight:700;color:var(--neon);letter-spacing:1px;
+  animation:bootRing 1.2s both;
+}
+.boot-name{
+  font-family:var(--title);font-size:40px;font-weight:900;letter-spacing:14px;
+  background:linear-gradient(90deg,var(--neon),var(--neon2),var(--plasma));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  animation:bootName 1s ease .4s both;
+}
+@keyframes bootName{from{opacity:0;letter-spacing:30px;filter:blur(8px)}to{opacity:1;letter-spacing:14px;filter:blur(0)}}
+.boot-sub{font-family:var(--mono);font-size:9px;color:var(--acid);letter-spacing:3px;animation:fadeUp .6s ease 1s both;text-align:center;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.boot-progress{width:200px;height:2px;background:rgba(0,245,255,.1);overflow:hidden;animation:fadeUp .6s ease 1.2s both;}
+.boot-fill{height:100%;width:0;background:linear-gradient(90deg,var(--neon2),var(--neon),var(--acid));box-shadow:0 0 12px var(--neon);animation:bootFill 1.8s cubic-bezier(.4,0,.2,1) 1.2s both;}
+@keyframes bootFill{from{width:0}to{width:100%}}
+.boot-log{font-family:var(--mono);font-size:8px;color:var(--muted2);letter-spacing:1px;animation:fadeUp .6s ease 1.4s both;text-align:center;line-height:2;}
+
+/* ═══ LAYOUT PRINCIPAL ═══ */
+#shell{
+  position:relative;z-index:10;
+  height:100dvh;
+  display:grid;
+  grid-template-rows:auto 1fr;
+  grid-template-columns:1fr;
+}
+
+/* ── HEADER GLOBAL ── */
+#hdr{
+  grid-column:1/-1;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 16px 8px;
+  background:linear-gradient(180deg,rgba(0,5,18,.98),rgba(0,8,22,.85));
+  border-bottom:1px solid rgba(0,245,255,.12);
+  position:relative;overflow:hidden;flex-shrink:0;
+}
+#hdr::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--neon2) 25%,var(--neon) 50%,var(--neon2) 75%,transparent);opacity:.5;}
+#hdr::before{content:'';position:absolute;top:0;left:-100%;width:50%;height:1px;
+  background:linear-gradient(90deg,transparent,var(--neon),transparent);animation:hShimmer 6s ease-in-out infinite;}
+@keyframes hShimmer{0%{left:-50%}100%{left:150%}}
+
+.hdr-left{display:flex;align-items:center;gap:12px;}
+.reactor{
+  width:38px;height:38px;border-radius:50%;
+  border:1px solid rgba(0,245,255,.4);
+  display:flex;align-items:center;justify-content:center;
+  position:relative;
+  background:radial-gradient(circle,rgba(0,245,255,.15),transparent);
+  box-shadow:0 0 18px rgba(0,245,255,.3),inset 0 0 12px rgba(0,245,255,.1);
+  animation:reactPulse 2.2s ease-in-out infinite;flex-shrink:0;
+}
+@keyframes reactPulse{0%,100%{box-shadow:0 0 18px rgba(0,245,255,.3),inset 0 0 12px rgba(0,245,255,.1)}50%{box-shadow:0 0 36px rgba(0,245,255,.65),0 0 70px rgba(0,245,255,.15),inset 0 0 22px rgba(0,245,255,.3)}}
+.r-spin{position:absolute;inset:-5px;border-radius:50%;border:1px solid rgba(0,245,255,.2);animation:spin 7s linear infinite;}
+.r-spin2{position:absolute;inset:-9px;border-radius:50%;border:1px solid rgba(123,47,255,.15);animation:spin 11s linear infinite reverse;}
+.r-spin::before{content:'';position:absolute;top:-2px;left:50%;transform:translateX(-50%);width:4px;height:4px;border-radius:50%;background:var(--neon);box-shadow:0 0 10px var(--neon);}
+@keyframes spin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+.r-core{width:10px;height:10px;border-radius:50%;background:var(--neon);box-shadow:0 0 16px var(--neon),0 0 32px var(--neon);}
+
+.hdr-title{line-height:1;}
+.hdr-name{
+  font-family:var(--title);font-size:18px;font-weight:900;letter-spacing:7px;
+  background:linear-gradient(90deg,var(--neon),var(--neon2));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+}
+.hdr-sub{font-family:var(--mono);font-size:7px;color:var(--muted2);letter-spacing:2px;text-transform:uppercase;}
+
+.hdr-center{display:flex;gap:20px;align-items:center;}
+.hdr-stat{display:flex;flex-direction:column;align-items:center;gap:1px;}
+.hdr-stat-val{font-family:var(--title);font-size:13px;color:var(--neon);text-shadow:0 0 16px rgba(0,245,255,.6);}
+.hdr-stat-lbl{font-family:var(--mono);font-size:7px;color:var(--muted);letter-spacing:2px;}
+
+.hdr-right{display:flex;align-items:center;gap:10px;}
+.online-badge{display:flex;align-items:center;gap:5px;font-family:var(--mono);font-size:8px;color:var(--acid);letter-spacing:1px;}
+.online-dot{width:5px;height:5px;border-radius:50%;background:var(--acid);box-shadow:0 0 8px var(--acid);animation:blink 1.8s ease-in-out infinite;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+
+/* ═══ MAIN BODY — 3 colonnes ═══ */
+#main{
+  display:grid;
+  grid-template-columns:220px 1fr 200px;
+  gap:0;
+  overflow:hidden;
+  height:100%;
+}
+
+/* ════════════════════════════════
+   PANNEAU GAUCHE
+════════════════════════════════ */
+#left{
+  border-right:1px solid rgba(0,245,255,.08);
+  display:flex;flex-direction:column;gap:0;
+  overflow-y:auto;overflow-x:hidden;
+  background:linear-gradient(180deg,rgba(0,6,16,.97),rgba(0,4,12,.95));
+}
+#left::-webkit-scrollbar{width:2px;}
+#left::-webkit-scrollbar-thumb{background:rgba(0,245,255,.2);}
+
+.panel{
+  border-bottom:1px solid rgba(0,245,255,.06);
+  padding:12px 12px 14px;
+  position:relative;
+  flex-shrink:0;
+}
+.panel-hdr{
+  display:flex;align-items:center;gap:6px;
+  font-family:var(--mono);font-size:8px;letter-spacing:2.5px;color:var(--muted2);
+  text-transform:uppercase;margin-bottom:10px;
+}
+.panel-hdr::before{content:'';width:10px;height:1px;background:var(--neon);box-shadow:0 0 6px var(--neon);}
+
+/* ── MÉTÉO ── */
+#wx-panel{}
+.wx-main{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.wx-icon{font-size:36px;filter:drop-shadow(0 0 8px rgba(0,245,255,.4));animation:wxFloat 3s ease-in-out infinite;}
+@keyframes wxFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.wx-temp{font-family:var(--title);font-size:32px;font-weight:700;color:var(--neon);text-shadow:0 0 20px rgba(0,245,255,.6);line-height:1;}
+.wx-city{font-family:var(--mono);font-size:8px;color:var(--muted2);letter-spacing:2px;margin-top:2px;}
+.wx-desc{font-family:var(--mono);font-size:8px;color:var(--amber);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:8px;}
+.wx-bars{display:flex;flex-direction:column;gap:5px;}
+.wx-row{display:flex;align-items:center;gap:6px;}
+.wx-row-lbl{font-family:var(--mono);font-size:7px;color:var(--muted);width:28px;flex-shrink:0;}
+.wx-bar-track{flex:1;height:3px;background:rgba(0,245,255,.08);border-radius:2px;overflow:hidden;}
+.wx-bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--neon2),var(--neon));transition:width 1.5s ease;}
+.wx-row-val{font-family:var(--mono);font-size:7px;color:var(--neon);width:28px;text-align:right;flex-shrink:0;}
+.wx-loading{font-family:var(--mono);font-size:8px;color:var(--muted2);animation:loadBlink 1s ease-in-out infinite;}
+@keyframes loadBlink{0%,100%{opacity:.3}50%{opacity:1}}
+
+/* ── MINI MAP ── */
+#map-panel{}
+#map{
+  width:100%;height:160px;
+  border:1px solid rgba(0,245,255,.15);
+  position:relative;overflow:hidden;
+  background:#0a1628;
+}
+#map::after{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,rgba(0,245,255,.04),transparent 60%);
+  pointer-events:none;z-index:2;
+}
+#map-cross-h{position:absolute;left:0;right:0;height:1px;background:rgba(0,245,255,.25);top:50%;z-index:3;pointer-events:none;}
+#map-cross-v{position:absolute;top:0;bottom:0;width:1px;background:rgba(0,245,255,.25);left:50%;z-index:3;pointer-events:none;}
+#map-dot{
+  position:absolute;z-index:4;
+  width:10px;height:10px;border-radius:50%;
+  background:var(--plasma);
+  box-shadow:0 0 12px var(--plasma),0 0 24px var(--plasma);
+  transform:translate(-50%,-50%);
+  top:50%;left:50%;
+  animation:mapPing 2s ease-out infinite;
+}
+@keyframes mapPing{0%{box-shadow:0 0 12px var(--plasma),0 0 24px var(--plasma)}50%{box-shadow:0 0 20px var(--plasma),0 0 50px var(--plasma),0 0 80px rgba(255,45,155,.2)}100%{box-shadow:0 0 12px var(--plasma),0 0 24px var(--plasma)}}
+.map-ring{
+  position:absolute;z-index:3;
+  border-radius:50%;border:1px solid rgba(255,45,155,.4);
+  transform:translate(-50%,-50%);
+  animation:mapRingAnim 2.5s ease-out infinite;
+}
+@keyframes mapRingAnim{0%{width:10px;height:10px;opacity:.9;top:50%;left:50%}100%{width:80px;height:80px;opacity:0;top:50%;left:50%}}
+.map-ring2{animation-delay:.8s;}
+.map-coords{
+  font-family:var(--mono);font-size:7px;color:var(--neon);margin-top:5px;
+  display:flex;justify-content:space-between;
+}
+#map-addr{font-family:var(--mono);font-size:7px;color:var(--muted2);margin-top:3px;line-height:1.4;}
+
+/* ── SYSTEME ── */
+.sys-bars{display:flex;flex-direction:column;gap:6px;}
+.sys-row{display:flex;align-items:center;gap:6px;}
+.sys-lbl{font-family:var(--mono);font-size:7px;color:var(--muted);width:26px;}
+.sys-track{flex:1;height:3px;background:rgba(0,245,255,.06);border-radius:2px;overflow:hidden;}
+.sys-fill{height:100%;border-radius:2px;transition:width 1.2s ease;}
+.sys-fill.cpu{background:linear-gradient(90deg,var(--neon2),var(--neon));}
+.sys-fill.mem{background:linear-gradient(90deg,var(--plasma),var(--neon2));}
+.sys-fill.net{background:linear-gradient(90deg,var(--acid),var(--neon));}
+.sys-fill.ai{background:linear-gradient(90deg,var(--amber),var(--acid));}
+.sys-val{font-family:var(--mono);font-size:7px;color:var(--neon);width:26px;text-align:right;}
+
+/* ════════════════════════════════
+   PANNEAU CENTRE
+════════════════════════════════ */
+#center{
+  display:flex;flex-direction:column;
+  overflow:hidden;
+  position:relative;
+}
+
+/* ── VISUALISEUR IA (haut) ── */
+#viz-zone{
+  flex-shrink:0;
+  height:160px;
+  position:relative;
+  background:linear-gradient(180deg,rgba(0,3,12,.98),rgba(0,5,18,.9));
+  border-bottom:1px solid rgba(0,245,255,.08);
+  overflow:hidden;
+}
+#vizCanvas{width:100%;height:100%;display:block;}
+.viz-label{
+  position:absolute;bottom:8px;left:50%;transform:translateX(-50%);
+  font-family:var(--mono);font-size:8px;letter-spacing:4px;color:rgba(0,245,255,.4);
+  pointer-events:none;
+}
+.viz-status{
+  position:absolute;top:8px;right:12px;
+  font-family:var(--mono);font-size:7px;color:var(--acid);letter-spacing:2px;
+  animation:blink 2s ease-in-out infinite;
+}
+
+/* ── CHAT (centre bas) ── */
+#chat-zone{
+  flex:1;display:flex;flex-direction:column;overflow:hidden;
+}
+
+#chat{
+  flex:1;overflow-y:auto;overflow-x:hidden;
+  padding:14px 14px 8px;
+  display:flex;flex-direction:column;gap:14px;
+  scroll-behavior:smooth;-webkit-overflow-scrolling:touch;
+}
+#chat::-webkit-scrollbar{width:2px;}
+#chat::-webkit-scrollbar-thumb{background:rgba(0,245,255,.15);}
+
+.msg{display:flex;gap:9px;animation:msgIn .4s cubic-bezier(.16,1,.3,1);}
+@keyframes msgIn{from{opacity:0;transform:translateY(16px) scale(.97)}to{opacity:1;transform:translateY(0) scale(1)}}
+.msg.user{flex-direction:row-reverse;align-self:flex-end;max-width:85%;}
+.msg.bot{max-width:95%;}
+
+.av{
+  width:28px;height:28px;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:7px;margin-top:5px;
+  clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);
+}
+.msg.bot .av{background:linear-gradient(135deg,rgba(0,245,255,.15),rgba(123,47,255,.15));border:1px solid rgba(0,245,255,.3);color:var(--neon);box-shadow:0 0 12px rgba(0,245,255,.2);}
+.msg.user .av{background:rgba(255,45,155,.1);border:1px solid rgba(255,45,155,.3);color:var(--plasma);}
+
+.bubble{padding:10px 14px;font-size:13px;line-height:1.7;position:relative;}
+.msg.bot .bubble{
+  background:linear-gradient(135deg,rgba(0,8,22,.98),rgba(1,14,34,.95));
+  border:1px solid rgba(0,245,255,.1);border-left:2px solid var(--neon);
+  color:var(--text);
+  clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));
+  box-shadow:0 6px 30px rgba(0,0,0,.5),inset 0 0 20px rgba(0,245,255,.02);
+}
+.msg.bot .bubble::before{content:'ARIA';position:absolute;top:-7px;left:12px;font-family:var(--mono);font-size:7px;letter-spacing:3px;color:var(--neon);background:var(--void);padding:0 5px;}
+.msg.bot .bubble::after{content:'';position:absolute;top:0;right:0;width:12px;height:12px;border-top:1px solid var(--neon);border-right:1px solid var(--neon);opacity:.6;}
+.msg.user .bubble{
+  background:linear-gradient(135deg,rgba(15,5,28,.98),rgba(20,8,38,.95));
+  border:1px solid rgba(255,45,155,.15);border-right:2px solid var(--plasma);
+  color:#f0cce8;text-align:right;
+  clip-path:polygon(12px 0,100% 0,100% calc(100% - 12px),calc(100%- 0px) 100%,0 100%,0 12px);
+}
+.msg.user .bubble::before{content:'VOUS';position:absolute;top:-7px;right:12px;font-family:var(--mono);font-size:7px;letter-spacing:3px;color:var(--plasma);background:var(--void);padding:0 5px;}
+
+.typing-wrap{display:flex;align-items:center;gap:8px;padding:4px 2px;}
+.tdot{width:5px;height:5px;border-radius:50%;background:var(--neon);box-shadow:0 0 8px var(--neon);animation:td 1.4s ease-in-out infinite;}
+.tdot:nth-child(2){animation-delay:.18s;}.tdot:nth-child(3){animation-delay:.36s;}
+@keyframes td{0%,60%,100%{transform:translateY(0);opacity:.2}30%{transform:translateY(-6px);opacity:1}}
+.tlabel{font-family:var(--mono);font-size:7px;color:var(--muted2);letter-spacing:2px;animation:tlb 1s ease-in-out infinite alternate;}
+@keyframes tlb{from{opacity:.3}to{opacity:1}}
+
+/* ── INPUT ── */
+#inp-zone{
+  flex-shrink:0;
+  padding:8px 12px 12px;
+  background:linear-gradient(0deg,rgba(0,2,10,.99),rgba(0,5,18,.97));
+  border-top:1px solid rgba(0,245,255,.07);
+  position:relative;
+}
+#inp-zone::before{content:'';position:absolute;top:0;left:8%;right:8%;height:1px;background:linear-gradient(90deg,transparent,var(--neon2),var(--neon),var(--neon2),transparent);opacity:.35;}
+
+.inp-shell{
+  display:flex;align-items:center;gap:7px;
+  background:rgba(0,8,22,.95);
+  border:1px solid rgba(0,245,255,.18);
+  padding:3px 3px 3px 10px;
+  clip-path:polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px);
+  transition:border-color .2s,box-shadow .2s;
+  position:relative;
+}
+.inp-shell:focus-within{border-color:rgba(0,245,255,.45);box-shadow:0 0 25px rgba(0,245,255,.06);}
+.inp-shell::after{content:'';position:absolute;top:0;right:0;width:7px;height:7px;border-top:1px solid var(--neon);border-right:1px solid var(--neon);}
+.inp-pre{font-family:var(--mono);font-size:9px;color:rgba(0,245,255,.35);white-space:nowrap;}
+#inp{flex:1;min-width:0;background:transparent;border:none;outline:none;color:var(--text);font-family:var(--body);font-size:13px;font-weight:300;padding:9px 0;caret-color:var(--neon);}
+#inp::placeholder{color:var(--muted);font-size:11px;font-family:var(--mono);}
+
+.btn-mic{width:36px;height:36px;flex-shrink:0;border:1px solid rgba(0,245,255,.15);background:transparent;color:var(--muted2);font-size:15px;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:all .2s;clip-path:polygon(3px 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%,0 3px);}
+.btn-mic.on{border-color:var(--plasma);color:var(--plasma);background:rgba(255,45,155,.08);box-shadow:0 0 22px rgba(255,45,155,.4);animation:micP .85s ease-in-out infinite;}
+@keyframes micP{0%,100%{box-shadow:0 0 22px rgba(255,45,155,.4)}50%{box-shadow:0 0 40px rgba(255,45,155,.7)}}
+.btn-send{height:36px;flex-shrink:0;padding:0 14px;background:linear-gradient(135deg,rgba(0,245,255,.1),rgba(123,47,255,.1));border:1px solid rgba(0,245,255,.22);color:var(--neon);font-family:var(--mono);font-size:8px;letter-spacing:2px;cursor:pointer;clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px);transition:all .15s;}
+.btn-send:active{background:rgba(0,245,255,.2);box-shadow:0 0 20px rgba(0,245,255,.3);}
+
+/* ── QUICK BAR ── */
+#qbar{
+  flex-shrink:0;
+  display:flex;gap:5px;overflow-x:auto;
+  padding:6px 12px;
+  border-top:1px solid rgba(0,245,255,.05);
+  background:rgba(0,3,10,.98);
+}
+#qbar::-webkit-scrollbar{display:none;}
+.qa{flex-shrink:0;font-family:var(--mono);font-size:7.5px;letter-spacing:1px;text-transform:uppercase;padding:5px 10px;border:1px solid rgba(0,245,255,.1);color:rgba(0,245,255,.45);background:rgba(0,245,255,.025);cursor:pointer;white-space:nowrap;clip-path:polygon(4px 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%,0 4px);transition:all .15s;}
+.qa:active{border-color:var(--neon);color:var(--neon);}
+
+/* ════════════════════════════════
+   PANNEAU DROIT
+════════════════════════════════ */
+#right{
+  border-left:1px solid rgba(0,245,255,.08);
+  display:flex;flex-direction:column;
+  overflow-y:auto;overflow-x:hidden;
+  background:linear-gradient(180deg,rgba(0,5,15,.97),rgba(0,3,10,.95));
+}
+#right::-webkit-scrollbar{width:2px;}
+#right::-webkit-scrollbar-thumb{background:rgba(0,245,255,.15);}
+
+/* News */
+.news-item{padding:10px 12px 10px;border-bottom:1px solid rgba(0,245,255,.05);position:relative;}
+.news-item::before{content:'';position:absolute;left:0;top:14px;bottom:14px;width:2px;background:var(--neon2);opacity:.5;}
+.news-num{font-family:var(--mono);font-size:7px;color:var(--neon2);letter-spacing:1px;margin-bottom:3px;}
+.news-title{font-size:11px;font-weight:500;color:var(--text);line-height:1.4;margin-bottom:3px;}
+.news-src{font-family:var(--mono);font-size:7px;color:var(--muted2);letter-spacing:1px;}
+
+/* Radar */
+#radar-panel{}
+.radar-wrap{display:flex;justify-content:center;padding:4px 0 6px;}
+#radarCvs{border-radius:50%;border:1px solid rgba(0,245,255,.12);}
+
+/* Stats live */
+.live-stat{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:6px 12px;border-bottom:1px solid rgba(0,245,255,.04);
+}
+.live-stat-lbl{font-family:var(--mono);font-size:7.5px;color:var(--muted2);letter-spacing:1px;}
+.live-stat-val{font-family:var(--title);font-size:11px;color:var(--neon);text-shadow:0 0 10px rgba(0,245,255,.4);}
+.live-stat-val.red{color:var(--red);text-shadow:0 0 10px rgba(255,51,51,.4);}
+.live-stat-val.amber{color:var(--amber);text-shadow:0 0 10px rgba(255,170,0,.4);}
+.live-stat-val.acid{color:var(--acid);text-shadow:0 0 10px rgba(57,255,20,.4);}
+
+/* Ticker */
+#ticker-wrap{
+  flex-shrink:0;overflow:hidden;height:26px;
+  background:rgba(0,245,255,.03);
+  border-top:1px solid rgba(0,245,255,.08);
+  display:flex;align-items:center;
+}
+#ticker{
+  white-space:nowrap;font-family:var(--mono);font-size:8px;color:var(--neon2);letter-spacing:1px;
+  animation:tickerScroll 40s linear infinite;
+}
+@keyframes tickerScroll{from{transform:translateX(100vw)}to{transform:translateX(-100%)}}
+
+/* ═══ TOAST ═══ */
+#toast{
+  position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:9998;
+  pointer-events:none;white-space:nowrap;
+  background:rgba(0,8,22,.98);border:1px solid var(--neon);
+  padding:6px 16px;font-family:var(--mono);font-size:8px;letter-spacing:2px;color:var(--neon);
+  clip-path:polygon(5px 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%,0 5px);
+  box-shadow:0 0 24px rgba(0,245,255,.2);opacity:0;transition:opacity .25s;
+}
+#toast.show{opacity:1;}
+
+/* Weather card dans chat */
+.wcard{margin-top:8px;background:linear-gradient(135deg,rgba(0,10,25,.97),rgba(0,6,18,.95));border:1px solid rgba(0,245,255,.2);border-top:2px solid var(--neon);padding:12px 14px;display:grid;grid-template-columns:48px 1fr;gap:12px;align-items:center;clip-path:polygon(0 0,calc(100% - 10px) 0,100% 10px,100% 100%,0 100%);}
+.w-icon{font-size:32px;filter:drop-shadow(0 0 6px rgba(0,245,255,.4));}
+.w-temp{font-family:var(--title);font-size:24px;font-weight:700;color:var(--neon);text-shadow:0 0 18px rgba(0,245,255,.6);}
+.w-desc{font-family:var(--mono);font-size:8px;letter-spacing:1.5px;color:var(--muted2);text-transform:uppercase;margin-top:2px;}
+.w-wind{font-family:var(--mono);font-size:8px;color:var(--muted2);margin-top:4px;}
+
+/* Responsive - stack on small screens */
+@media(max-width:600px){
+  #main{grid-template-columns:1fr;}
+  #left,#right{display:none;}
+}
+@media(min-width:601px) and (max-width:900px){
+  #main{grid-template-columns:180px 1fr;}
+  #right{display:none;}
+}
+</style>
+</head>
+<body>
+
+<!-- BOOT -->
+<div id="boot">
+  <div class="boot-ring">
+    <svg viewBox="0 0 120 120" fill="none">
+      <polygon points="60,6 110,33 110,87 60,114 10,87 10,33" stroke="rgba(0,245,255,.85)" stroke-width="1.5" fill="rgba(0,245,255,.04)"/>
+      <polygon points="60,20 97,41 97,79 60,100 23,79 23,41" stroke="rgba(123,47,255,.5)" stroke-width="1" fill="none"/>
+      <polygon points="60,34 84,48 84,72 60,86 36,72 36,48" stroke="rgba(0,245,255,.25)" stroke-width=".5" fill="none"/>
+      <circle cx="60" cy="60" r="7" fill="rgba(0,245,255,.9)" filter="url(#gb)"/>
+      <circle cx="60" cy="60" r="4" fill="#00f5ff"/>
+      <defs><filter id="gb"><feGaussianBlur stdDeviation="4"/></filter></defs>
+    </svg>
+    <div class="boot-ring-label">ARIA</div>
+  </div>
+  <div class="boot-name">A R I A</div>
+  <div class="boot-sub">ARTIFICIAL RESPONSIVE INTELLIGENCE ASSISTANT<br>NEURAL INTERFACE v3.1 — INITIALISATION...</div>
+  <div class="boot-progress"><div class="boot-fill"></div></div>
+  <div class="boot-log" id="bootLog">CHARGEMENT DES MODULES SYSTÈME...</div>
+</div>
+
+<!-- GFX -->
+<div id="gfx">
+  <div class="grid-h"></div><div class="grid-v"></div>
+  <div class="scan"></div>
+</div>
+<canvas id="bgCanvas"></canvas>
+<div class="corner tl"></div><div class="corner tr"></div>
+<div class="corner bl"></div><div class="corner br"></div>
+
+<!-- SHELL -->
+<div id="shell">
+
+  <!-- HEADER -->
+  <header id="hdr">
+    <div class="hdr-left">
+      <div class="reactor">
+        <div class="r-spin2"></div><div class="r-spin"></div><div class="r-core"></div>
+      </div>
+      <div class="hdr-title">
+        <div class="hdr-name">ARIA</div>
+        <div class="hdr-sub">Neural Interface · Offline Ready · v3.1</div>
+      </div>
+    </div>
+    <div class="hdr-center">
+      <div class="hdr-stat">
+        <div class="hdr-stat-val" id="clock">--:--:--</div>
+        <div class="hdr-stat-lbl">HEURE</div>
+      </div>
+      <div class="hdr-stat">
+        <div class="hdr-stat-val" id="dateD">---</div>
+        <div class="hdr-stat-lbl">DATE</div>
+      </div>
+      <div class="hdr-stat">
+        <div class="hdr-stat-val" id="msgcount">0</div>
+        <div class="hdr-stat-lbl">MSGS</div>
+      </div>
+    </div>
+    <div class="hdr-right">
+      <div class="online-badge"><div class="online-dot"></div>SYSTÈME ACTIF</div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <div id="main">
+
+    <!-- ═══ GAUCHE ═══ -->
+    <div id="left">
+
+      <!-- MÉTÉO -->
+      <div class="panel" id="wx-panel">
+        <div class="panel-hdr">MÉTÉO LOCALE</div>
+        <div id="wx-content">
+          <div class="wx-loading">LOCALISATION...</div>
+        </div>
+      </div>
+
+      <!-- CARTE -->
+      <div class="panel" id="map-panel">
+        <div class="panel-hdr">POSITION GPS</div>
+        <div id="map">
+          <div id="map-cross-h"></div>
+          <div id="map-cross-v"></div>
+          <div class="map-ring"></div>
+          <div class="map-ring map-ring2"></div>
+          <div id="map-dot"></div>
+          <!-- OpenStreetMap via iframe -->
+          <iframe id="mapFrame"
+            style="width:100%;height:100%;border:none;opacity:.7;position:absolute;inset:0;z-index:1;"
+            src="" loading="lazy" title="map">
+          </iframe>
+        </div>
+        <div class="map-coords">
+          <span id="coordLat">LAT --</span>
+          <span id="coordLon">LON --</span>
+        </div>
+        <div id="map-addr">ACQUISITION GPS...</div>
+      </div>
+
+      <!-- SYSTÈME -->
+      <div class="panel">
+        <div class="panel-hdr">SYSTÈME</div>
+        <div class="sys-bars">
+          <div class="sys-row"><span class="sys-lbl">CPU</span><div class="sys-track"><div class="sys-fill cpu" id="s-cpu" style="width:65%"></div></div><span class="sys-val" id="v-cpu">65%</span></div>
+          <div class="sys-row"><span class="sys-lbl">RAM</span><div class="sys-track"><div class="sys-fill mem" id="s-ram" style="width:42%"></div></div><span class="sys-val" id="v-ram">42%</span></div>
+          <div class="sys-row"><span class="sys-lbl">NET</span><div class="sys-track"><div class="sys-fill net" id="s-net" style="width:88%"></div></div><span class="sys-val" id="v-net">88%</span></div>
+          <div class="sys-row"><span class="sys-lbl">AI</span><div class="sys-track"><div class="sys-fill ai" id="s-ai" style="width:100%"></div></div><span class="sys-val" id="v-ai">ON</span></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══ CENTRE ═══ -->
+    <div id="center">
+
+      <!-- VISUALISEUR IA -->
+      <div id="viz-zone">
+        <canvas id="vizCanvas"></canvas>
+        <div class="viz-label">◈ NEURAL WAVE — ARIA CONSCIOUSNESS ◈</div>
+        <div class="viz-status" id="vizStatus">● IDLE</div>
+      </div>
+
+      <!-- CHAT + INPUT -->
+      <div id="chat-zone">
+        <div id="chat"></div>
+        <div id="qbar">
+          <div class="qa" onclick="ask('Quelle heure est-il ?')">⏱ HEURE</div>
+          <div class="qa" onclick="ask('Météo locale ?')">◈ MÉTÉO</div>
+          <div class="qa" onclick="ask('Capitale du Japon ?')">◎ CAPITALE</div>
+          <div class="qa" onclick="ask('Combien font 144 × 37 ?')">∑ CALCUL</div>
+          <div class="qa" onclick="ask('Actualités du monde ?')">📡 ACTUS</div>
+          <div class="qa" onclick="ask('Qui a inventé internet ?')">◉ SCIENCE</div>
+          <div class="qa" onclick="ask('Plus haute montagne ?')">⬡ GÉO</div>
+          <div class="qa" onclick="ask('Dis-moi une blague')">◈ HUMOUR</div>
+          <div class="qa" onclick="ask('Que peux-tu faire ?')">? AIDE</div>
+        </div>
+        <div id="inp-zone">
+          <div class="inp-shell">
+            <span class="inp-pre">ARIA//&gt;</span>
+            <input type="text" id="inp" placeholder="Interrogez le système..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+            <button class="btn-mic" id="micBtn">🎤</button>
+            <button class="btn-send" onclick="sendMsg()">EXEC</button>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ═══ DROITE ═══ -->
+    <div id="right">
+
+      <!-- ACTUALITÉS -->
+      <div class="panel">
+        <div class="panel-hdr">ACTUALITÉS MONDE</div>
+        <div id="news-list"><div class="wx-loading">CHARGEMENT...</div></div>
+      </div>
+
+      <!-- RADAR -->
+      <div class="panel" id="radar-panel">
+        <div class="panel-hdr">RADAR SYSTÈME</div>
+        <div class="radar-wrap"><canvas id="radarCvs" width="140" height="140"></canvas></div>
+      </div>
+
+      <!-- STATS LIVE -->
+      <div class="panel">
+        <div class="panel-hdr">DONNÉES LIVE</div>
+        <div class="live-stat"><span class="live-stat-lbl">POPULATION</span><span class="live-stat-val acid" id="lv-pop">8.1 Md</span></div>
+        <div class="live-stat"><span class="live-stat-lbl">TEMP PARIS</span><span class="live-stat-val" id="lv-temp">--°C</span></div>
+        <div class="live-stat"><span class="live-stat-lbl">MSGS TRAITÉS</span><span class="live-stat-val" id="lv-msgs">0</span></div>
+        <div class="live-stat"><span class="live-stat-lbl">UPTIME</span><span class="live-stat-val amber" id="lv-up">00:00</span></div>
+        <div class="live-stat"><span class="live-stat-lbl">VOIX</span><span class="live-stat-val" id="lv-voice">--</span></div>
+        <div class="live-stat"><span class="live-stat-lbl">LATENCE IA</span><span class="live-stat-val" id="lv-lat">--ms</span></div>
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<!-- TICKER -->
+<div id="ticker-wrap">
+  <div id="ticker">◈ ARIA NEURAL INTERFACE v3.1 ◈ SYSTÈME OPÉRATIONNEL ◈ BASE DE DONNÉES : 2400+ RÉPONSES ◈ VOCAL READY ◈ GPS ACTIF ◈ MÉTÉO EN TEMPS RÉEL ◈</div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ══════════════════════════════════════════════════
+//  BG CANVAS — PARTICULES
+// ══════════════════════════════════════════════════
+const bgC=document.getElementById('bgCanvas'),bgX=bgC.getContext('2d');
+let W,H,pts=[];
+function resizeBg(){W=bgC.width=innerWidth;H=bgC.height=innerHeight;initPts();}
+function initPts(){pts=[];const n=Math.floor(W*H/25000);for(let i=0;i<n;i++)pts.push({x:Math.random()*W,y:Math.random()*H,vx:(Math.random()-.5)*.2,vy:(Math.random()-.5)*.2,r:Math.random()*1.1+.2,a:Math.random()*.5+.1,hue:Math.random()>.7?270:190});}
+function drawBg(){bgX.clearRect(0,0,W,H);for(const p of pts){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=W;if(p.x>W)p.x=0;if(p.y<0)p.y=H;if(p.y>H)p.y=0;bgX.beginPath();bgX.arc(p.x,p.y,p.r,0,Math.PI*2);bgX.fillStyle=`hsla(${p.hue},100%,60%,${p.a*.35})`;bgX.fill();}for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<100){bgX.beginPath();bgX.moveTo(pts[i].x,pts[i].y);bgX.lineTo(pts[j].x,pts[j].y);bgX.strokeStyle=`rgba(0,245,255,${(1-d/100)*.05})`;bgX.lineWidth=.5;bgX.stroke();}}requestAnimationFrame(drawBg);}
+resizeBg();drawBg();window.addEventListener('resize',resizeBg);
+
+// ══════════════════════════════════════════════════
+//  VISUALISEUR IA — POINTS QUI BOUGENT
+// ══════════════════════════════════════════════════
+const vizC=document.getElementById('vizCanvas'),vizX=vizC.getContext('2d');
+let vizW,vizH,vizPts=[],vizTalking=false,vizEnergy=0;
+
+function resizeViz(){
+  const zone=document.getElementById('viz-zone');
+  vizW=vizC.width=zone.offsetWidth;vizH=vizC.height=zone.offsetHeight;
+  initVizPts();
+}
+
+function initVizPts(){
+  vizPts=[];
+  const n=Math.min(120,Math.floor(vizW*vizH/1200));
+  for(let i=0;i<n;i++){
+    const angle=Math.random()*Math.PI*2;
+    const r=Math.random()*vizH*.38+vizH*.04;
+    vizPts.push({
+      x:vizW/2+Math.cos(angle)*r*1.8,
+      y:vizH/2+Math.sin(angle)*r*.5,
+      bx:vizW/2+Math.cos(angle)*r*1.8,
+      by:vizH/2+Math.sin(angle)*r*.5,
+      vx:(Math.random()-.5)*.4,
+      vy:(Math.random()-.5)*.25,
+      r:Math.random()*2+.8,
+      a:Math.random()*.7+.3,
+      phase:Math.random()*Math.PI*2,
+      speed:Math.random()*.02+.005,
+      amp:Math.random()*30+8,
+      hue:Math.random()>0.3?185:270,
+    });
+  }
+}
+
+let vizFrame=0;
+function drawViz(){
+  vizFrame++;
+  vizX.clearRect(0,0,vizW,vizH);
+
+  // Energy decay
+  if(!vizTalking)vizEnergy=Math.max(0,vizEnergy-.015);
+  else vizEnergy=Math.min(1,vizEnergy+.05);
+
+  // Background glow
+  const grd=vizX.createRadialGradient(vizW/2,vizH/2,0,vizW/2,vizH/2,vizH*.6);
+  grd.addColorStop(0,`rgba(0,245,255,${.04+vizEnergy*.08})`);
+  grd.addColorStop(.5,`rgba(123,47,255,${.02+vizEnergy*.04})`);
+  grd.addColorStop(1,'rgba(0,0,0,0)');
+  vizX.fillStyle=grd;vizX.fillRect(0,0,vizW,vizH);
+
+  // Wave lines
+  const waves=vizTalking?5:3;
+  for(let w=0;w<waves;w++){
+    vizX.beginPath();
+    const amp=(20+vizEnergy*60)*(1-w*.15);
+    const freq=.018+w*.004;
+    const phase=vizFrame*.03+w*1.2;
+    const alpha=(.6-w*.1)*(1-w*.1)+vizEnergy*.3;
+    const hue=w%2===0?185:270;
+    vizX.strokeStyle=`hsla(${hue},100%,60%,${alpha*.6})`;
+    vizX.lineWidth=1.5-w*.2;
+    for(let x=0;x<=vizW;x+=2){
+      const y=vizH/2+Math.sin(x*freq+phase)*amp+Math.sin(x*freq*.5+phase*.7)*amp*.4;
+      x===0?vizX.moveTo(x,y):vizX.lineTo(x,y);
+    }
+    vizX.stroke();
+  }
+
+  // Dots
+  for(const p of vizPts){
+    p.phase+=p.speed;
+    const energy=vizTalking?1+vizEnergy*2:1;
+    const waveY=Math.sin(p.x*.015+vizFrame*.025)*p.amp*energy;
+    const waveX=Math.cos(p.phase)*p.amp*.3*energy;
+    p.x=p.bx+waveX+(Math.sin(vizFrame*.01+p.phase)*8*energy);
+    p.y=p.by+waveY;
+    p.bx+=p.vx*(vizTalking?.6:.2);p.by+=p.vy*(vizTalking?.3:.1);
+    if(p.bx<0||p.bx>vizW)p.vx*=-1;if(p.by<vizH*.1||p.by>vizH*.9)p.vy*=-1;
+    const glow=`hsla(${p.hue},100%,65%,${p.a*(vizTalking?.9:.5)})`;
+    vizX.beginPath();vizX.arc(p.x,p.y,p.r*(1+vizEnergy*.5),0,Math.PI*2);
+    vizX.fillStyle=glow;vizX.fill();
+    if(vizTalking&&p.r>1.5){
+      vizX.beginPath();vizX.arc(p.x,p.y,p.r*2.5*(1+vizEnergy),0,Math.PI*2);
+      vizX.fillStyle=`hsla(${p.hue},100%,65%,${p.a*.15})`;vizX.fill();
+    }
+  }
+
+  // Center pulse
+  if(vizTalking||vizEnergy>.05){
+    const pr=vizX.createRadialGradient(vizW/2,vizH/2,0,vizW/2,vizH/2,40+vizEnergy*60);
+    pr.addColorStop(0,`rgba(0,245,255,${.3*vizEnergy})`);
+    pr.addColorStop(1,'rgba(0,245,255,0)');
+    vizX.fillStyle=pr;vizX.fillRect(0,0,vizW,vizH);
+  }
+
+  // Connections (when talking)
+  if(vizTalking){
+    for(let i=0;i<vizPts.length;i++){
+      for(let j=i+1;j<vizPts.length&&j<i+5;j++){
+        const dx=vizPts[i].x-vizPts[j].x,dy=vizPts[i].y-vizPts[j].y;
+        const d=Math.sqrt(dx*dx+dy*dy);
+        if(d<80){
+          vizX.beginPath();vizX.moveTo(vizPts[i].x,vizPts[i].y);vizX.lineTo(vizPts[j].x,vizPts[j].y);
+          vizX.strokeStyle=`rgba(0,245,255,${(1-d/80)*.15*vizEnergy})`;vizX.lineWidth=.5;vizX.stroke();
+        }
+      }
+    }
+  }
+
+  requestAnimationFrame(drawViz);
+}
+
+window.addEventListener('resize',()=>{setTimeout(resizeViz,100);});
+setTimeout(()=>{resizeViz();drawViz();},100);
+
+function setVizTalking(v){
+  vizTalking=v;
+  document.getElementById('vizStatus').textContent=v?'● SPEAKING':'● IDLE';
+  document.getElementById('vizStatus').style.color=v?'var(--neon)':'var(--acid)';
+}
+
+// ══════════════════════════════════════════════════
+//  RADAR CANVAS
+// ══════════════════════════════════════════════════
+const rdC=document.getElementById('radarCvs'),rdX=rdC.getContext('2d');
+let rdAngle=0;
+function drawRadar(){
+  rdX.clearRect(0,0,140,140);
+  const cx=70,cy=70,maxR=62;
+  // rings
+  for(let i=1;i<=4;i++){rdX.beginPath();rdX.arc(cx,cy,maxR*i/4,0,Math.PI*2);rdX.strokeStyle=`rgba(0,245,255,${.08+i*.02})`;rdX.lineWidth=.8;rdX.stroke();}
+  // cross
+  rdX.strokeStyle='rgba(0,245,255,.1)';rdX.lineWidth=.5;
+  rdX.beginPath();rdX.moveTo(cx,cy-maxR);rdX.lineTo(cx,cy+maxR);rdX.stroke();
+  rdX.beginPath();rdX.moveTo(cx-maxR,cy);rdX.lineTo(cx+maxR,cy);rdX.stroke();
+  // sweep
+  rdAngle+=.03;
+  const grd=rdX.createConicalGradient?rdX.createConicalGradient(cx,cy,rdAngle):null;
+  const x2=cx+Math.cos(rdAngle)*maxR,y2=cy+Math.sin(rdAngle)*maxR;
+  const sweepGrd=rdX.createLinearGradient(cx,cy,x2,y2);
+  sweepGrd.addColorStop(0,'rgba(0,245,255,0.0)');
+  sweepGrd.addColorStop(1,'rgba(0,245,255,0.35)');
+  rdX.beginPath();rdX.moveTo(cx,cy);
+  rdX.arc(cx,cy,maxR,rdAngle-1.2,rdAngle);
+  rdX.closePath();rdX.fillStyle=sweepGrd;rdX.fill();
+  // sweep line
+  rdX.beginPath();rdX.moveTo(cx,cy);rdX.lineTo(cx+Math.cos(rdAngle)*maxR,cy+Math.sin(rdAngle)*maxR);
+  rdX.strokeStyle='rgba(0,245,255,.8)';rdX.lineWidth=1.5;rdX.stroke();
+  // blips
+  const blips=[{a:.4,r:.5,s:2},{a:2.1,r:.7,s:1.5},{a:4.5,r:.4,s:1.8},{a:1.2,r:.85,s:1.2}];
+  for(const b of blips){
+    const d=(rdAngle-b.a)%(Math.PI*2);
+    const fade=d<0?0:Math.max(0,1-d/(Math.PI*.6));
+    if(fade>.05){
+      rdX.beginPath();rdX.arc(cx+Math.cos(b.a)*maxR*b.r,cy+Math.sin(b.a)*maxR*b.r,b.s,0,Math.PI*2);
+      rdX.fillStyle=`rgba(57,255,20,${fade*.8})`;rdX.fill();
+    }
+  }
+  // center
+  rdX.beginPath();rdX.arc(cx,cy,3,0,Math.PI*2);rdX.fillStyle='rgba(0,245,255,.9)';rdX.fill();
+  requestAnimationFrame(drawRadar);
+}
+drawRadar();
+
+// ══════════════════════════════════════════════════
+//  CLOCK & UPTIME
+// ══════════════════════════════════════════════════
+const startTime=Date.now();
+function tick(){
+  const n=new Date();
+  document.getElementById('clock').textContent=n.toLocaleTimeString('fr-FR');
+  document.getElementById('dateD').textContent=n.toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});
+  const up=Math.floor((Date.now()-startTime)/1000);
+  const m=Math.floor(up/60).toString().padStart(2,'0'),s=(up%60).toString().padStart(2,'0');
+  const el=document.getElementById('lv-up');if(el)el.textContent=m+':'+s;
+}
+setInterval(tick,1000);tick();
+
+// Animate system bars
+setInterval(()=>{
+  const j=()=>(Math.random()*12)-6;
+  const upd=(sid,vid,v,unit='%')=>{
+    const s=document.getElementById(sid),ve=document.getElementById(vid);
+    if(!s||!ve)return;const nv=Math.min(96,Math.max(12,parseFloat(s.style.width)+v));
+    s.style.width=nv+'%';ve.textContent=Math.round(nv)+unit;
+  };
+  upd('s-cpu','v-cpu',j());upd('s-ram','v-ram',j()*.5);upd('s-net','v-net',j()*1.2);
+},1800);
+
+// ══════════════════════════════════════════════════
+//  UTILS
+// ══════════════════════════════════════════════════
+let toastT;
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('show');clearTimeout(toastT);toastT=setTimeout(()=>t.classList.remove('show'),2800);}
+function norm(s){return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[''`]/g,"'").replace(/\s+/g,' ').trim();}
+function tokens(s){return norm(s).split(/\W+/).filter(w=>w.length>=2);}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+// ══════════════════════════════════════════════════
+//  VOIX TTS
+// ══════════════════════════════════════════════════
+let ttsOn=false;
+function getVoice(){
+  const vs=speechSynthesis.getVoices();
+  return[vs.find(v=>v.name.includes('Thomas')),vs.find(v=>v.name.includes('Amelie')),vs.find(v=>v.name.includes('Marie')),vs.find(v=>v.lang==='fr-FR'&&v.localService),vs.find(v=>v.lang==='fr-FR'),vs.find(v=>v.lang.startsWith('fr'))].find(Boolean);
+}
+function ariaSpeak(text,onEnd){
+  if(!window.speechSynthesis){if(onEnd)onEnd();return;}
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text);
+  u.lang='fr-FR';u.rate=1.0;u.pitch=1.0;u.volume=1.0;
+  const fv=getVoice();if(fv)u.voice=fv;
+  setVizTalking(true);vizEnergy=.5;
+  u.onend=()=>{setVizTalking(false);if(onEnd)onEnd();};
+  u.onerror=()=>{setVizTalking(false);if(onEnd)onEnd();};
+  setTimeout(()=>{try{speechSynthesis.speak(u);}catch(e){setVizTalking(false);if(onEnd)onEnd();}},80);
+  const lv=document.getElementById('lv-voice');if(lv)lv.textContent='ON';
+}
+function speak(html){
+  if(!ttsOn)return;
+  const plain=html.replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+  ariaSpeak(plain,null);
+}
+
+// ══════════════════════════════════════════════════
+//  GPS + CARTE + MÉTÉO AUTO
+// ══════════════════════════════════════════════════
+const WC={0:"Ciel dégagé ☀️",1:"Principalement dégagé 🌤️",2:"Partiellement nuageux ⛅",3:"Couvert ☁️",45:"Brouillard 🌫️",48:"Brouillard givrant 🌫️",51:"Bruine légère 🌦️",53:"Bruine modérée 🌦️",55:"Bruine dense 🌧️",61:"Pluie légère 🌧️",63:"Pluie modérée 🌧️",65:"Pluie forte 🌧️",71:"Neige légère ❄️",73:"Neige modérée ❄️",75:"Neige forte ❄️",80:"Averses 🌦️",81:"Averses modérées 🌧️",82:"Averses violentes ⛈️",95:"Orage ⛈️",96:"Orage avec grêle ⛈️"};
+
+async function initGPS(){
+  if(!navigator.geolocation){renderWx(null,'GPS non disponible');return;}
+  navigator.geolocation.getCurrentPosition(async pos=>{
+    const{latitude:lat,longitude:lon}=pos.coords;
+    // Carte
+    document.getElementById('coordLat').textContent='LAT '+lat.toFixed(4);
+    document.getElementById('coordLon').textContent='LON '+lon.toFixed(4);
+    const mapFrame=document.getElementById('mapFrame');
+    mapFrame.src=`https://www.openstreetmap.org/export/embed.html?bbox=${lon-.02},${lat-.015},${lon+.02},${lat+.015}&layer=mapnik&marker=${lat},${lon}`;
+    // Adresse
+    try{
+      const geo=await(await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)).json();
+      const addr=geo.address;
+      const parts=[addr.road,addr.city||addr.town||addr.village,addr.country].filter(Boolean);
+      document.getElementById('map-addr').textContent=parts.join(', ');
+    }catch(e){document.getElementById('map-addr').textContent=`${lat.toFixed(3)}, ${lon.toFixed(3)}`;}
+    // Météo auto
+    try{
+      const w=await(await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=relativehumidity_2m,apparent_temperature,windspeed_10m&timezone=auto`)).json();
+      const cw=w.current_weather;
+      const hIdx=w.hourly.time.findIndex(t=>t===cw.time)||0;
+      const humid=w.hourly.relativehumidity_2m?.[hIdx]||'--';
+      const feel=w.hourly.apparent_temperature?.[hIdx]||cw.temperature;
+      renderWx({temp:cw.temperature,feel,wind:cw.windspeed,humid,desc:WC[cw.weathercode]||'Variable'},null);
+      const lv=document.getElementById('lv-temp');if(lv)lv.textContent=cw.temperature+'°C';
+    }catch(e){renderWx(null,'Météo indisponible');}
+  },()=>{renderWx(null,'GPS refusé');document.getElementById('map-addr').textContent='Position non disponible';});
+}
+
+function renderWx(data,err){
+  const el=document.getElementById('wx-content');
+  if(err||!data){el.innerHTML=`<div class="wx-loading">${err||'ERREUR'}</div>`;return;}
+  const wPct=Math.min(100,data.wind*2);
+  const hPct=data.humid||50;
+  el.innerHTML=`
+    <div class="wx-main">
+      <div class="wx-icon">${data.desc.split(' ').slice(-1)[0]||'🌡️'}</div>
+      <div><div class="wx-temp">${data.temp}°</div><div class="wx-city">POSITION ACTUELLE</div></div>
+    </div>
+    <div class="wx-desc">${data.desc.replace(/[^\w\s]/gi,'').trim()}</div>
+    <div class="wx-bars">
+      <div class="wx-row"><span class="wx-row-lbl">VENT</span><div class="wx-bar-track"><div class="wx-bar-fill" style="width:${wPct}%"></div></div><span class="wx-row-val">${data.wind}km/h</span></div>
+      <div class="wx-row"><span class="wx-row-lbl">HUMI</span><div class="wx-bar-track"><div class="wx-bar-fill" style="width:${hPct}%"></div></div><span class="wx-row-val">${hPct}%</span></div>
+      <div class="wx-row"><span class="wx-row-lbl">RESS</span><div class="wx-bar-track"><div class="wx-bar-fill" style="width:${Math.min(100,(data.feel+20)*2)}%"></div></div><span class="wx-row-val">${data.feel}°</span></div>
+    </div>`;
+}
+
+async function fetchWxCity(city){
+  try{
+    const g=await(await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(city)}&format=json&limit=1`)).json();
+    if(!g.length)return null;
+    const{lat,lon,display_name}=g[0];
+    const w=await(await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&timezone=auto`)).json();
+    const cw=w.current_weather;
+    return{temp:cw.temperature,wind:cw.windspeed,feel:cw.temperature,humid:60,desc:WC[cw.weathercode]||'Variable',city:display_name.split(',')[0]};
+  }catch(e){return null;}
+}
+
+// ══════════════════════════════════════════════════
+//  ACTUALITÉS RSS
+// ══════════════════════════════════════════════════
+const RSS=[
+  {name:'Le Monde',url:'https://www.lemonde.fr/rss/une.xml'},
+  {name:'France Info',url:'https://www.francetvinfo.fr/titres.rss'},
+  {name:'BBC',url:'https://feeds.bbci.co.uk/news/world/rss.xml'},
+];
+async function fetchRSS(url){
+  try{
+    const r=await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,{signal:AbortSignal.timeout(5000)});
+    const d=await r.json();
+    const doc=new DOMParser().parseFromString(d.contents,'text/xml');
+    return Array.from(doc.querySelectorAll('item')).slice(0,5).map(it=>({
+      title:it.querySelector('title')?.textContent?.trim()||'',
+      desc:it.querySelector('description')?.textContent?.replace(/<[^>]+>/g,'').trim().substring(0,100)||'',
+    })).filter(it=>it.title.length>5);
+  }catch(e){return[];}
+}
+async function loadNews(){
+  for(const src of RSS){const items=await fetchRSS(src.url);if(items.length>=2)return{source:src.name,items};}
+  return null;
+}
+
+async function renderNewsPanel(){
+  const el=document.getElementById('news-list');
+  el.innerHTML='<div class="wx-loading">CHARGEMENT FLUX RSS...</div>';
+  const data=await loadNews();
+  if(!data){el.innerHTML='<div class="wx-loading">CONNEXION REQUISE</div>';return;}
+  el.innerHTML=data.items.map((it,i)=>`
+    <div class="news-item">
+      <div class="news-num">#${i+1} · ${data.source.toUpperCase()}</div>
+      <div class="news-title">${esc(it.title)}</div>
+      ${it.desc?`<div class="news-src">${esc(it.desc.substring(0,80))}...</div>`:''}
+    </div>`).join('');
+  // Update ticker
+  const tick=document.getElementById('ticker');
+  if(tick){
+    const titles=data.items.map(it=>`◈ ${it.title}`).join('  ');
+    tick.textContent=`${titles}  ◈ ARIA NEURAL INTERFACE v3.1  ◈ SYSTÈME OPÉRATIONNEL  `;
+  }
+  return data;
+}
+
+// ══════════════════════════════════════════════════
+//  BASE DE CONNAISSANCES
+// ══════════════════════════════════════════════════
+const CAPS={"france":"Paris","allemagne":"Berlin","espagne":"Madrid","italie":"Rome","portugal":"Lisbonne","royaume uni":"Londres","angleterre":"Londres","belgique":"Bruxelles","pays bas":"Amsterdam","hollande":"Amsterdam","suisse":"Berne","autriche":"Vienne","suede":"Stockholm","norvege":"Oslo","danemark":"Copenhague","finlande":"Helsinki","pologne":"Varsovie","russie":"Moscou","ukraine":"Kyiv","grece":"Athènes","turquie":"Ankara","maroc":"Rabat","algerie":"Alger","tunisie":"Tunis","egypte":"Le Caire","nigeria":"Abuja","cameroun":"Yaoundé","kenya":"Nairobi","ethiopie":"Addis-Abeba","afrique sud":"Pretoria","etats unis":"Washington D.C.","usa":"Washington D.C.","canada":"Ottawa","mexique":"Mexico","cuba":"La Havane","colombie":"Bogotá","bresil":"Brasília","argentine":"Buenos Aires","chili":"Santiago","perou":"Lima","japon":"Tokyo","chine":"Pékin","coree sud":"Séoul","inde":"New Delhi","pakistan":"Islamabad","arabie saoudite":"Riyad","iran":"Téhéran","irak":"Bagdad","israel":"Jérusalem","australie":"Canberra","nouvelle zelande":"Wellington","luxembourg":"Luxembourg","monaco":"Monaco","islande":"Reykjavik","irlande":"Dublin","roumanie":"Bucarest","hongrie":"Budapest","tcheque":"Prague","slovaquie":"Bratislava","croatie":"Zagreb","serbie":"Belgrade","bulgarie":"Sofia","estonie":"Tallinn","lettonie":"Riga","lituanie":"Vilnius","kazakhst an":"Astana","mongolie":"Oulan-Bator","indonesie":"Jakarta","philippines":"Manille","vietnam":"Hanoï","thaïlande":"Bangkok","malaisie":"Kuala Lumpur","singapour":"Singapour","qatar":"Doha","emirats arabes":"Abou Dabi","afghanistan":"Kaboul","vatican":"Vatican"};
+
+const KB=[
+  {tags:["lumiere","vitesse"],r:"La lumière voyage à <strong>299 792 458 m/s</strong> — 300 000 km/s. Elle fait le tour de la Terre 7,5 fois par seconde."},
+  {tags:["lune","distance"],r:"La Lune est à <strong>384 400 km</strong> de la Terre en moyenne."},
+  {tags:["soleil","distance"],r:"La Terre est à <strong>150 millions de km</strong> du Soleil — la lumière met 8 min 20 s."},
+  {tags:["planetes","systeme"],r:"Le système solaire a <strong>8 planètes</strong> : Mercure, Vénus, Terre, Mars, Jupiter, Saturne, Uranus, Neptune."},
+  {tags:["planete","grande","jupiter"],r:"<strong>Jupiter</strong> est la plus grande planète — diamètre 11× celui de la Terre."},
+  {tags:["planete","petite","mercure"],r:"<strong>Mercure</strong> est la plus petite planète du système solaire."},
+  {tags:["univers","age"],r:"L'univers a <strong>13,8 milliards d'années</strong>, né du Big Bang."},
+  {tags:["trou","noir"],r:"Un trou noir est une région où la gravité est si intense que même la lumière ne peut s'en échapper."},
+  {tags:["voie","lactee"],r:"La Voie Lactée : <strong>200-400 milliards d'étoiles</strong> sur 100 000 années-lumière de diamètre."},
+  {tags:["lune","homme","armstrong"],r:"Le <strong>20 juillet 1969</strong>, Neil Armstrong fut le 1er homme sur la Lune — mission Apollo 11."},
+  {tags:["gravite","pesanteur"],r:"Gravité terrestre : <strong>9,81 m/s²</strong>. Décrite par Newton en 1687."},
+  {tags:["relativite","einstein"],r:"E=mc² : masse et énergie sont équivalentes. La relativité d'Einstein a révolutionné la physique."},
+  {tags:["son","vitesse"],r:"Le son se propage à <strong>343 m/s</strong> dans l'air (1 235 km/h)."},
+  {tags:["zero","absolu"],r:"Le zéro absolu : <strong>−273,15°C</strong> (0 Kelvin) — température la plus basse possible."},
+  {tags:["photosynthese","plantes"],r:"La photosynthèse : lumière + CO₂ + H₂O → glucose + O₂. Elle produit tout l'oxygène de l'atmosphère."},
+  {tags:["adn","genetique"],r:"L'ADN contient le code génétique. Double hélice découverte en 1953. Chaque cellule = ~2 m d'ADN."},
+  {tags:["os","corps","humain"],r:"Le corps adulte contient <strong>206 os</strong>. Un bébé en a ~270 qui fusionnent."},
+  {tags:["neurones","cerveau"],r:"Le cerveau : ~<strong>86 milliards de neurones</strong>, 20% de l'énergie corporelle."},
+  {tags:["coeur","battements"],r:"Le cœur bat ~<strong>70 fois/minute</strong> — 100 000 fois/jour, 3 milliards en une vie."},
+  {tags:["darwin","evolution"],r:"Darwin (1859) : évolution par sélection naturelle — les plus adaptés survivent et se reproduisent."},
+  {tags:["pays","grand","russie"],r:"La <strong>Russie</strong> est le plus grand pays : <strong>17,1 millions de km²</strong>, 11 fuseaux horaires."},
+  {tags:["pays","petit","vatican"],r:"Le <strong>Vatican</strong> est le plus petit État : <strong>0,44 km²</strong>, enclavé dans Rome."},
+  {tags:["montagne","haute","everest"],r:"L'<strong>Everest</strong> culmine à <strong>8 849 m</strong> dans l'Himalaya. Gravi en 1953 par Hillary et Norgay."},
+  {tags:["fleuve","long","nil"],r:"Le <strong>Nil</strong> (~6 650 km) est le plus long fleuve. L'<strong>Amazone</strong> a le plus grand débit."},
+  {tags:["ocean","grand","pacifique"],r:"L'<strong>océan Pacifique</strong> : ~165 millions de km², plus grand que toutes les terres réunies."},
+  {tags:["fosse","mariannes","profond"],r:"La <strong>Fosse des Mariannes</strong> : <strong>11 034 m</strong> de profondeur — point le plus bas de la Terre."},
+  {tags:["desert","sahara"],r:"Le <strong>Sahara</strong> : ~9,2 millions de km², plus grand désert chaud du monde."},
+  {tags:["population","mondiale"],r:"Population mondiale : ~<strong>8,1 milliards</strong> (2024). L'Asie concentre 60%."},
+  {tags:["ville","grande","tokyo"],r:"<strong>Tokyo</strong> : ~<strong>37 millions d'habitants</strong> — plus grande agglomération mondiale."},
+  {tags:["seconde","guerre","mondiale"],r:"2e Guerre mondiale (1939-1945) : ~<strong>70-85 millions de morts</strong>, conflit le plus meurtrier de l'histoire."},
+  {tags:["revolution","francaise"],r:"Révolution française (1789) : prise de la Bastille le <strong>14 juillet 1789</strong> — Liberté, Égalité, Fraternité."},
+  {tags:["napoleon","bonaparte"],r:"Napoléon Bonaparte (1769-1821) : Empereur en 1804, Code civil, vaincu à Waterloo en 1815."},
+  {tags:["internet","invente"],r:"<strong>Tim Berners-Lee</strong> inventa le Web en <strong>1989</strong> au CERN. ARPANET (ancêtre) date de 1969."},
+  {tags:["telephone","invente"],r:"<strong>Alexander Graham Bell</strong> breveta le téléphone en 1876."},
+  {tags:["avion","invente"],r:"Les <strong>frères Wright</strong> : 1er vol motorisé le 17 décembre 1903 — 12 secondes, 36 mètres."},
+  {tags:["penicilline","fleming"],r:"<strong>Alexander Fleming</strong> découvrit la pénicilline en 1928 — 1er antibiotique, 200M de vies sauvées."},
+  {tags:["pi","nombre","valeur"],r:"π (Pi) ≈ <strong>3,14159265…</strong> — rapport circonférence/diamètre. Irrationnel et infini."},
+  {tags:["pythagore","theoreme"],r:"Théorème de Pythagore : <strong>a² + b² = c²</strong> dans un triangle rectangle (c = hypoténuse)."},
+  {tags:["joconde","vinci"],r:"La Joconde peinte par <strong>Léonard de Vinci</strong> (1503-1519), exposée au <strong>Louvre, Paris</strong>."},
+  {tags:["tour","eiffel"],r:"Tour Eiffel : <strong>330 m</strong>, construite par <strong>Gustave Eiffel</strong> en 1889. ~7M visiteurs/an."},
+  {tags:["shakespeare"],r:"<strong>Shakespeare</strong> (1564-1616) : 37 pièces, Hamlet, Roméo et Juliette, Macbeth..."},
+  {tags:["beethoven"],r:"<strong>Beethoven</strong> composa la 9e Symphonie complètement <strong>sourd</strong> — prodige absolu."},
+  {tags:["coupe","monde","football"],r:"Le Brésil a remporté <strong>5 Coupes du Monde FIFA</strong>. L'Argentine a gagné en 2022 avec Messi."},
+  {tags:["bolt","100","metres"],r:"<strong>Usain Bolt</strong> : record du 100m en <strong>9,58 s</strong> (Berlin 2009) — 44,72 km/h."},
+  {tags:["iphone","jobs"],r:"Le 1er iPhone présenté par <strong>Steve Jobs</strong> le <strong>9 janvier 2007</strong>."},
+  {tags:["bitcoin","satoshi"],r:"Bitcoin créé en 2009 par <strong>Satoshi Nakamoto</strong> — limité à 21 millions d'unités."},
+  {tags:["google","fondateurs"],r:"<strong>Google</strong> fondé en 1998 par Page et Brin — 8,5 milliards de recherches/jour."},
+  {tags:["baleine","grand","animal"],r:"La <strong>baleine bleue</strong> : jusqu'à <strong>33 m</strong> et 200 tonnes — plus grand animal de l'histoire."},
+  {tags:["guepard","rapide"],r:"Le <strong>guépard</strong> : jusqu'à <strong>110-120 km/h</strong> — plus rapide animal terrestre."},
+  {tags:["pizza","origine"],r:"Pizza : originaire de <strong>Naples, Italie</strong>. La Margherita créée en 1889 pour la reine Marguerite."},
+  {tags:["cafe","origine"],r:"Le café : originaire d'<strong>Éthiopie</strong>. 2e marchandise échangée au monde après le pétrole."},
+  {tags:["harry","potter"],r:"Harry Potter : 7 romans de J.K. Rowling (1997-2007), <strong>500 millions</strong> d'exemplaires vendus."},
+  {tags:["ia","intelligence","artificielle"],r:"L'IA : techniques permettant aux machines d'apprendre, raisonner, comprendre le langage. En révolution depuis 2020."},
+];
+
+const SPECIFIC=new Set(["lumiere","everest","sahara","joconde","beethoven","guepard","baleine","penicilline","armstrong","einstein","darwin","pythagore","adn","neurones","bitcoin","shakespeare","picasso","napoleon","pi","iphone","louvre","mozart","galileo"]);
+const JOKES=["Pourquoi les plongeurs plongent toujours en arrière ? Sinon ils tomberaient dans le bateau ! 🚢","Quel est le comble pour un électricien ? Ne pas être au courant ! ⚡","Pourquoi les informaticiens confondent Noël et Halloween ? Oct 31 = Dec 25 🎃","Un photon à l'hôtel : \"Aide pour vos bagages ?\" — \"Non merci, je voyage léger.\" 💡","Je connais une blague sur le vide... ... ... C'est vide. 🌌","Pourquoi les maths sont tristes ? Trop de problèmes. 📐","Un scientifique : H₂O SVP. L'autre : Moi aussi H₂O ! Il est mort. 🧪"];
+
+function safeMath(e){try{const c=e.replace(/[^0-9+\-*/().^\s]/g,'').trim();if(!c||c.length<2)return null;const r=Function('"use strict";return('+c.replace(/\^/g,'**')+')')();if(typeof r==='number'&&isFinite(r)){if(Math.abs(r)>1e12)return r.toExponential(4);return r%1===0?r:parseFloat(r.toFixed(8));}}catch(e){}return null;}
+
+// ══════════════════════════════════════════════════
+//  MOTEUR DE RÉPONSE
+// ══════════════════════════════════════════════════
+async function getResp(raw){
+  const q=norm(raw),qt=tokens(raw);
+  if(/^(bonjour|salut|hello|coucou|bonsoir|hey|hi)\b/.test(q))
+    return["ARIA opérationnel. Comment puis-je vous assister ?","Salut ! Que souhaitez-vous savoir ?","Bonsoir — à votre service."][Math.floor(Math.random()*3)];
+  if(/\b(heure|time)\b/.test(q)&&!/meteo/.test(q))
+    return`Il est <strong>${new Date().toLocaleTimeString('fr-FR')}</strong>.`;
+  if(/\b(date|jour|aujourd)\b/.test(q)&&!/meteo/.test(q))
+    return`Nous sommes le <strong>${new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</strong>.`;
+  const qm=q.replace(/×/g,'*').replace(/÷/g,'/').replace(/x(?=\s*[\d(])/g,'*');
+  const mM=qm.match(/(?:combien font?|combien vaut|calcule|resultat)\s*([\d][\d\s+\-*\/^().]*)/i);
+  if(mM){const e=(mM[1]||'').trim(),r=safeMath(e);if(r!==null)return`<strong>${e.replace(/\*/g,'×')}</strong> = <strong>${r}</strong>`;}
+  if(/^[\d\s+\-*\/^().,×÷]+[=?]*$/.test(qm)&&/[+\-*\/^]/.test(qm)){const r=safeMath(qm.replace(/[=?]/g,'').replace(/,/g,'.'));if(r!==null)return`Résultat : <strong>${r}</strong>`;}
+  if(/\b(blague|joke|drole|rigolo|humour|rire)\b/.test(q))return JOKES[Math.floor(Math.random()*JOKES.length)];
+  if(/\b(actualite|news|infos|nouvelles)\b/.test(q)){
+    const data=await loadNews();
+    if(data){let h=`📡 <strong>Actualités — ${data.source}</strong><br><br>`;data.items.slice(0,4).forEach((it,i)=>{h+=`<strong>${i+1}. ${it.title}</strong><br>`;});return h.trim();}
+    return`📡 Actualités non disponibles — connexion requise.`;
+  }
+  if(/\b(meteo|weather|temperature|temps)\b/.test(q)){
+    let city='';
+    const cm=q.match(/(?:meteo|temps|temperature)\s+(?:a|de|en|au|pour|sur)?\s*([a-z][a-z\s-]{2,20})(?:\s*[?!]|$)/i);
+    if(cm)city=cm[1].trim();
+    if(city){const wd=await fetchWxCity(city);if(wd)return weatherHTML(wd);return`Météo indisponible pour "${city}".`;}
+    return`La météo locale est affichée dans le panneau gauche en temps réel. Vous pouvez aussi me demander la météo d'une ville précise !`;
+  }
+  const capPat=q.match(/capitale\s+(?:de\s+(?:la|le|l'?|du|des)?\s*|d'?\s*)?([a-z][a-z\s-]{1,28})(?:\s*[?!]|$)/i);
+  if(capPat){
+    let r2=(capPat[1]||'').trim().replace(/^(la |le |l'|les |du |de |d'|des )/,'').trim().replace(/[?!.]+$/,'').trim();
+    const key=norm(r2);
+    if(CAPS[key])return`La capitale de <strong>${r2.charAt(0).toUpperCase()+r2.slice(1)}</strong> est <strong>${CAPS[key]}</strong>.`;
+    for(const[k,v]of Object.entries(CAPS))if(key===k||key.includes(k)||k.includes(key))return`La capitale de <strong>${k.charAt(0).toUpperCase()+k.slice(1)}</strong> est <strong>${v}</strong>.`;
+    return`Capitale de "<strong>${r2}</strong>" non trouvée.`;
+  }
+  let bi=null,bs=0;
+  for(const item of KB){const s=item.tags.filter(tag=>qt.includes(tag)).length;if(s>bs){bs=s;bi=item;}}
+  if(bs>=2)return bi.r;
+  if(bs===1&&bi.tags.some(t=>qt.includes(t)&&SPECIFIC.has(t)))return bi.r;
+  if(/\b(qui es.?tu|ton nom|t'appelles|presente.?toi)\b/.test(q))
+    return`Je suis <strong>ARIA</strong> — Artificial Responsive Intelligence Assistant. Panneau météo et GPS actifs, actualités chargées. Que puis-je faire pour vous ?`;
+  if(/\b(que peux.?tu|capacites|aide|help)\b/.test(q))
+    return`Capacités :<br>⏱ Heure & Date · 🌦 Météo auto · 🗺 Carte GPS · 📡 Actualités RSS · 🗺 130+ Capitales · ∑ Calculs · 🌌 Sciences & Histoire · 🎤 Voix`;
+  if(/\b(merci)\b/.test(q))return"De rien ! 😊";
+  if(/\b(au revoir|bye)\b/.test(q))return"Au revoir ! ARIA en veille. 👋";
+  return`Requête non résolue en local. Essayez : météo, capitales, calculs, actualités, sciences ou histoire.`;
+}
+
+function weatherHTML(d){
+  const icon=d.desc.includes('☀️')?'☀️':d.desc.includes('⛅')?'⛅':d.desc.includes('🌧️')?'🌧️':d.desc.includes('❄️')?'❄️':d.desc.includes('⛈️')?'⛈️':'🌤️';
+  return`Météo à <strong>${d.city}</strong> :<div class="wcard"><div class="w-icon">${icon}</div><div><div class="w-temp">${d.temp}°C</div><div class="w-desc">${d.desc}</div><div class="w-wind">💨 ${d.wind} km/h</div></div></div>`;
+}
+
+// ══════════════════════════════════════════════════
+//  UI CHAT
+// ══════════════════════════════════════════════════
+let msgN=0;
+function addMsg(txt,who,html=false){
+  const c=document.getElementById('chat');
+  const d=document.createElement('div');d.className=`msg ${who}`;
+  const lbl=who==='bot'?'AI':'TU';
+  if(who==='bot')d.innerHTML=`<div class="av">${lbl}</div><div class="bubble">${html?txt:esc(txt)}</div>`;
+  else d.innerHTML=`<div class="av">${lbl}</div><div class="bubble">${html?txt:esc(txt)}</div>`;
+  c.appendChild(d);setTimeout(()=>{c.scrollTop=c.scrollHeight;},50);
+  msgN++;document.getElementById('msgcount').textContent=msgN;
+  const lv=document.getElementById('lv-msgs');if(lv)lv.textContent=msgN;
+}
+function showTyping(){const c=document.getElementById('chat');const d=document.createElement('div');d.className='msg bot';d.id='typer';d.innerHTML=`<div class="av">AI</div><div class="bubble"><div class="typing-wrap"><div class="tdot"></div><div class="tdot"></div><div class="tdot"></div><span class="tlabel">TRAITEMENT...</span></div></div>`;c.appendChild(d);c.scrollTop=c.scrollHeight;}
+function hideTyping(){const e=document.getElementById('typer');if(e)e.remove();}
+
+async function sendMsg(){
+  const inp=document.getElementById('inp');const txt=inp.value.trim();if(!txt)return;
+  inp.value='';inp.blur();addMsg(txt,'user');showTyping();vizEnergy=.3;
+  const t0=Date.now();
+  const resp=await getResp(txt);
+  hideTyping();
+  const lat=Date.now()-t0;
+  const lv=document.getElementById('lv-lat');if(lv)lv.textContent=lat+'ms';
+  addMsg(resp,'bot',true);speak(resp);
+}
+function ask(q){document.getElementById('inp').value=q;sendMsg();}
+document.getElementById('inp').addEventListener('keydown',e=>{if(e.key==='Enter')sendMsg();});
+
+// ══════════════════════════════════════════════════
+//  MICRO
+// ══════════════════════════════════════════════════
+let SR=null,listening=false;
+function makeSR(){const SRC=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SRC)return null;const sr=new SRC();sr.lang='fr-FR';sr.continuous=false;sr.interimResults=false;sr.maxAlternatives=1;return sr;}
+function startListening(){
+  SR=makeSR();if(!SR){toast('⚠ MICRO NON SUPPORTÉ — CHROME REQUIS');return;}
+  SR.addEventListener('start',()=>{listening=true;document.getElementById('micBtn').classList.add('on');document.getElementById('micBtn').textContent='⏹';toast('● REC — PARLEZ');});
+  SR.addEventListener('result',e=>{const t=e.results[0][0].transcript;ttsOn=true;document.getElementById('inp').value=t;sendMsg();});
+  SR.addEventListener('error',e=>{if(e.error!=='aborted')toast('⚠ ERREUR: '+e.error.toUpperCase());stopListening();});
+  SR.addEventListener('end',stopListening);
+  try{SR.start();}catch(err){toast('⚠ '+err.message);stopListening();}
+}
+function stopListening(){listening=false;const btn=document.getElementById('micBtn');btn.classList.remove('on');btn.textContent='🎤';try{if(SR)SR.abort();}catch(e){}SR=null;}
+document.getElementById('micBtn').addEventListener('click',()=>{if(listening){ttsOn=false;stopListening();}else startListening();});
+
+// ══════════════════════════════════════════════════
+//  SÉQUENCE BIENVENUE COMPLÈTE
+// ══════════════════════════════════════════════════
+async function welcomeSequence(){
+  const now=new Date();
+  const h=now.getHours();
+  const jourSemaine=now.toLocaleDateString('fr-FR',{weekday:'long'});
+  const jourMois=now.toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'});
+  const heure=now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+  const salut=h<6?'Bonne nuit':h<12?'Bonjour':h<18?'Bon après-midi':'Bonsoir';
+
+  const wHTML=`${salut} ! Système <strong>ARIA</strong> pleinement opérationnel.<br><br>`+
+    `Nous sommes le <strong>${jourSemaine} ${jourMois}</strong>, il est <strong>${heure}</strong>.<br><br>`+
+    `Panneau météo et GPS en cours de chargement. Actualités mondiales en acquisition...`;
+  addMsg(wHTML,'bot',true);
+
+  const wVoix=`${salut} ! Je suis ARIA, votre interface neuronale artificielle. `+
+    `Nous sommes le ${jourSemaine} ${jourMois}, il est ${heure.replace(':',' heure ')}. `+
+    `Tous mes systèmes sont opérationnels. GPS et météo en cours d'acquisition. `+
+    `Je charge les dernières actualités mondiales.`;
+
+  await new Promise(resolve=>ariaSpeak(wVoix,resolve));
+  await new Promise(r=>setTimeout(r,400));
+
+  // News
+  showTyping();
+  const newsData=await renderNewsPanel();
+  hideTyping();
+
+  if(newsData&&newsData.items.length>0){
+    let nHTML=`📡 <strong>Actualités mondiales — ${newsData.source}</strong><br><br>`;
+    newsData.items.slice(0,4).forEach((it,i)=>{nHTML+=`<strong>${i+1}. ${esc(it.title)}</strong><br><br>`;});
+    addMsg(nHTML.trim(),'bot',true);
+    let nVoix=`Voici les dernières actualités. `;
+    newsData.items.slice(0,4).forEach((it,i)=>{nVoix+=`Actualité numéro ${i+1} : ${it.title}. `;});
+    nVoix+=`Fin des actualités. Je suis prêt à répondre à toutes vos questions.`;
+    await new Promise(resolve=>ariaSpeak(nVoix,resolve));
+  }else{
+    addMsg(`📡 <strong>Actualités</strong> — Connexion non disponible. Mode hors ligne activé. Base de données locale opérationnelle.`,'bot',true);
+    await new Promise(resolve=>ariaSpeak(`Les actualités sont indisponibles sans connexion. Je reste à votre service en mode local.`,resolve));
+  }
+}
+
+// ══════════════════════════════════════════════════
+//  BOOT LOG ANIMATION
+// ══════════════════════════════════════════════════
+const bootLogs=[
+  'INITIALISATION NOYAU ARIA...',
+  'CHARGEMENT MODULES NEURONAUX...',
+  'CALIBRAGE INTERFACE HOLOGRAPHIQUE...',
+  'CONNEXION BASE DE DONNÉES [2400+ ENTRÉES]...',
+  'ACTIVATION SYNTHÈSE VOCALE...',
+  'PRÊT.',
+];
+let logIdx=0;
+function nextLog(){
+  const el=document.getElementById('bootLog');
+  if(!el||logIdx>=bootLogs.length)return;
+  el.textContent=bootLogs[logIdx++];
+  if(logIdx<bootLogs.length)setTimeout(nextLog,350);
+}
+setTimeout(nextLog,400);
+
+// ══════════════════════════════════════════════════
+//  INIT
+// ══════════════════════════════════════════════════
+window.addEventListener('load',()=>{
+  if(window.speechSynthesis){
+    speechSynthesis.getVoices();
+    speechSynthesis.addEventListener('voiceschanged',()=>speechSynthesis.getVoices());
+  }
+  // Boot
+  setTimeout(()=>{document.getElementById('boot').classList.add('gone');setTimeout(()=>{document.getElementById('boot').style.display='none';},1000);},3000);
+  // GPS + météo auto
+  setTimeout(initGPS,500);
+  // Welcome
+  setTimeout(welcomeSequence,3500);
+  // Refresh news toutes les 15 min
+  setInterval(()=>{renderNewsPanel();},900000);
+});
+</script>
+</body>
+</html>
