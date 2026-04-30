@@ -368,6 +368,41 @@ html,body{height:100%;height:100dvh;overflow:hidden;background:var(--void);color
 .msg.bot .bubble.emotion-concern{border-left-color:var(--amber);}
 .msg.bot .bubble.emotion-sad{border-left-color:var(--plasma);}
 
+
+/* ═══ THÈMES ═══ */
+body.theme-gold{
+  --c1:#ffaa00;--c2:#ff8800;--c3:#ffcc00;
+  --plasma:#ff4400;--acid:#ffdd00;
+  --text:#fff0cc;--text2:#aa7700;--muted:#442200;
+}
+body.theme-red{
+  --c1:#ff3344;--c2:#cc0022;--c3:#ff6677;
+  --plasma:#ff0055;--acid:#ff4400;
+  --text:#ffcccc;--text2:#aa3344;--muted:#441122;
+}
+body.theme-green{
+  --c1:#39ff14;--c2:#00cc44;--c3:#88ff44;
+  --plasma:#00ffaa;--acid:#ccff00;
+  --text:#ccffcc;--text2:#338844;--muted:#112211;
+}
+.theme-btn{
+  font-family:var(--mono);font-size:7px;letter-spacing:1.5px;
+  padding:4px 10px;border:1px solid currentColor;
+  cursor:pointer;clip-path:polygon(4px 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%,0 4px);
+  background:transparent;transition:all .2s;
+}
+.theme-btn.blue{color:rgba(0,240,255,.6);}
+.theme-btn.gold{color:rgba(255,170,0,.6);}
+.theme-btn.red{color:rgba(255,51,68,.6);}
+.theme-btn.green{color:rgba(57,255,20,.6);}
+.theme-btn:active,.theme-btn.active{opacity:1;box-shadow:0 0 12px currentColor;}
+#theme-bar{
+  display:flex;gap:6px;align-items:center;padding:6px 12px;
+  border-bottom:1px solid rgba(0,240,255,.06);
+  background:rgba(0,2,8,.98);flex-shrink:0;
+}
+#theme-bar span{font-family:var(--mono);font-size:7px;color:var(--muted);letter-spacing:2px;margin-right:4px;}
+
 /* Responsive */
 @media(max-width:600px){#main{grid-template-columns:1fr;}#left,#right{display:none;}}
 @media(min-width:601px) and (max-width:860px){#main{grid-template-columns:190px 1fr;}#right{display:none;}}
@@ -504,6 +539,7 @@ html,body{height:100%;height:100dvh;overflow:hidden;background:var(--void);color
           <div class="qa" onclick="ask('Plus haute montagne ?')">⬡ GÉO</div>
           <div class="qa" onclick="ask('Dis-moi une blague')">◈ HUMOUR</div>
           <div class="qa" onclick="ask('Que peux-tu faire ?')">? AIDE</div>
+          <div class="qa on-toggle" id="alwaysOnBtn" onclick="toggleAlwaysOn()" style="border-color:rgba(57,255,20,.2);color:rgba(57,255,20,.4)">◉ ARIA ALWAYS-ON</div>
         </div>
         <div id="inp-zone">
           <div class="inp-shell">
@@ -867,15 +903,54 @@ function wHTML(d){const ico=d.desc.includes('☀️')?'☀️':d.desc.includes('
 //  UI CHAT
 // ══════════════════════════════════════
 let msgN=0;
-function addMsg(txt,who,html=false){
-  const c=document.getElementById('chat'),d=document.createElement('div');
+// Mémoire de conversation — 6 derniers échanges
+const MEMORY=[];
+function rememberExchange(user, bot){
+  MEMORY.push({user:norm(user), bot:bot.replace(/<[^>]+>/g,'').substring(0,120)});
+  if(MEMORY.length>6) MEMORY.shift();
+}
+function getContext(){return MEMORY.slice(-3);}
+function addMsg(txt, who, html=false, typewrite=false){
+  const chat=document.getElementById('chat');
+  const d=document.createElement('div');
   d.className=`msg ${who}`;
   const lbl=who==='bot'?'AI':'TU';
-  if(who==='bot')d.innerHTML=`<div class="av"><div class="av-ring"></div><div class="av-inner">${lbl}</div></div><div class="bubble"><span class="b-corner-tr"></span><span class="b-corner-bl"></span>${html?txt:esc(txt)}</div>`;
-  else d.innerHTML=`<div class="av"><div class="av-ring"></div><div class="av-inner">${lbl}</div></div><div class="bubble">${html?txt:esc(txt)}</div>`;
-  c.appendChild(d);setTimeout(()=>{c.scrollTop=c.scrollHeight;},50);
-  msgN++;document.getElementById('msgcount').textContent=msgN;
+  const content=html?txt:esc(txt);
+  if(who==='bot'){
+    d.innerHTML=`<div class="av"><div class="av-ring"></div><div class="av-inner">${lbl}</div></div><div class="bubble" id="bubble-${msgN}"><span class="b-corner-tr"></span><span class="b-corner-bl"></span><span class="bubble-text"></span></div>`;
+  } else {
+    d.innerHTML=`<div class="av"><div class="av-ring"></div><div class="av-inner">${lbl}</div></div><div class="bubble">${content}</div>`;
+  }
+  chat.appendChild(d);
+  setTimeout(()=>{chat.scrollTop=chat.scrollHeight;},50);
+
+  if(who==='bot' && typewrite){
+    // Typewriter: strip HTML, type plain, then swap to HTML
+    const plain=content.replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>');
+    const span=d.querySelector('.bubble-text');
+    let i=0;
+    const speed=18;
+    function type(){
+      if(i<=plain.length){
+        span.textContent=plain.substring(0,i)+(i<plain.length?'▋':'');
+        i++;
+        chat.scrollTop=chat.scrollHeight;
+        setTimeout(type, i<8?0:speed);
+      } else {
+        // Swap to full HTML
+        span.outerHTML=content;
+        chat.scrollTop=chat.scrollHeight;
+      }
+    }
+    type();
+  } else if(who==='bot'){
+    d.querySelector('.bubble-text').outerHTML=content;
+  }
+
+  msgN++;
+  document.getElementById('msgcount').textContent=msgN;
   const lv=document.getElementById('lMsgs');if(lv)lv.textContent=msgN;
+  return d;
 }
 function showTyping(){const c=document.getElementById('chat'),d=document.createElement('div');d.className='msg bot';d.id='typer';d.innerHTML=`<div class="av"><div class="av-ring"></div><div class="av-inner">AI</div></div><div class="bubble"><span class="b-corner-tr"></span><div class="t-wrap"><div class="t-dot"></div><div class="t-dot"></div><div class="t-dot"></div><span class="t-lbl">TRAITEMENT</span></div></div>`;c.appendChild(d);c.scrollTop=c.scrollHeight;}
 function hideTyping(){const e=document.getElementById('typer');if(e)e.remove();}
@@ -888,7 +963,7 @@ async function sendMsg(){
   hideTyping();const lat=Date.now()-t0;
   document.getElementById('latD').textContent=lat+'ms';
   const lv=document.getElementById('lLat');if(lv)lv.textContent=lat+'ms';
-  addMsg(resp,'bot',true);speak(resp);
+  addMsg(resp,'bot',true,true);speak(resp);rememberExchange(txt,resp);
 }
 function ask(q){document.getElementById('inp').value=q;sendMsg();}
 document.getElementById('inp').addEventListener('keydown',e=>{if(e.key==='Enter')sendMsg();});
@@ -896,18 +971,101 @@ document.getElementById('inp').addEventListener('keydown',e=>{if(e.key==='Enter'
 // ══════════════════════════════════════
 //  MICRO
 // ══════════════════════════════════════
-let SR=null,listening=false;
-function makeSR(){const SRC=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SRC)return null;const sr=new SRC();sr.lang='fr-FR';sr.continuous=false;sr.interimResults=false;sr.maxAlternatives=1;return sr;}
-function startListening(){
-  SR=makeSR();if(!SR){toast('⚠ MICRO NON SUPPORTÉ');return;}
-  SR.addEventListener('start',()=>{listening=true;document.getElementById('micBtn').classList.add('on');document.getElementById('micBtn').textContent='⏹';toast('● REC — PARLEZ');});
-  SR.addEventListener('result',e=>{const t=e.results[0][0].transcript;ttsOn=true;document.getElementById('inp').value=t;sendMsg();});
-  SR.addEventListener('error',e=>{if(e.error!=='aborted')toast('⚠ '+e.error.toUpperCase());stopListening();});
-  SR.addEventListener('end',stopListening);
+let SR=null,listening=false,alwaysOn=false,alwaysOnBtn=null;
+
+function makeSR(continuous=false){
+  const SRC=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SRC)return null;
+  const sr=new SRC();
+  sr.lang='fr-FR';sr.continuous=continuous;sr.interimResults=continuous;sr.maxAlternatives=1;
+  return sr;
+}
+
+function startListening(continuous=false){
+  if(SR){try{SR.abort();}catch(e){}}
+  SR=makeSR(continuous);if(!SR){toast('⚠ MICRO NON SUPPORTÉ — CHROME REQUIS');return;}
+  SR.addEventListener('start',()=>{
+    listening=true;
+    document.getElementById('micBtn').classList.add('on');
+    document.getElementById('micBtn').textContent='⏹';
+    if(!continuous)toast('● REC — PARLEZ');
+  });
+  SR.addEventListener('result',e=>{
+    if(continuous){
+      // Mode always-on: cherche "aria" dans les résultats intermédiaires
+      for(let i=e.resultIndex;i<e.results.length;i++){
+        const t=e.results[i][0].transcript.toLowerCase().trim();
+        if(e.results[i].isFinal){
+          // Wake word "aria" détecté
+          if(t.startsWith('aria')||t.startsWith('arya')){
+            const cmd=t.replace(/^ar[iy]a\s*/i,'').trim();
+            if(cmd.length>1){
+              ttsOn=true;
+              document.getElementById('inp').value=cmd;
+              sendMsg();
+              // Feedback visuel
+              toast('◈ ARIA — COMMANDE REÇUE');
+            } else {
+              ariaSpeak('Oui, je vous écoute.',null);
+              toast('◈ ARIA — EN ÉCOUTE');
+            }
+          }
+        }
+      }
+    } else {
+      const t=e.results[0][0].transcript;
+      ttsOn=true;
+      document.getElementById('inp').value=t;
+      sendMsg();
+    }
+  });
+  SR.addEventListener('error',e=>{
+    if(e.error==='no-speech'&&continuous){
+      // Relancer si always-on
+      if(alwaysOn)setTimeout(()=>startListening(true),500);
+      return;
+    }
+    if(e.error!=='aborted')toast('⚠ '+e.error.toUpperCase());
+    if(!continuous)stopListening();
+  });
+  SR.addEventListener('end',()=>{
+    if(continuous&&alwaysOn){
+      setTimeout(()=>startListening(true),300);
+    } else {
+      stopListening();
+    }
+  });
   try{SR.start();}catch(err){toast('⚠ '+err.message);stopListening();}
 }
-function stopListening(){listening=false;const btn=document.getElementById('micBtn');btn.classList.remove('on');btn.textContent='🎤';try{if(SR)SR.abort();}catch(e){}SR=null;}
-document.getElementById('micBtn').addEventListener('click',()=>{if(listening){ttsOn=false;stopListening();}else startListening();});
+
+function stopListening(){
+  listening=false;alwaysOn=false;
+  const btn=document.getElementById('micBtn');
+  btn.classList.remove('on');btn.textContent='🎤';
+  const ao=document.getElementById('alwaysOnBtn');
+  if(ao)ao.classList.remove('on');ao&&(ao.textContent='◉ ARIA ALWAYS-ON');
+  try{if(SR)SR.abort();}catch(e){}SR=null;
+}
+
+function toggleAlwaysOn(){
+  const btn=document.getElementById('alwaysOnBtn');
+  if(alwaysOn){
+    alwaysOn=false;stopListening();
+    if(btn){btn.classList.remove('on');btn.textContent='◉ ARIA ALWAYS-ON';}
+    toast('● ALWAYS-ON DÉSACTIVÉ');
+  } else {
+    alwaysOn=true;ttsOn=true;
+    if(btn){btn.classList.add('on');btn.textContent='◉ EN ÉCOUTE...';}
+    toast('◈ DITES "ARIA" POUR ACTIVER');
+    startListening(true);
+  }
+}
+
+document.getElementById('micBtn').addEventListener('click',()=>{
+  if(alwaysOn){stopListening();return;}
+  if(listening){ttsOn=false;stopListening();}
+  else startListening(false);
+});
 
 // ══════════════════════════════════════
 //  SÉQUENCE BIENVENUE
@@ -1513,6 +1671,244 @@ window.addEventListener('load',()=>{
   // Refresh news
   setInterval(renderNews,900000);
 });
+
+// ══════════════════════════════════════
+//  SONS — Web Audio API
+// ══════════════════════════════════════
+let audioCtx=null;
+function getAudio(){if(!audioCtx){try{audioCtx=new(window.AudioContext||window.webkitAudioContext)();}catch(e){}}return audioCtx;}
+
+function playTone(freq=440,dur=0.12,vol=0.08,type='sine',delay=0){
+  const ctx=getAudio();if(!ctx)return;
+  try{
+    const o=ctx.createOscillator(),g=ctx.createGain();
+    o.connect(g);g.connect(ctx.destination);
+    o.type=type;o.frequency.setValueAtTime(freq,ctx.currentTime+delay);
+    g.gain.setValueAtTime(0,ctx.currentTime+delay);
+    g.gain.linearRampToValueAtTime(vol,ctx.currentTime+delay+0.01);
+    g.gain.exponentialRampToValueAtTime(0.001,ctx.currentTime+delay+dur);
+    o.start(ctx.currentTime+delay);o.stop(ctx.currentTime+delay+dur+0.01);
+  }catch(e){}
+}
+
+function playBoot(){
+  // Séquence de démarrage montante
+  [220,330,440,660,880].forEach((f,i)=>playTone(f,0.15,0.06,'sine',i*0.12));
+  setTimeout(()=>playTone(1320,0.4,0.08,'sine'),0.7*1000);
+}
+function playResponse(){
+  // Bip discret à la réponse
+  playTone(880,0.06,0.04,'sine',0);
+  playTone(1100,0.08,0.04,'sine',0.07);
+}
+function playError(){playTone(220,0.2,0.08,'sawtooth');}
+function playActivate(){
+  playTone(440,0.1,0.06,'sine',0);
+  playTone(660,0.1,0.06,'sine',0.1);
+  playTone(880,0.15,0.07,'sine',0.2);
+}
+
+
+// ══════════════════════════════════════
+//  KB ÉTENDUE — médecine, sport, cinéma, cuisine, maths, droit
+// ══════════════════════════════════════
+const KB_EXTRA = [
+  // ── MÉDECINE ──
+  {t:["cancer","qu est","definition"],r:"Le cancer est une multiplication anarchique et incontrôlée de cellules dans l'organisme. Il existe plus de 100 types différents. Les principaux traitements sont la chirurgie, la chimiothérapie, la radiothérapie et l'immunothérapie."},
+  {t:["diabete","insuline"],r:"Le diabète est une maladie chronique liée à un excès de glucose dans le sang. Le type 1 (auto-immun) nécessite de l'insuline. Le type 2 (lié au mode de vie) touche 90% des diabétiques — 537 millions de personnes dans le monde."},
+  {t:["covid","coronavirus","sars"],r:"Le COVID-19 est causé par le SARS-CoV-2, un coronavirus apparu à Wuhan (Chine) fin 2019. La pandémie a causé plus de 7 millions de morts officiels. Les vaccins ARNm (Pfizer, Moderna) ont été développés en un temps record."},
+  {t:["alzheimer","demence"],r:"La maladie d'Alzheimer est la forme la plus courante de démence. Elle détruit progressivement les neurones. 55 millions de personnes sont atteintes de démence dans le monde. Il n'existe pas encore de remède."},
+  {t:["coeur","infarctus","crise"],r:"L'infarctus du myocarde est une obstruction d'une artère coronaire privant le cœur de sang. Signes : douleur thoracique, bras gauche, mâchoire. Appeler le 15/112 immédiatement. Première cause de mortalité mondiale."},
+  {t:["tension","hypertension","pression"],r:"La tension artérielle normale est de 120/80 mmHg. L'hypertension (>140/90) touche 1,28 milliard d'adultes et est la principale cause d'AVC et d'infarctus. Elle est souvent asymptomatique."},
+  {t:["vitamine","vitamines"],r:"Les vitamines essentielles : A (vision), B9/folate (grossesse), B12 (nerfs), C (immunité/antioxydant), D (os/calcium), E (antioxydant), K (coagulation). La vitamine D est produite par la peau au soleil."},
+  {t:["sommeil","dormir","heures"],r:"Un adulte a besoin de 7 à 9 heures de sommeil par nuit. Le sommeil permet la consolidation de la mémoire, la réparation cellulaire et la régulation hormonale. Le manque chronique augmente les risques de diabète, obésité et dépression."},
+
+  // ── SPORT ──
+  {t:["nba","basket","basketball"],r:"La NBA (National Basketball Association) est la ligue de basketball la plus importante au monde. Les Lakers de Los Angeles (17 titres) et les Celtics de Boston (17 titres) sont les franchises les plus titrées. Michael Jordan (6 titres) et LeBron James (4 titres) sont considérés parmi les GOAT."},
+  {t:["football","messi","ronaldo"],r:"Lionel Messi et Cristiano Ronaldo dominent le football depuis 20 ans. Messi (8 Ballons d'Or) a remporté la Coupe du Monde 2022 avec l'Argentine. Ronaldo (5 Ballons d'Or) détient le record de buts en équipe nationale (130+)."},
+  {t:["tennis","grand chelem","roland"],r:"Les 4 tournois du Grand Chelem : Roland-Garros (Paris, terre battue), Wimbledon (gazon), US Open et Australian Open. Novak Djokovic détient le record de titres en Grand Chelem avec 24 victoires (2024)."},
+  {t:["formule 1","f1","ferrari","verstappen"],r:"La Formule 1 est le championnat automobile de plus haut niveau. Max Verstappen (Red Bull) a remporté 4 titres consécutifs (2021-2024). Lewis Hamilton détient le record de victoires (103) et de titres (7)."},
+  {t:["cyclisme","tour france","velo"],r:"Le Tour de France est la course cycliste la plus célèbre — 3 semaines, ~3 500 km. Le maillot jaune = leader. Eddy Merckx (5 victoires) et Miguel Indurain (5 de suite) sont des légendes. Tadej Pogačar domine l'ère actuelle."},
+  {t:["jo","paris","2024","olympique"],r:"Les Jeux Olympiques de Paris 2024 ont eu lieu du 26 juillet au 11 août 2024. La cérémonie d'ouverture sur la Seine était historique. La France a terminé 5e au classement des médailles avec 16 médailles d'or."},
+
+  // ── CINÉMA ──
+  {t:["oscar","cinema","film","meilleur"],r:"L'Oscar du Meilleur Film est la récompense cinématographique la plus prestigieuse. Les films les plus oscarisés : Ben-Hur, Titanic et Le Seigneur des Anneaux (11 Oscars chacun). La cérémonie a lieu chaque année à Hollywood."},
+  {t:["marvel","avengers","mcu"],r:"Le Marvel Cinematic Universe (MCU) est la franchise cinématographique la plus rentable : plus de 33 milliards $ de recettes. Les Avengers : Endgame (2019) est le 2e film le plus rentable de l'histoire avec 2,8 milliards $."},
+  {t:["titanic","cameron","film"],r:"Titanic (1997) de James Cameron a rapporté 2,2 milliards $ au box-office. Il a remporté 11 Oscars. Le film est basé sur le naufrage réel du RMS Titanic le 15 avril 1912 (1 500 morts)."},
+  {t:["star wars","jedi","force"],r:"Star Wars est une saga de science-fiction créée par George Lucas en 1977. Elle compte 12 films, des séries (The Mandalorian) et des milliards de $ de merchandising. 'Que la Force soit avec toi' est l'une des répliques les plus célèbres du cinéma."},
+
+  // ── CUISINE ──
+  {t:["recette","pasta","pate","spaghetti"],r:"Recette simple des spaghetti carbonara (pour 2) : 200g spaghetti, 100g lardons, 2 œufs, 50g parmesan, poivre. Cuire les pâtes al dente. Faire revenir les lardons. Mélanger œufs+parmesan. Mélanger hors feu avec les pâtes et lardons. JAMAIS de crème !"},
+  {t:["recette","gateau","chocolat"],r:"Moelleux au chocolat (4 pers) : Fondre 200g chocolat noir + 100g beurre. Battre 3 œufs + 100g sucre. Ajouter 50g farine. Mélanger tout. Four 180°C, 12 min. Le centre doit rester coulant !"},
+  {t:["nutrition","calories","regime"],r:"Un adulte moyen a besoin de 2 000-2 500 kcal/jour. Les macronutriments : protéines (4 kcal/g), glucides (4 kcal/g), lipides (9 kcal/g). L'équilibre alimentaire recommande : 50% glucides, 30% lipides, 20% protéines."},
+  {t:["cafe","preparation","expresso"],r:"Un bon espresso : 7-9g de café moulu fin, eau à 90-95°C, 25-30 secondes d'extraction, 25-30ml dans la tasse. La crema dorée indique une bonne extraction. Le ratio café/eau pour un Americano est 1:5."},
+
+  // ── MATHÉMATIQUES AVANCÉES ──
+  {t:["derivee","calcul","differentiel"],r:"La dérivée mesure le taux de variation instantané d'une fonction. Règles de base : (xⁿ)' = n·xⁿ⁻¹, (sin x)' = cos x, (cos x)' = -sin x, (eˣ)' = eˣ, (ln x)' = 1/x. La dérivée d'une constante = 0."},
+  {t:["integrale","integration","primitive"],r:"L'intégrale est l'opération inverse de la dérivée. Règles : ∫xⁿdx = xⁿ⁺¹/(n+1) + C, ∫sin(x)dx = -cos(x) + C, ∫eˣdx = eˣ + C. L'intégrale définite ∫[a,b]f(x)dx = aire sous la courbe entre a et b."},
+  {t:["probabilite","chance","statistique"],r:"La probabilité d'un événement A est P(A) = cas favorables / cas totaux. Exemples : pile ou face P=0.5, dé à 6 faces P(6)=1/6. La loi des grands nombres dit que plus on répète, plus la fréquence se rapproche de la probabilité théorique."},
+  {t:["logarithme","log","ln"],r:"Le logarithme naturel ln(x) est l'inverse de l'exponentielle : ln(eˣ)=x. Propriétés : ln(ab)=ln(a)+ln(b), ln(a/b)=ln(a)-ln(b), ln(aⁿ)=n·ln(a). log₁₀(1000)=3 car 10³=1000."},
+  {t:["suite","fibonacci","suite numerique"],r:"La suite de Fibonacci : 0,1,1,2,3,5,8,13,21,34,55... Chaque terme = somme des deux précédents. Le ratio de deux termes consécutifs tend vers le nombre d'or φ≈1,618. On le retrouve dans la nature (coquilles, tournesols, spirales galactiques)."},
+
+  // ── DROIT & SOCIÉTÉ ──
+  {t:["droits","homme","liberte"],r:"La Déclaration des Droits de l'Homme et du Citoyen (1789) proclame : liberté, propriété, sûreté, résistance à l'oppression. La Déclaration Universelle des Droits de l'Homme (ONU, 1948) compte 30 articles protégeant tout être humain."},
+  {t:["constitution","france","republique"],r:"La Constitution française de 1958 (Ve République) définit les institutions. Le Président est élu pour 5 ans. Le Parlement (Assemblée Nationale + Sénat) vote les lois. Le Conseil Constitutionnel vérifie leur conformité."},
+  {t:["impot","taxe","fiscalite"],r:"En France, l'impôt sur le revenu est progressif : 0% jusqu'à 10 777€, puis 11%, 30%, 41%, 45%. La TVA (20%) est la principale recette de l'État. La France a l'un des taux de prélèvements obligatoires les plus élevés au monde (45% du PIB)."},
+
+  // ── TECHNOLOGIE & IA ──
+  {t:["chatgpt","openai","gpt"],r:"ChatGPT est un modèle de langage développé par OpenAI, lancé en novembre 2022. Basé sur l'architecture GPT-4, il a atteint 100 millions d'utilisateurs en 2 mois — plus vite que tout autre produit dans l'histoire."},
+  {t:["5g","reseau","internet mobile"],r:"La 5G offre des débits théoriques jusqu'à 20 Gb/s (100× la 4G) et une latence de 1ms. Elle permet l'IoT massif, les voitures autonomes et la chirurgie à distance. Déployée dans 60+ pays depuis 2020."},
+  {t:["crypto","blockchain","ethereum"],r:"La blockchain est un registre distribué et immuable. Ethereum (créé par Vitalik Buterin en 2015) permet les smart contracts et les DApps. L'Ether (ETH) est la 2e cryptomonnaie par capitalisation après le Bitcoin."},
+  {t:["quantum","quantique","ordinateur"],r:"Un ordinateur quantique utilise des qubits (superposition 0 et 1 simultanément) au lieu de bits classiques. Il pourrait résoudre en secondes des problèmes impossibles pour nos ordinateurs actuels. Google, IBM et des nations investissent massivement dans cette technologie."},
+
+  // ── GÉOPOLITIQUE MODERNE ──
+  {t:["ukraine","russie","guerre"],r:"La guerre en Ukraine a débuté le 24 février 2022 avec l'invasion russe à grande échelle. Elle fait suite à l'annexion de la Crimée en 2014. Des milliards d'aide militaire et humanitaire ont été fournis par les pays occidentaux. Le conflit a provoqué une crise énergétique et alimentaire mondiale."},
+  {t:["chine","taiwan","tension"],r:"Les tensions entre la Chine et Taiwan constituent l'un des principaux points chauds géopolitiques. La Chine considère Taiwan comme une province rebelle. Les USA ont une politique d'ambiguïté stratégique. Taiwan produit 90% des puces électroniques les plus avancées du monde (TSMC)."},
+  {t:["changement climatique","rechauffement","co2"],r:"Le réchauffement climatique est causé principalement par les émissions de CO₂ et de méthane. La température moyenne a augmenté de +1,1°C depuis l'ère pré-industrielle. L'Accord de Paris (2015) vise à limiter à +1,5°C. Les conséquences : montée des eaux, événements extrêmes, extinction d'espèces."},
+];
+
+// Extension du moteur principal pour KB_EXTRA
+const _getResp_orig2 = getResp;
+async function getResp(raw){
+  const q=norm(raw), qt=tokens(raw);
+
+  // Cherche dans KB_EXTRA
+  let bi2=null,bs2=0;
+  for(const item of KB_EXTRA){
+    const s=item.t.filter(tag=>qt.includes(tag)).length;
+    if(s>bs2){bs2=s;bi2=item;}
+  }
+  if(bs2>=2)return bi2.r;
+
+  return _getResp_orig2(raw);
+}
+
+
+// ══════════════════════════════════════
+//  QUIZ INTERACTIF
+// ══════════════════════════════════════
+let quizActive=false, quizScore=0, quizTotal=0, quizCurrent=null;
+const QUIZ_Q = [
+  {q:"Quelle est la capitale de l'Australie ?",a:"canberra",hint:"Ce n'est pas Sydney ni Melbourne !"},
+  {q:"En quelle année a eu lieu la Révolution française ?",a:"1789",hint:"Louis XVI était roi à ce moment."},
+  {q:"Combien d'os contient le corps adulte ?",a:"206",hint:"Entre 200 et 210."},
+  {q:"Qui a peint la Joconde ?",a:"leonard de vinci",hint:"Un génie de la Renaissance italienne."},
+  {q:"Quelle est la planète la plus grande du système solaire ?",a:"jupiter",hint:"Elle pourrait contenir 1 300 Terres."},
+  {q:"En quelle année a été fondé Google ?",a:"1998",hint:"Par deux étudiants de Stanford."},
+  {q:"Quel est le plus long fleuve du monde ?",a:"nil",hint:"En Afrique, il coule vers la Méditerranée."},
+  {q:"Combien font 17 × 18 ?",a:"306",hint:"Calcul : (17×20) - (17×2)"},
+  {q:"Qui a découvert la pénicilline ?",a:"alexander fleming",hint:"En 1928, par accident."},
+  {q:"Quelle est la vitesse de la lumière en km/s ?",a:"300000",hint:"Environ 300 000 km/s."},
+  {q:"Dans quel pays se trouve le mont Everest ?",a:"nepal",hint:"En Asie, dans l'Himalaya."},
+  {q:"Qui a écrit Les Misérables ?",a:"victor hugo",hint:"Auteur français du XIXe siècle."},
+  {q:"Quel est le symbole chimique de l'or ?",a:"au",hint:"Vient du latin 'aurum'."},
+  {q:"En quelle année l'homme a-t-il marché sur la Lune ?",a:"1969",hint:"Mission Apollo 11."},
+  {q:"Quelle est la monnaie du Japon ?",a:"yen",hint:"Symbole ¥"},
+];
+
+function startQuiz(){
+  quizActive=true;quizScore=0;quizTotal=0;
+  const idx=Math.floor(Math.random()*QUIZ_Q.length);
+  quizCurrent=QUIZ_Q[idx];
+  const msg=`🎯 <strong>QUIZ ARIA</strong><br><br>Question : <strong>${quizCurrent.q}</strong><br><br><em style="font-size:11px;color:var(--muted2)">Indice disponible — tapez "indice"</em>`;
+  addMsg(msg,'bot',true,true);
+  ariaSpeak('Mode quiz activé. '+quizCurrent.q, null);
+  playActivate();
+}
+
+function checkQuizAnswer(raw){
+  if(!quizActive||!quizCurrent)return null;
+  const q=norm(raw);
+  if(q==='quitter'||q==='stop quiz'||q==='arreter quiz'){
+    quizActive=false;
+    return`Quiz terminé ! Score : <strong>${quizScore}/${quizTotal}</strong>. ${quizScore===quizTotal&&quizTotal>0?'Parfait ! 🏆':quizScore>quizTotal/2?'Bien joué ! 🎉':'Continuez à apprendre ! 📚'}`;
+  }
+  if(q==='indice'){
+    return`💡 Indice : ${quizCurrent.hint}`;
+  }
+  quizTotal++;
+  const correct=norm(quizCurrent.a);
+  const isCorrect=q.includes(correct)||correct.includes(q);
+  if(isCorrect){
+    quizScore++;
+    // Nouvelle question
+    const idx=Math.floor(Math.random()*QUIZ_Q.length);
+    quizCurrent=QUIZ_Q[idx];
+    return`✅ <strong>Correct !</strong> Score : ${quizScore}/${quizTotal}<br><br>Prochaine question : <strong>${quizCurrent.q}</strong>`;
+  } else {
+    return`❌ <strong>Pas tout à fait.</strong> La réponse était : <em>${quizCurrent.a}</em><br>Score : ${quizScore}/${quizTotal}<br><br>Prochaine question : <strong>${quizCurrent.q}</strong>`;
+  }
+}
+
+
+// ══════════════════════════════════════
+//  THÈMES
+// ══════════════════════════════════════
+function setTheme(name){
+  document.body.className=name?'theme-'+name:'';
+  document.querySelectorAll('.theme-btn').forEach(b=>b.classList.remove('active'));
+  const active=document.querySelector(`.theme-btn.${name||'blue'}`);
+  if(active)active.classList.add('active');
+  localStorage.setItem('aria-theme',name);
+  toast('THÈME '+(name||'CYAN').toUpperCase()+' ACTIVÉ');
+}
+
+// ══════════════════════════════════════
+//  MÉMOIRE & CONTEXTE dans getResp
+// ══════════════════════════════════════
+const _getResp_mem = getResp;
+async function getResp(raw){
+  const q=norm(raw), qt=tokens(raw);
+
+  // Quiz check
+  if(quizActive){
+    const qa=checkQuizAnswer(raw);
+    if(qa)return qa;
+  }
+
+  // Commande quiz
+  if(/\b(quiz|jouer|jeu|question|teste.?moi|interroge.?moi)\b/.test(q)){
+    startQuiz();return null;
+  }
+
+  // Contexte mémoire — "et lui ?", "et elle ?", "et après ?"
+  const ctx=getContext();
+  if(ctx.length>0&&/^(et|mais|donc|alors|comment|pourquoi|qui|que|quel)\b/.test(q)&&q.length<30){
+    const lastBot=ctx[ctx.length-1]?.bot||'';
+    if(lastBot)return`En lien avec ce que je disais : ${lastBot.substring(0,80)}... Souhaitez-vous que j'approfondisse ?`;
+  }
+
+  return _getResp_mem(raw);
+}
+
+// ══════════════════════════════════════
+//  SONS dans sendMsg + welcome
+// ══════════════════════════════════════
+const _sendMsgOrig = sendMsg;
+async function sendMsg(){
+  getAudio(); // init audio context
+  return _sendMsgOrig();
+}
+
+// Patch welcome pour ajouter boot sound
+const _welcomeOrig = welcome;
+async function welcome(){
+  playBoot();
+  return _welcomeOrig();
+}
+
+// Son à chaque réponse bot
+const _addMsgOrig = addMsg;
+function addMsg(txt,who,html=false,tw=false){
+  const result=_addMsgOrig(txt,who,html,tw);
+  if(who==='bot')setTimeout(playResponse,100);
+  return result;
+}
+
+// Theme restore
+const savedTheme=localStorage.getItem('aria-theme')||'';
+if(savedTheme)setTheme(savedTheme);
+
 </script>
 </body>
 </html>
