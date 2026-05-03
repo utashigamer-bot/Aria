@@ -38,7 +38,7 @@ body.theme-green{--c1:#39ff14;--c2:#00cc44;--c3:#88ff44;--plasma:#00ffaa;--acid:
 .corner.br{bottom:0;right:0;width:50px;height:50px;}.corner.br::before{width:100%;height:1px;bottom:0;right:0;}.corner.br::after{width:1px;height:100%;bottom:0;right:0;}
 .corner.tr::before,.corner.tr::after{animation-delay:.75s;}.corner.bl::before,.corner.bl::after{animation-delay:1.5s;}.corner.br::before,.corner.br::after{animation-delay:2.25s;}
 #boot{position:fixed;inset:0;z-index:9999;background:var(--void);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;transition:opacity 1s ease;}
-#boot.gone{opacity:0;pointer-events:none;}
+#boot.gone{opacity:0;pointer-events:none;transition:opacity 1s ease;}
 .boot-hex{width:110px;height:110px;position:relative;animation:bHex 1.2s cubic-bezier(.2,1,.3,1) both;}
 @keyframes bHex{from{opacity:0;transform:scale(.1) rotate(-180deg)}to{opacity:1;transform:scale(1) rotate(0)}}
 .boot-hex svg{width:100%;height:100%;filter:drop-shadow(0 0 20px var(--c1));}
@@ -404,25 +404,30 @@ let voiceEnabled=false;
 
 function showVoicePrompt(){
   if(!isIOS){enableVoiceSilently();return;}
-  $('voice-prompt').classList.add('show');
+  const vp=$('voice-prompt');
+  if(vp){vp.classList.add('show');vp.style.display='flex';}
 }
 function enableVoiceSilently(){
   voiceEnabled=true;
   const lv=$('lVoice');if(lv)lv.textContent='ON';
-  // Pre-warm speechSynthesis
-  if(window.speechSynthesis){
-    window.speechSynthesis.getVoices();
-    const u=new SpeechSynthesisUtterance('');u.volume=0;u.rate=10;
-    try{window.speechSynthesis.speak(u);}catch(e){}
-  }
+  try{
+    if(window.speechSynthesis){
+      window.speechSynthesis.getVoices();
+      const u=new SpeechSynthesisUtterance('');
+      u.volume=0;u.rate=10;u.lang='fr-FR';
+      window.speechSynthesis.speak(u);
+    }
+  }catch(e){console.warn('TTS prewarm failed:',e);}
 }
 $('vpBtn').addEventListener('click',()=>{
-  $('voice-prompt').classList.remove('show');
+  const vp=$('voice-prompt');
+  if(vp){vp.classList.remove('show');vp.style.display='none';}
   enableVoiceSilently();
   setTimeout(startWelcome,200);
 });
 $('vpSkip').addEventListener('click',()=>{
-  $('voice-prompt').classList.remove('show');
+  const vp=$('voice-prompt');
+  if(vp){vp.classList.remove('show');vp.style.display='none';}
   voiceEnabled=false;
   setTimeout(startWelcome,200);
 });
@@ -914,7 +919,10 @@ $('tRed').addEventListener('click',()=>setTheme('red'));
 $('tGrn').addEventListener('click',()=>setTheme('green'));
 
 // ══ WELCOME ══
+let _welcomeStarted=false;
 async function startWelcome(){
+  if(_welcomeStarted)return;
+  _welcomeStarted=true;
   const now=new Date(),h=now.getHours();
   const jour=now.toLocaleDateString('fr-FR',{weekday:'long'}),date=now.toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}),heure=now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
   const sal=h<6?'Bonne nuit':h<12?'Bonjour':h<18?'Bon après-midi':'Bonsoir';
@@ -942,19 +950,40 @@ setTimeout(nextLog,350);
 window.addEventListener('load',()=>{
   if(window.speechSynthesis){const lv=()=>window.speechSynthesis.getVoices();lv();window.speechSynthesis.addEventListener('voiceschanged',lv);}
   try{const t=localStorage.getItem('aria-theme')||'';if(t)setTheme(t);}catch(e){}
-  setTimeout(()=>{$('boot').classList.add('gone');setTimeout(()=>{const b=$('boot');if(b)b.style.display='none';},1200);},3400);
+  setTimeout(()=>{
+    const b=$('boot');
+    if(b){b.classList.add('gone');setTimeout(()=>{b.style.display='none';},1200);}
+  },3000);
   setTimeout(initGPS,600);
   setTimeout(()=>{
     if(isIOS){
+      // iOS: montre le prompt voix
       showVoicePrompt();
-      // fallback si pas de tap dans 6s
-      setTimeout(()=>{const vp=$('voice-prompt');if(vp&&vp.classList.contains('show')){vp.classList.remove('show');voiceEnabled=false;startWelcome();}},6000);
+      // fallback : si pas de tap dans 5s, démarre sans son
+      setTimeout(()=>{
+        const vp=$('voice-prompt');
+        if(vp && vp.classList.contains('show')){
+          vp.classList.remove('show');
+          voiceEnabled=false;
+          startWelcome();
+        }
+      },5000);
     }else{
       enableVoiceSilently();
       startWelcome();
     }
-  },3800);
+  },3200);
   setInterval(()=>{renderNews();},900000);
+
+  // FALLBACK ULTIME : si chat vide après 6s, force le welcome
+  setTimeout(()=>{
+    const chat=$('chat');
+    if(chat && chat.children.length===0){
+      console.log('ARIA: fallback welcome triggered');
+      voiceEnabled=false;
+      startWelcome();
+    }
+  },6500);
 });
 </script>
 </body>
