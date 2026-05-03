@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
@@ -251,7 +250,6 @@ body.theme-green{--c1:#39ff14;--c2:#00cc44;--c3:#88ff44;--plasma:#00ffaa;--acid:
 </div>
 
 <!-- IOS VOICE PROMPT -->
-
 <div id="voice-prompt">
   <div class="vp-icon">🔊</div>
   <div class="vp-title">ACTIVER LA VOIX</div>
@@ -265,7 +263,6 @@ body.theme-green{--c1:#39ff14;--c2:#00cc44;--c3:#88ff44;--plasma:#00ffaa;--acid:
 <div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
 
 <!-- PHONE OVERLAY -->
-
 <div id="phone-ov">
   <div class="ph-st">MODE TÉLÉPHONE</div>
   <div class="ph-sphere"><canvas id="phC"></canvas></div>
@@ -278,7 +275,6 @@ body.theme-green{--c1:#39ff14;--c2:#00cc44;--c3:#88ff44;--plasma:#00ffaa;--acid:
 <div id="toast"></div>
 
 <!-- SHELL -->
-
 <div id="shell">
   <header id="hdr">
     <div style="display:flex;align-items:center;gap:12px;">
@@ -326,68 +322,65 @@ body.theme-green{--c1:#39ff14;--c2:#00cc44;--c3:#88ff44;--plasma:#00ffaa;--acid:
       </div>
     </div>
 
-```
-<div id="center">
-  <div id="viz">
-    <canvas id="vizC"></canvas>
-    <div class="viz-id">ARIA // NEURAL WAVE</div>
-    <div class="viz-st" id="vizSt">● IDLE</div>
-    <div class="viz-lbl">◈ CONSCIENCE IA — INTERFACE NEURONALE ACTIVE ◈</div>
-  </div>
-  <div id="chat-zone">
-    <div id="chat"></div>
-    <div id="theme-bar">
-      <span>THÈME</span>
-      <button class="t-btn cyan active" id="tCyan">CYAN</button>
-      <button class="t-btn gold" id="tGold">GOLD</button>
-      <button class="t-btn red" id="tRed">RED</button>
-      <button class="t-btn grn" id="tGrn">GRN</button>
-    </div>
-    <div id="qbar">
-      <div class="qa" id="qa-heure">⏱ HEURE</div>
-      <div class="qa" id="qa-meteo">◈ MÉTÉO</div>
-      <div class="qa" id="qa-cap">◎ CAPITALE</div>
-      <div class="qa" id="qa-calc">∑ CALCUL</div>
-      <div class="qa" id="qa-actus">📡 ACTUS</div>
-      <div class="qa" id="qa-quiz">🎯 QUIZ</div>
-      <div class="qa" id="qa-sci">◉ SCIENCE</div>
-      <div class="qa" id="qa-geo">⬡ GÉO</div>
-      <div class="qa" id="qa-blague">◈ HUMOUR</div>
-      <div class="qa" id="qa-ao">◉ ALWAYS-ON</div>
-      <div class="qa" id="qa-aide">? AIDE</div>
-    </div>
-    <div id="inp-zone">
-      <div class="inp-shell">
-        <span class="inp-pre">ARIA//&gt;</span>
-        <input type="text" id="inp" placeholder="Interrogez le système..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
-        <button class="btn-mic" id="micBtn">🎤</button>
-        <button class="btn-send" id="sendBtn">EXEC</button>
+    <div id="center">
+      <div id="viz">
+        <canvas id="vizC"></canvas>
+        <div class="viz-id">ARIA // NEURAL WAVE</div>
+        <div class="viz-st" id="vizSt">● IDLE</div>
+        <div class="viz-lbl">◈ CONSCIENCE IA — INTERFACE NEURONALE ACTIVE ◈</div>
+      </div>
+      <div id="chat-zone">
+        <div id="chat"></div>
+        <div id="theme-bar">
+          <span>THÈME</span>
+          <button class="t-btn cyan active" id="tCyan">CYAN</button>
+          <button class="t-btn gold" id="tGold">GOLD</button>
+          <button class="t-btn red" id="tRed">RED</button>
+          <button class="t-btn grn" id="tGrn">GRN</button>
+        </div>
+        <div id="qbar">
+          <div class="qa" id="qa-heure">⏱ HEURE</div>
+          <div class="qa" id="qa-meteo">◈ MÉTÉO</div>
+          <div class="qa" id="qa-cap">◎ CAPITALE</div>
+          <div class="qa" id="qa-calc">∑ CALCUL</div>
+          <div class="qa" id="qa-actus">📡 ACTUS</div>
+          <div class="qa" id="qa-quiz">🎯 QUIZ</div>
+          <div class="qa" id="qa-sci">◉ SCIENCE</div>
+          <div class="qa" id="qa-geo">⬡ GÉO</div>
+          <div class="qa" id="qa-blague">◈ HUMOUR</div>
+          <div class="qa" id="qa-ao">◉ ALWAYS-ON</div>
+          <div class="qa" id="qa-aide">? AIDE</div>
+        </div>
+        <div id="inp-zone">
+          <div class="inp-shell">
+            <span class="inp-pre">ARIA//&gt;</span>
+            <input type="text" id="inp" placeholder="Interrogez le système..." autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+            <button class="btn-mic" id="micBtn">🎤</button>
+            <button class="btn-send" id="sendBtn">EXEC</button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</div>
 
-<div id="right" class="side">
-  <div class="pnl">
-    <div class="pnl-ttl"><div class="pnl-dot"></div>ACTUALITÉS</div>
-    <div id="newsList"><div class="wx-load">CHARGEMENT...</div></div>
-  </div>
-  <div class="pnl">
-    <div class="pnl-ttl"><div class="pnl-dot"></div>RADAR</div>
-    <div class="radar-wrap"><canvas id="rdC" width="148" height="148"></canvas></div>
-  </div>
-  <div class="pnl">
-    <div class="pnl-ttl"><div class="pnl-dot"></div>DONNÉES LIVE</div>
-    <div class="ls-row"><span class="ls-l">Population</span><span class="ls-v acid">8.1 Md</span></div>
-    <div class="ls-row"><span class="ls-l">Temp locale</span><span class="ls-v neon" id="lTemp">--°C</span></div>
-    <div class="ls-row"><span class="ls-l">Msgs</span><span class="ls-v neon" id="lMsgs">0</span></div>
-    <div class="ls-row"><span class="ls-l">Uptime</span><span class="ls-v amb" id="lUp">00:00</span></div>
-    <div class="ls-row"><span class="ls-l">Voix</span><span class="ls-v pla" id="lVoice">OFF</span></div>
-    <div class="ls-row"><span class="ls-l">Latence</span><span class="ls-v neon" id="lLat">--ms</span></div>
-  </div>
-</div>
-```
-
+    <div id="right" class="side">
+      <div class="pnl">
+        <div class="pnl-ttl"><div class="pnl-dot"></div>ACTUALITÉS</div>
+        <div id="newsList"><div class="wx-load">CHARGEMENT...</div></div>
+      </div>
+      <div class="pnl">
+        <div class="pnl-ttl"><div class="pnl-dot"></div>RADAR</div>
+        <div class="radar-wrap"><canvas id="rdC" width="148" height="148"></canvas></div>
+      </div>
+      <div class="pnl">
+        <div class="pnl-ttl"><div class="pnl-dot"></div>DONNÉES LIVE</div>
+        <div class="ls-row"><span class="ls-l">Population</span><span class="ls-v acid">8.1 Md</span></div>
+        <div class="ls-row"><span class="ls-l">Temp locale</span><span class="ls-v neon" id="lTemp">--°C</span></div>
+        <div class="ls-row"><span class="ls-l">Msgs</span><span class="ls-v neon" id="lMsgs">0</span></div>
+        <div class="ls-row"><span class="ls-l">Uptime</span><span class="ls-v amb" id="lUp">00:00</span></div>
+        <div class="ls-row"><span class="ls-l">Voix</span><span class="ls-v pla" id="lVoice">OFF</span></div>
+        <div class="ls-row"><span class="ls-l">Latence</span><span class="ls-v neon" id="lLat">--ms</span></div>
+      </div>
+    </div>
   </div>
 
   <div id="ticker-z">
@@ -410,560 +403,559 @@ const isIOS=/iPad|iPhone|iPod/.test(navigator.userAgent)&&!window.MSStream;
 let voiceEnabled=false;
 
 function showVoicePrompt(){
-if(!isIOS){enableVoiceSilently();return;}
-$(‘voice-prompt’).classList.add(‘show’);
+  if(!isIOS){enableVoiceSilently();return;}
+  $('voice-prompt').classList.add('show');
 }
 function enableVoiceSilently(){
-voiceEnabled=true;
-const lv=$(‘lVoice’);if(lv)lv.textContent=‘ON’;
-// Pre-warm speechSynthesis
-if(window.speechSynthesis){
-window.speechSynthesis.getVoices();
-const u=new SpeechSynthesisUtterance(’’);u.volume=0;u.rate=10;
-try{window.speechSynthesis.speak(u);}catch(e){}
+  voiceEnabled=true;
+  const lv=$('lVoice');if(lv)lv.textContent='ON';
+  // Pre-warm speechSynthesis
+  if(window.speechSynthesis){
+    window.speechSynthesis.getVoices();
+    const u=new SpeechSynthesisUtterance('');u.volume=0;u.rate=10;
+    try{window.speechSynthesis.speak(u);}catch(e){}
+  }
 }
-}
-$(‘vpBtn’).addEventListener(‘click’,()=>{
-$(‘voice-prompt’).classList.remove(‘show’);
-enableVoiceSilently();
-setTimeout(startWelcome,200);
+$('vpBtn').addEventListener('click',()=>{
+  $('voice-prompt').classList.remove('show');
+  enableVoiceSilently();
+  setTimeout(startWelcome,200);
 });
-$(‘vpSkip’).addEventListener(‘click’,()=>{
-$(‘voice-prompt’).classList.remove(‘show’);
-voiceEnabled=false;
-setTimeout(startWelcome,200);
+$('vpSkip').addEventListener('click',()=>{
+  $('voice-prompt').classList.remove('show');
+  voiceEnabled=false;
+  setTimeout(startWelcome,200);
 });
 
 // ══ TTS — iOS fix ══
 function getBestVoice(){
-if(!window.speechSynthesis)return null;
-const vs=window.speechSynthesis.getVoices();
-return[vs.find(v=>v.name===‘Thomas’),vs.find(v=>v.name===‘Amélie’),vs.find(v=>v.name===‘Marie’),vs.find(v=>v.lang===‘fr-FR’&&v.localService),vs.find(v=>v.lang===‘fr-FR’),vs.find(v=>v.lang.startsWith(‘fr’))].find(Boolean)||null;
+  if(!window.speechSynthesis)return null;
+  const vs=window.speechSynthesis.getVoices();
+  return[vs.find(v=>v.name==='Thomas'),vs.find(v=>v.name==='Amélie'),vs.find(v=>v.name==='Marie'),vs.find(v=>v.lang==='fr-FR'&&v.localService),vs.find(v=>v.lang==='fr-FR'),vs.find(v=>v.lang.startsWith('fr'))].find(Boolean)||null;
 }
 function ariaSpeak(text,onEnd){
-if(!voiceEnabled||!window.speechSynthesis){if(onEnd)onEnd();return;}
-try{window.speechSynthesis.cancel();}catch(e){}
-const clean=text.replace(/<[^>]+>/g,’’).replace(/&/g,’&’).replace(/</g,’<’).replace(/>/g,’>’).replace(/[◈◎⬡∑●◉]/g,’’).trim();
-if(!clean){if(onEnd)onEnd();return;}
-setFaceTalk(true);
-const u=new SpeechSynthesisUtterance(clean);
-u.lang=‘fr-FR’;u.rate=1.0;u.pitch=1.05;u.volume=1.0;
-const v=getBestVoice();if(v)u.voice=v;
-const wd=setTimeout(()=>{setFaceTalk(false);if(onEnd)onEnd();},clean.length*90+4000);
-u.onend=()=>{clearTimeout(wd);setFaceTalk(false);if(onEnd)onEnd();};
-u.onerror=()=>{clearTimeout(wd);setFaceTalk(false);if(onEnd)onEnd();};
-try{window.speechSynthesis.speak(u);}catch(e){clearTimeout(wd);setFaceTalk(false);if(onEnd)onEnd();}
+  if(!voiceEnabled||!window.speechSynthesis){if(onEnd)onEnd();return;}
+  try{window.speechSynthesis.cancel();}catch(e){}
+  const clean=text.replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>').replace(/[◈◎⬡∑●◉]/g,'').trim();
+  if(!clean){if(onEnd)onEnd();return;}
+  setFaceTalk(true);
+  const u=new SpeechSynthesisUtterance(clean);
+  u.lang='fr-FR';u.rate=1.0;u.pitch=1.05;u.volume=1.0;
+  const v=getBestVoice();if(v)u.voice=v;
+  const wd=setTimeout(()=>{setFaceTalk(false);if(onEnd)onEnd();},clean.length*90+4000);
+  u.onend=()=>{clearTimeout(wd);setFaceTalk(false);if(onEnd)onEnd();};
+  u.onerror=()=>{clearTimeout(wd);setFaceTalk(false);if(onEnd)onEnd();};
+  try{window.speechSynthesis.speak(u);}catch(e){clearTimeout(wd);setFaceTalk(false);if(onEnd)onEnd();}
 }
 function speak(html){if(voiceEnabled)ariaSpeak(html,null);}
 
 // ══ BG PARTICLES ══
-const bgC=$(‘bgC’),bgX=bgC.getContext(‘2d’);
+const bgC=$('bgC'),bgX=bgC.getContext('2d');
 let BW=0,BH=0,bPts=[],bgFr=0;
 function resizeBg(){BW=bgC.width=innerWidth;BH=bgC.height=innerHeight;
-bPts=[];const n=Math.min(45,Math.floor(BW*BH/38000));
-for(let i=0;i<n;i++)bPts.push({x:Math.random()*BW,y:Math.random()*BH,vx:(Math.random()-.5)*.14,vy:(Math.random()-.5)*.14,r:Math.random()*.9+.2,a:Math.random()*.32+.08,h:Math.random()>.6?260:190});
+  bPts=[];const n=Math.min(45,Math.floor(BW*BH/38000));
+  for(let i=0;i<n;i++)bPts.push({x:Math.random()*BW,y:Math.random()*BH,vx:(Math.random()-.5)*.14,vy:(Math.random()-.5)*.14,r:Math.random()*.9+.2,a:Math.random()*.32+.08,h:Math.random()>.6?260:190});
 }
 function drawBg(){
-bgFr++;bgX.clearRect(0,0,BW,BH);
-for(const p of bPts){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=BW;if(p.x>BW)p.x=0;if(p.y<0)p.y=BH;if(p.y>BH)p.y=0;bgX.beginPath();bgX.arc(p.x,p.y,p.r,0,Math.PI*2);bgX.fillStyle=`hsla(${p.h},100%,60%,${p.a*.25})`;bgX.fill();}
-if(bgFr%2===0){for(let i=0;i<bPts.length;i++)for(let j=i+1;j<bPts.length;j++){const dx=bPts[i].x-bPts[j].x,dy=bPts[i].y-bPts[j].y,d2=dx*dx+dy*dy;if(d2<8100){bgX.beginPath();bgX.moveTo(bPts[i].x,bPts[i].y);bgX.lineTo(bPts[j].x,bPts[j].y);bgX.strokeStyle=`rgba(0,240,255,${(1-d2/8100)*.035})`;bgX.lineWidth=.5;bgX.stroke();}}}
-requestAnimationFrame(drawBg);
+  bgFr++;bgX.clearRect(0,0,BW,BH);
+  for(const p of bPts){p.x+=p.vx;p.y+=p.vy;if(p.x<0)p.x=BW;if(p.x>BW)p.x=0;if(p.y<0)p.y=BH;if(p.y>BH)p.y=0;bgX.beginPath();bgX.arc(p.x,p.y,p.r,0,Math.PI*2);bgX.fillStyle=`hsla(${p.h},100%,60%,${p.a*.25})`;bgX.fill();}
+  if(bgFr%2===0){for(let i=0;i<bPts.length;i++)for(let j=i+1;j<bPts.length;j++){const dx=bPts[i].x-bPts[j].x,dy=bPts[i].y-bPts[j].y,d2=dx*dx+dy*dy;if(d2<8100){bgX.beginPath();bgX.moveTo(bPts[i].x,bPts[i].y);bgX.lineTo(bPts[j].x,bPts[j].y);bgX.strokeStyle=`rgba(0,240,255,${(1-d2/8100)*.035})`;bgX.lineWidth=.5;bgX.stroke();}}}
+  requestAnimationFrame(drawBg);
 }
 resizeBg();drawBg();
-window.addEventListener(‘resize’,()=>{clearTimeout(window._rsT);window._rsT=setTimeout(resizeBg,200);});
+window.addEventListener('resize',()=>{clearTimeout(window._rsT);window._rsT=setTimeout(resizeBg,200);});
 
 // ══ VISUALISEUR ══
-const vizC=$(‘vizC’),vizX=vizC.getContext(‘2d’);
+const vizC=$('vizC'),vizX=vizC.getContext('2d');
 let VW=0,VH=0,vPts=[],vTalk=false,vEn=0,vFr=0;
-function resizeViz(){const z=$(‘viz’);VW=vizC.width=z.offsetWidth||300;VH=vizC.height=z.offsetHeight||162;
-vPts=[];const n=Math.min(90,Math.floor(VW*VH/1400));
-for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,r=(Math.random()*.42+.04)*VH;vPts.push({bx:VW/2+Math.cos(a)*r*2.1,by:VH/2+Math.sin(a)*r*.5,x:0,y:0,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.16,r:Math.random()*1.8+.6,a:Math.random()*.6+.3,ph:Math.random()*Math.PI*2,spd:Math.random()*.02+.005,amp:Math.random()*24+8,h:Math.random()>.3?188:265});}
+function resizeViz(){const z=$('viz');VW=vizC.width=z.offsetWidth||300;VH=vizC.height=z.offsetHeight||162;
+  vPts=[];const n=Math.min(90,Math.floor(VW*VH/1400));
+  for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,r=(Math.random()*.42+.04)*VH;vPts.push({bx:VW/2+Math.cos(a)*r*2.1,by:VH/2+Math.sin(a)*r*.5,x:0,y:0,vx:(Math.random()-.5)*.28,vy:(Math.random()-.5)*.16,r:Math.random()*1.8+.6,a:Math.random()*.6+.3,ph:Math.random()*Math.PI*2,spd:Math.random()*.02+.005,amp:Math.random()*24+8,h:Math.random()>.3?188:265});}
 }
 function drawViz(){
-vFr++;vizX.clearRect(0,0,VW,VH);
-if(vTalk)vEn=Math.min(1,vEn+.055);else vEn=Math.max(0,vEn-.02);
-if(vEn>.02){const g=vizX.createRadialGradient(VW/2,VH/2,0,VW/2,VH/2,VH*.6);g.addColorStop(0,`rgba(0,240,255,${.03+vEn*.07})`);g.addColorStop(1,‘transparent’);vizX.fillStyle=g;vizX.fillRect(0,0,VW,VH);}
-for(let w=0;w<3;w++){vizX.beginPath();const amp=(15+vEn*45)*(1-w*.12),freq=.015+w*.003,phase=vFr*.025+w*1.1;vizX.strokeStyle=`hsla(${w%2===0?188:265},100%,62%,${(.45-w*.07)+vEn*.18})`;vizX.lineWidth=1.2-w*.12;for(let x=0;x<=VW;x+=3){const y=VH/2+Math.sin(x*freq+phase)*amp+Math.sin(x*freq*.45+phase*.65)*amp*.35;x===0?vizX.moveTo(x,y):vizX.lineTo(x,y);}vizX.stroke();}
-for(const p of vPts){p.ph+=p.spd;const e=vTalk?1+vEn*2:1;p.x=p.bx+Math.cos(p.ph)*p.amp*.27*e+Math.sin(vFr*.009+p.ph)*7.5*e;p.y=p.by+Math.sin(p.bx*.013+vFr*.019)*p.amp*e;p.bx+=p.vx*(vTalk?.48:.14);p.by+=p.vy*(vTalk?.24:.07);if(p.bx<20||p.bx>VW-20)p.vx*=-1;if(p.by<VH*.08||p.by>VH*.92)p.vy*=-1;vizX.beginPath();vizX.arc(p.x,p.y,p.r*(1+vEn*.38),0,Math.PI*2);vizX.fillStyle=`hsla(${p.h},100%,68%,${p.a*(vTalk?.88:.48)})`;vizX.fill();}
-requestAnimationFrame(drawViz);
+  vFr++;vizX.clearRect(0,0,VW,VH);
+  if(vTalk)vEn=Math.min(1,vEn+.055);else vEn=Math.max(0,vEn-.02);
+  if(vEn>.02){const g=vizX.createRadialGradient(VW/2,VH/2,0,VW/2,VH/2,VH*.6);g.addColorStop(0,`rgba(0,240,255,${.03+vEn*.07})`);g.addColorStop(1,'transparent');vizX.fillStyle=g;vizX.fillRect(0,0,VW,VH);}
+  for(let w=0;w<3;w++){vizX.beginPath();const amp=(15+vEn*45)*(1-w*.12),freq=.015+w*.003,phase=vFr*.025+w*1.1;vizX.strokeStyle=`hsla(${w%2===0?188:265},100%,62%,${(.45-w*.07)+vEn*.18})`;vizX.lineWidth=1.2-w*.12;for(let x=0;x<=VW;x+=3){const y=VH/2+Math.sin(x*freq+phase)*amp+Math.sin(x*freq*.45+phase*.65)*amp*.35;x===0?vizX.moveTo(x,y):vizX.lineTo(x,y);}vizX.stroke();}
+  for(const p of vPts){p.ph+=p.spd;const e=vTalk?1+vEn*2:1;p.x=p.bx+Math.cos(p.ph)*p.amp*.27*e+Math.sin(vFr*.009+p.ph)*7.5*e;p.y=p.by+Math.sin(p.bx*.013+vFr*.019)*p.amp*e;p.bx+=p.vx*(vTalk?.48:.14);p.by+=p.vy*(vTalk?.24:.07);if(p.bx<20||p.bx>VW-20)p.vx*=-1;if(p.by<VH*.08||p.by>VH*.92)p.vy*=-1;vizX.beginPath();vizX.arc(p.x,p.y,p.r*(1+vEn*.38),0,Math.PI*2);vizX.fillStyle=`hsla(${p.h},100%,68%,${p.a*(vTalk?.88:.48)})`;vizX.fill();}
+  requestAnimationFrame(drawViz);
 }
 setTimeout(()=>{resizeViz();drawViz();},80);
-window.addEventListener(‘resize’,()=>setTimeout(resizeViz,100));
-function setVizTalk(v){vTalk=v;const s=$(‘vizSt’);if(s){s.textContent=v?‘● SPEAKING’:‘● IDLE’;s.style.color=v?‘var(–c1)’:‘var(–acid)’;}}
+window.addEventListener('resize',()=>setTimeout(resizeViz,100));
+function setVizTalk(v){vTalk=v;const s=$('vizSt');if(s){s.textContent=v?'● SPEAKING':'● IDLE';s.style.color=v?'var(--c1)':'var(--acid)';}}
 
 // ══ FACE SPHERE ══
-const afC=$(‘ariaFaceC’),afX=afC.getContext(‘2d’);
+const afC=$('ariaFaceC'),afX=afC.getContext('2d');
 afC.width=182;afC.height=182;
 const SPH=[];
 for(let lat=0;lat<=16;lat++){const phi=(lat/16)*Math.PI,y0=Math.cos(phi),r0=Math.sin(phi),n=Math.max(1,Math.round(24*r0));for(let i=0;i<n;i++){const t=(i/n)*Math.PI*2;SPH.push({ox:Math.cos(t)*r0,oy:y0,oz:Math.sin(t)*r0,ph:Math.random()*Math.PI*2,sz:Math.random()*.9+.4});}}
 let afFr=0,afTalk=false,afEn=0;
 function drawFace(){
-afFr++;if(afTalk)afEn=Math.min(1,afEn+.055);else afEn=Math.max(0,afEn-.022);
-const W=182,H=182,cx=91,cy=91,R=74;afX.clearRect(0,0,W,H);
-if(afEn>.02){const g=afX.createRadialGradient(cx,cy,0,cx,cy,R*.75);g.addColorStop(0,`rgba(0,200,255,${.04+afEn*.1})`);g.addColorStop(1,‘transparent’);afX.fillStyle=g;afX.fillRect(0,0,W,H);}
-const rotY=afFr*.011+Math.sin(afFr*.007)*.28,rotX=Math.sin(afFr*.008)*.22+(afTalk?Math.sin(afFr*.04)*.07:0);
-const cY=Math.cos(rotY),sY=Math.sin(rotY),cX=Math.cos(rotX),sX=Math.sin(rotX);
-const pulse=1+afEn*(Math.sin(afFr*.14)*.5+.5)*.16;
-const proj=SPH.map(p=>{const x1=p.ox*cY-p.oz*sY,z1=p.ox*sY+p.oz*cY,y1=p.oy*cX-z1*sX,z2=p.oy*sX+z1*cX;return{px:cx+x1*R*pulse,py:cy-y1*R*pulse,d:(z2+1)*.5,p};}).sort((a,b)=>a.d-b.d);
-for(const{px,py,d,p}of proj){const sz=p.sz*(d*.55+.35)*(1+afEn*.28),r2=Math.floor(d*70+afEn*50),g2=Math.floor(180+d*60+afEn*35),al=(d*.65+.28)*(afTalk?.9:.52);if(sz>1){afX.beginPath();afX.arc(px,py,sz*2,0,Math.PI*2);afX.fillStyle=`rgba(${r2},${g2},255,${al*.1})`;afX.fill();}afX.beginPath();afX.arc(px,py,sz,0,Math.PI*2);afX.fillStyle=`rgba(${r2},${g2},255,${al})`;afX.fill();}
-requestAnimationFrame(drawFace);
+  afFr++;if(afTalk)afEn=Math.min(1,afEn+.055);else afEn=Math.max(0,afEn-.022);
+  const W=182,H=182,cx=91,cy=91,R=74;afX.clearRect(0,0,W,H);
+  if(afEn>.02){const g=afX.createRadialGradient(cx,cy,0,cx,cy,R*.75);g.addColorStop(0,`rgba(0,200,255,${.04+afEn*.1})`);g.addColorStop(1,'transparent');afX.fillStyle=g;afX.fillRect(0,0,W,H);}
+  const rotY=afFr*.011+Math.sin(afFr*.007)*.28,rotX=Math.sin(afFr*.008)*.22+(afTalk?Math.sin(afFr*.04)*.07:0);
+  const cY=Math.cos(rotY),sY=Math.sin(rotY),cX=Math.cos(rotX),sX=Math.sin(rotX);
+  const pulse=1+afEn*(Math.sin(afFr*.14)*.5+.5)*.16;
+  const proj=SPH.map(p=>{const x1=p.ox*cY-p.oz*sY,z1=p.ox*sY+p.oz*cY,y1=p.oy*cX-z1*sX,z2=p.oy*sX+z1*cX;return{px:cx+x1*R*pulse,py:cy-y1*R*pulse,d:(z2+1)*.5,p};}).sort((a,b)=>a.d-b.d);
+  for(const{px,py,d,p}of proj){const sz=p.sz*(d*.55+.35)*(1+afEn*.28),r2=Math.floor(d*70+afEn*50),g2=Math.floor(180+d*60+afEn*35),al=(d*.65+.28)*(afTalk?.9:.52);if(sz>1){afX.beginPath();afX.arc(px,py,sz*2,0,Math.PI*2);afX.fillStyle=`rgba(${r2},${g2},255,${al*.1})`;afX.fill();}afX.beginPath();afX.arc(px,py,sz,0,Math.PI*2);afX.fillStyle=`rgba(${r2},${g2},255,${al})`;afX.fill();}
+  requestAnimationFrame(drawFace);
 }
 drawFace();
 function setFaceTalk(v){afTalk=v;setVizTalk(v);}
 
 // ══ PHONE SPHERE ══
-const phC=$(‘phC’),phX=phC.getContext(‘2d’);phC.width=220;phC.height=220;
+const phC=$('phC'),phX=phC.getContext('2d');phC.width=220;phC.height=220;
 let phFr=0,phActive=false;
 function drawPhone(){
-phFr++;if(!phActive){requestAnimationFrame(drawPhone);return;}
-phX.clearRect(0,0,220,220);const cx=110,cy=110,R=96,rotY=phFr*.009,rotX=Math.sin(phFr*.007)*.2;
-const cY=Math.cos(rotY),sY=Math.sin(rotY),cX=Math.cos(rotX),sX=Math.sin(rotX);
-const proj=SPH.map(p=>{const x1=p.ox*cY-p.oz*sY,z1=p.ox*sY+p.oz*cY,y1=p.oy*cX-z1*sX,z2=p.oy*sX+z1*cX;return{px:cx+x1*R,py:cy-y1*R,d:(z2+1)*.5,p};}).sort((a,b)=>a.d-b.d);
-for(const{px,py,d,p}of proj){const sz=p.sz*(d*.6+.3)*1.3,al=(d*.7+.25)*.85;phX.beginPath();phX.arc(px,py,sz,0,Math.PI*2);phX.fillStyle=`rgba(0,${Math.floor(180+d*60)},255,${al})`;phX.fill();}
-requestAnimationFrame(drawPhone);
+  phFr++;if(!phActive){requestAnimationFrame(drawPhone);return;}
+  phX.clearRect(0,0,220,220);const cx=110,cy=110,R=96,rotY=phFr*.009,rotX=Math.sin(phFr*.007)*.2;
+  const cY=Math.cos(rotY),sY=Math.sin(rotY),cX=Math.cos(rotX),sX=Math.sin(rotX);
+  const proj=SPH.map(p=>{const x1=p.ox*cY-p.oz*sY,z1=p.ox*sY+p.oz*cY,y1=p.oy*cX-z1*sX,z2=p.oy*sX+z1*cX;return{px:cx+x1*R,py:cy-y1*R,d:(z2+1)*.5,p};}).sort((a,b)=>a.d-b.d);
+  for(const{px,py,d,p}of proj){const sz=p.sz*(d*.6+.3)*1.3,al=(d*.7+.25)*.85;phX.beginPath();phX.arc(px,py,sz,0,Math.PI*2);phX.fillStyle=`rgba(0,${Math.floor(180+d*60)},255,${al})`;phX.fill();}
+  requestAnimationFrame(drawPhone);
 }
 drawPhone();
 
 // ══ RADAR ══
-const rdC=$(‘rdC’),rdX=rdC.getContext(‘2d’);let rdA=0;
+const rdC=$('rdC'),rdX=rdC.getContext('2d');let rdA=0;
 const blips=[{a:.5,r:.55,s:2.2},{a:2.1,r:.72,s:1.6},{a:4.0,r:.38,s:1.9},{a:1.1,r:.88,s:1.3}];
 function drawRadar(){
-rdX.clearRect(0,0,148,148);const cx=74,cy=74,mR=64;
-for(let i=1;i<=4;i++){rdX.beginPath();rdX.arc(cx,cy,mR*i/4,0,Math.PI*2);rdX.strokeStyle=`rgba(0,240,255,${.05+i*.016})`;rdX.lineWidth=.7;rdX.stroke();}
-rdX.strokeStyle=‘rgba(0,240,255,.07)’;rdX.lineWidth=.5;rdX.beginPath();rdX.moveTo(cx,cy-mR);rdX.lineTo(cx,cy+mR);rdX.stroke();rdX.beginPath();rdX.moveTo(cx-mR,cy);rdX.lineTo(cx+mR,cy);rdX.stroke();
-rdA+=.025;for(let s=0;s<6;s++){rdX.beginPath();rdX.moveTo(cx,cy);rdX.arc(cx,cy,mR,rdA-1.1*(s/6),rdA-1.1*((s-1)/6));rdX.closePath();rdX.fillStyle=`rgba(0,240,255,${(s/6)*.22})`;rdX.fill();}
-rdX.beginPath();rdX.moveTo(cx,cy);rdX.lineTo(cx+Math.cos(rdA)*mR,cy+Math.sin(rdA)*mR);rdX.strokeStyle=‘rgba(0,240,255,.85)’;rdX.lineWidth=1.4;rdX.stroke();
-for(const b of blips){const diff=((rdA-b.a)%(Math.PI*2)+Math.PI*2)%(Math.PI*2),fade=Math.max(0,1-diff/(Math.PI*.5));if(fade>.05){const bx=cx+Math.cos(b.a)*mR*b.r,by=cy+Math.sin(b.a)*mR*b.r;rdX.beginPath();rdX.arc(bx,by,b.s,0,Math.PI*2);rdX.fillStyle=`rgba(57,255,20,${fade*.8})`;rdX.fill();}}
-rdX.beginPath();rdX.arc(cx,cy,3,0,Math.PI*2);rdX.fillStyle=‘rgba(0,240,255,.9)’;rdX.fill();
-requestAnimationFrame(drawRadar);
+  rdX.clearRect(0,0,148,148);const cx=74,cy=74,mR=64;
+  for(let i=1;i<=4;i++){rdX.beginPath();rdX.arc(cx,cy,mR*i/4,0,Math.PI*2);rdX.strokeStyle=`rgba(0,240,255,${.05+i*.016})`;rdX.lineWidth=.7;rdX.stroke();}
+  rdX.strokeStyle='rgba(0,240,255,.07)';rdX.lineWidth=.5;rdX.beginPath();rdX.moveTo(cx,cy-mR);rdX.lineTo(cx,cy+mR);rdX.stroke();rdX.beginPath();rdX.moveTo(cx-mR,cy);rdX.lineTo(cx+mR,cy);rdX.stroke();
+  rdA+=.025;for(let s=0;s<6;s++){rdX.beginPath();rdX.moveTo(cx,cy);rdX.arc(cx,cy,mR,rdA-1.1*(s/6),rdA-1.1*((s-1)/6));rdX.closePath();rdX.fillStyle=`rgba(0,240,255,${(s/6)*.22})`;rdX.fill();}
+  rdX.beginPath();rdX.moveTo(cx,cy);rdX.lineTo(cx+Math.cos(rdA)*mR,cy+Math.sin(rdA)*mR);rdX.strokeStyle='rgba(0,240,255,.85)';rdX.lineWidth=1.4;rdX.stroke();
+  for(const b of blips){const diff=((rdA-b.a)%(Math.PI*2)+Math.PI*2)%(Math.PI*2),fade=Math.max(0,1-diff/(Math.PI*.5));if(fade>.05){const bx=cx+Math.cos(b.a)*mR*b.r,by=cy+Math.sin(b.a)*mR*b.r;rdX.beginPath();rdX.arc(bx,by,b.s,0,Math.PI*2);rdX.fillStyle=`rgba(57,255,20,${fade*.8})`;rdX.fill();}}
+  rdX.beginPath();rdX.arc(cx,cy,3,0,Math.PI*2);rdX.fillStyle='rgba(0,240,255,.9)';rdX.fill();
+  requestAnimationFrame(drawRadar);
 }
 drawRadar();
 
 // ══ CLOCK + SYS ══
 const T0=Date.now();
 function tick(){
-const n=new Date(),cl=$(‘clock’),dd=$(‘dateD’);
-if(cl)cl.textContent=n.toLocaleTimeString(‘fr-FR’,{hour:‘2-digit’,minute:‘2-digit’,second:‘2-digit’});
-if(dd)dd.textContent=n.toLocaleDateString(‘fr-FR’,{day:‘2-digit’,month:‘short’});
-const s=Math.floor((Date.now()-T0)/1000),lu=$(‘lUp’);
-if(lu)lu.textContent=String(Math.floor(s/60)).padStart(2,‘0’)+’:’+String(s%60).padStart(2,‘0’);
+  const n=new Date(),cl=$('clock'),dd=$('dateD');
+  if(cl)cl.textContent=n.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  if(dd)dd.textContent=n.toLocaleDateString('fr-FR',{day:'2-digit',month:'short'});
+  const s=Math.floor((Date.now()-T0)/1000),lu=$('lUp');
+  if(lu)lu.textContent=String(Math.floor(s/60)).padStart(2,'0')+':'+String(s%60).padStart(2,'0');
 }
 setInterval(tick,1000);tick();
 setInterval(()=>{
-const j=()=>Math.random()*14-7;
-[[‘sCpu’,‘vCpu’,j()],[‘sRam’,‘vRam’,j()*.5],[‘sNet’,‘vNet’,j()*1.2]].forEach(([si,vi,v])=>{const s=$(si),ve=$(vi);if(!s||!ve)return;const nv=Math.min(94,Math.max(14,parseFloat(s.style.width)+v));s.style.width=nv+’%’;ve.textContent=Math.round(nv)+’%’;});
+  const j=()=>Math.random()*14-7;
+  [['sCpu','vCpu',j()],['sRam','vRam',j()*.5],['sNet','vNet',j()*1.2]].forEach(([si,vi,v])=>{const s=$(si),ve=$(vi);if(!s||!ve)return;const nv=Math.min(94,Math.max(14,parseFloat(s.style.width)+v));s.style.width=nv+'%';ve.textContent=Math.round(nv)+'%';});
 },2000);
 // ══ GPS + MÉTÉO ══
-const WC={0:“Ciel dégagé ☀️”,1:“Principalement dégagé 🌤️”,2:“Partiellement nuageux ⛅”,3:“Couvert ☁️”,45:“Brouillard 🌫️”,51:“Bruine légère 🌦️”,53:“Bruine modérée 🌦️”,55:“Bruine dense 🌧️”,61:“Pluie légère 🌧️”,63:“Pluie modérée 🌧️”,65:“Pluie forte 🌧️”,71:“Neige légère ❄️”,73:“Neige modérée ❄️”,75:“Neige forte ❄️”,80:“Averses 🌦️”,81:“Averses modérées 🌧️”,82:“Averses violentes ⛈️”,95:“Orage ⛈️”,96:“Orage avec grêle ⛈️”};
+const WC={0:"Ciel dégagé ☀️",1:"Principalement dégagé 🌤️",2:"Partiellement nuageux ⛅",3:"Couvert ☁️",45:"Brouillard 🌫️",51:"Bruine légère 🌦️",53:"Bruine modérée 🌦️",55:"Bruine dense 🌧️",61:"Pluie légère 🌧️",63:"Pluie modérée 🌧️",65:"Pluie forte 🌧️",71:"Neige légère ❄️",73:"Neige modérée ❄️",75:"Neige forte ❄️",80:"Averses 🌦️",81:"Averses modérées 🌧️",82:"Averses violentes ⛈️",95:"Orage ⛈️",96:"Orage avec grêle ⛈️"};
 function initGPS(){
-if(!navigator.geolocation){$(‘wxContent’).innerHTML=’<div class="wx-load">GPS NON DISPONIBLE</div>’;return;}
-navigator.geolocation.getCurrentPosition(async pos=>{
-const{latitude:lat,longitude:lon}=pos.coords;
-$(‘coordLat’).textContent=‘LAT ‘+lat.toFixed(4);$(‘coordLon’).textContent=‘LON ‘+lon.toFixed(4);
-$(‘mapFrame’).src=`https://www.openstreetmap.org/export/embed.html?bbox=${lon-.018},${lat-.013},${lon+.018},${lat+.013}&layer=mapnik&marker=${lat},${lon}`;
-try{const geo=await(await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)).json();const a=geo.address;$(‘mapAddr’).textContent=[a.road,a.city||a.town||a.village].filter(Boolean).join(’, ‘);}catch(e){$(‘mapAddr’).textContent=`${lat.toFixed(3)}°N ${lon.toFixed(3)}°E`;}
-try{
-const w=await(await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=relativehumidity_2m,apparent_temperature&timezone=auto`)).json();
-const cw=w.current_weather,desc=WC[cw.weathercode]||‘Variable’,ico=desc.split(’ ‘).pop();
-const hi=w.hourly.time?.findIndex(t=>t===cw.time)||0;
-const hum=w.hourly.relativehumidity_2m?.[hi]||’–’,feel=w.hourly.apparent_temperature?.[hi]??cw.temperature;
-$(‘wxContent’).innerHTML=`<div class="wx-top"><div class="wx-ico">${ico}</div><div><div class="wx-temp">${cw.temperature}°</div><div class="wx-loc">POSITION ACTUELLE</div></div></div><div class="wx-cond">${desc.replace(/[^\w\sÀ-ÿ]/gi,'').trim()}</div><div class="wx-grid"><div class="wx-cell"><div class="wx-cell-l">VENT</div><div class="wx-cell-v">${cw.windspeed}<small style="font-size:8px;color:var(--muted)"> km/h</small></div></div><div class="wx-cell"><div class="wx-cell-l">HUMI</div><div class="wx-cell-v">${hum}<small style="font-size:8px;color:var(--muted)">%</small></div></div><div class="wx-cell"><div class="wx-cell-l">RESSENTI</div><div class="wx-cell-v">${feel}<small style="font-size:8px;color:var(--muted)">°</small></div></div><div class="wx-cell"><div class="wx-cell-l">CODE</div><div class="wx-cell-v" style="font-size:10px">${cw.weathercode}</div></div></div>`;
-const lv=$(‘lTemp’);if(lv)lv.textContent=cw.temperature+‘°C’;
-}catch(e){$(‘wxContent’).innerHTML=’<div class="wx-load">MÉTÉO INDISPONIBLE</div>’;}
-},()=>{$(‘wxContent’).innerHTML=’<div class="wx-load">GPS REFUSÉ</div>’;$(‘mapAddr’).textContent=‘Position non disponible’;});
+  if(!navigator.geolocation){$('wxContent').innerHTML='<div class="wx-load">GPS NON DISPONIBLE</div>';return;}
+  navigator.geolocation.getCurrentPosition(async pos=>{
+    const{latitude:lat,longitude:lon}=pos.coords;
+    $('coordLat').textContent='LAT '+lat.toFixed(4);$('coordLon').textContent='LON '+lon.toFixed(4);
+    $('mapFrame').src=`https://www.openstreetmap.org/export/embed.html?bbox=${lon-.018},${lat-.013},${lon+.018},${lat+.013}&layer=mapnik&marker=${lat},${lon}`;
+    try{const geo=await(await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)).json();const a=geo.address;$('mapAddr').textContent=[a.road,a.city||a.town||a.village].filter(Boolean).join(', ');}catch(e){$('mapAddr').textContent=`${lat.toFixed(3)}°N ${lon.toFixed(3)}°E`;}
+    try{
+      const w=await(await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=relativehumidity_2m,apparent_temperature&timezone=auto`)).json();
+      const cw=w.current_weather,desc=WC[cw.weathercode]||'Variable',ico=desc.split(' ').pop();
+      const hi=w.hourly.time?.findIndex(t=>t===cw.time)||0;
+      const hum=w.hourly.relativehumidity_2m?.[hi]||'--',feel=w.hourly.apparent_temperature?.[hi]??cw.temperature;
+      $('wxContent').innerHTML=`<div class="wx-top"><div class="wx-ico">${ico}</div><div><div class="wx-temp">${cw.temperature}°</div><div class="wx-loc">POSITION ACTUELLE</div></div></div><div class="wx-cond">${desc.replace(/[^\w\sÀ-ÿ]/gi,'').trim()}</div><div class="wx-grid"><div class="wx-cell"><div class="wx-cell-l">VENT</div><div class="wx-cell-v">${cw.windspeed}<small style="font-size:8px;color:var(--muted)"> km/h</small></div></div><div class="wx-cell"><div class="wx-cell-l">HUMI</div><div class="wx-cell-v">${hum}<small style="font-size:8px;color:var(--muted)">%</small></div></div><div class="wx-cell"><div class="wx-cell-l">RESSENTI</div><div class="wx-cell-v">${feel}<small style="font-size:8px;color:var(--muted)">°</small></div></div><div class="wx-cell"><div class="wx-cell-l">CODE</div><div class="wx-cell-v" style="font-size:10px">${cw.weathercode}</div></div></div>`;
+      const lv=$('lTemp');if(lv)lv.textContent=cw.temperature+'°C';
+    }catch(e){$('wxContent').innerHTML='<div class="wx-load">MÉTÉO INDISPONIBLE</div>';}
+  },()=>{$('wxContent').innerHTML='<div class="wx-load">GPS REFUSÉ</div>';$('mapAddr').textContent='Position non disponible';});
 }
 async function fetchWxCity(city){
-try{const g=await(await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(city)}&format=json&limit=1`)).json();if(!g.length)return null;const{lat,lon,display_name}=g[0];const w=await(await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&timezone=auto`)).json();const cw=w.current_weather;return{temp:cw.temperature,wind:cw.windspeed,desc:WC[cw.weathercode]||‘Variable’,city:display_name.split(’,’)[0]};}catch(e){return null;}
+  try{const g=await(await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(city)}&format=json&limit=1`)).json();if(!g.length)return null;const{lat,lon,display_name}=g[0];const w=await(await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&timezone=auto`)).json();const cw=w.current_weather;return{temp:cw.temperature,wind:cw.windspeed,desc:WC[cw.weathercode]||'Variable',city:display_name.split(',')[0]};}catch(e){return null;}
 }
-function wHTML(d){const ico=d.desc.includes(‘☀️’)?‘☀️’:d.desc.includes(‘⛅’)?‘⛅’:d.desc.includes(‘🌧️’)?‘🌧️’:d.desc.includes(‘❄️’)?‘❄️’:d.desc.includes(‘⛈️’)?‘⛈️’:‘🌤️’;return`Météo à <strong>${esc(d.city)}</strong> :<div class="wcard"><div class="wc-i">${ico}</div><div><div class="wc-t">${d.temp}°C</div><div class="wc-d">${d.desc.replace(/[^\w\sÀ-ÿ]/gi,'').trim()}</div><div class="wc-w">💨 ${d.wind} km/h</div></div></div>`;}
+function wHTML(d){const ico=d.desc.includes('☀️')?'☀️':d.desc.includes('⛅')?'⛅':d.desc.includes('🌧️')?'🌧️':d.desc.includes('❄️')?'❄️':d.desc.includes('⛈️')?'⛈️':'🌤️';return`Météo à <strong>${esc(d.city)}</strong> :<div class="wcard"><div class="wc-i">${ico}</div><div><div class="wc-t">${d.temp}°C</div><div class="wc-d">${d.desc.replace(/[^\w\sÀ-ÿ]/gi,'').trim()}</div><div class="wc-w">💨 ${d.wind} km/h</div></div></div>`;}
 
 // ══ RSS NEWS ══
-const RSS=[{name:‘Le Monde’,url:‘https://www.lemonde.fr/rss/une.xml’},{name:‘France Info’,url:‘https://www.francetvinfo.fr/titres.rss’},{name:‘BBC’,url:‘https://feeds.bbci.co.uk/news/world/rss.xml’}];
+const RSS=[{name:'Le Monde',url:'https://www.lemonde.fr/rss/une.xml'},{name:'France Info',url:'https://www.francetvinfo.fr/titres.rss'},{name:'BBC',url:'https://feeds.bbci.co.uk/news/world/rss.xml'}];
 let cachedNews=null;
-async function fetchRSS(url){try{const r=await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,{signal:AbortSignal.timeout(5000)});const d=await r.json();const doc=new DOMParser().parseFromString(d.contents,‘text/xml’);return Array.from(doc.querySelectorAll(‘item’)).slice(0,5).map(it=>({title:it.querySelector(‘title’)?.textContent?.trim()||’’,desc:it.querySelector(‘description’)?.textContent?.replace(/<[^>]+>/g,’’).trim().substring(0,90)||’’})).filter(it=>it.title.length>5);}catch(e){return[];}}
+async function fetchRSS(url){try{const r=await fetch(`https://api.allorigins.win/get?url=${encodeURIComponent(url)}`,{signal:AbortSignal.timeout(5000)});const d=await r.json();const doc=new DOMParser().parseFromString(d.contents,'text/xml');return Array.from(doc.querySelectorAll('item')).slice(0,5).map(it=>({title:it.querySelector('title')?.textContent?.trim()||'',desc:it.querySelector('description')?.textContent?.replace(/<[^>]+>/g,'').trim().substring(0,90)||''})).filter(it=>it.title.length>5);}catch(e){return[];}}
 async function loadNews(){for(const s of RSS){const items=await fetchRSS(s.url);if(items.length>=2)return{source:s.name,items};}return null;}
 async function renderNews(){
-const el=$(‘newsList’);if(el)el.innerHTML=’<div class="wx-load">CHARGEMENT…</div>’;
-const d=await loadNews();cachedNews=d;
-if(!d||!el){if(el)el.innerHTML=’<div class="wx-load">CONNEXION REQUISE</div>’;return null;}
-el.innerHTML=d.items.map((it,i)=>`<div class="news-item"><div class="news-num">#${i+1} · ${esc(d.source)}</div><div class="news-ttl">${esc(it.title)}</div>${it.desc?`<div class="news-src">${esc(it.desc.substring(0,72))}…</div>`:''}</div>`).join(’’);
-const tk=$(‘ticker’);if(tk)tk.innerHTML=d.items.map(it=>`<span class="tk">◈</span> ${esc(it.title)}`).join(’ <span class="tk">|</span> ‘)+’<span class="tk"> | </span> ARIA v3.1 <span class="tk">|</span> OPÉRATIONNEL’;
-return d;
+  const el=$('newsList');if(el)el.innerHTML='<div class="wx-load">CHARGEMENT...</div>';
+  const d=await loadNews();cachedNews=d;
+  if(!d||!el){if(el)el.innerHTML='<div class="wx-load">CONNEXION REQUISE</div>';return null;}
+  el.innerHTML=d.items.map((it,i)=>`<div class="news-item"><div class="news-num">#${i+1} · ${esc(d.source)}</div><div class="news-ttl">${esc(it.title)}</div>${it.desc?`<div class="news-src">${esc(it.desc.substring(0,72))}...</div>`:''}</div>`).join('');
+  const tk=$('ticker');if(tk)tk.innerHTML=d.items.map(it=>`<span class="tk">◈</span> ${esc(it.title)}`).join(' <span class="tk">|</span> ')+'<span class="tk"> | </span> ARIA v3.1 <span class="tk">|</span> OPÉRATIONNEL';
+  return d;
 }
 
 // ══ MÉMOIRE ══
 const MEM=[];
-function remember(u,b){MEM.push({u:norm(u),b:b.replace(/<[^>]+>/g,’’).substring(0,100)});if(MEM.length>6)MEM.shift();}
+function remember(u,b){MEM.push({u:norm(u),b:b.replace(/<[^>]+>/g,'').substring(0,100)});if(MEM.length>6)MEM.shift();}
 function getCtx(){return MEM.slice(-3);}
 
 // ══ QUIZ ══
 let quizOn=false,quizScore=0,quizTotal=0,quizCur=null,quizList=null;
 const QZ=[
-{q:“Capitale de l’Australie ?”,a:“canberra”,h:“Ce n’est pas Sydney !”},
-{q:“Année de la Révolution française ?”,a:“1789”,h:“Louis XVI était roi.”},
-{q:“Combien d’os dans le corps adulte ?”,a:“206”,h:“Entre 200 et 210.”},
-{q:“Qui a peint la Joconde ?”,a:“leonard de vinci”,h:“Génie de la Renaissance.”},
-{q:“Plus grande planète du système solaire ?”,a:“jupiter”,h:“Elle contient 1300 Terres.”},
-{q:“Année de fondation de Google ?”,a:“1998”,h:“Deux étudiants de Stanford.”},
-{q:“Plus long fleuve du monde ?”,a:“nil”,h:“En Afrique, vers la Méditerranée.”},
-{q:“17 × 18 = ?”,a:“306”,h:”(17×20) - (17×2)”},
-{q:“Qui a découvert la pénicilline ?”,a:“fleming”,h:“En 1928, par accident.”},
-{q:“Vitesse de la lumière (km/s) ?”,a:“300000”,h:“Environ 300 000.”},
-{q:“Pays du mont Everest ?”,a:“nepal”,h:“Dans l’Himalaya.”},
-{q:“Auteur des Misérables ?”,a:“hugo”,h:“Victor, XIXe siècle.”},
-{q:“Symbole chimique de l’or ?”,a:“au”,h:“Du latin aurum.”},
-{q:“Année du 1er homme sur la Lune ?”,a:“1969”,h:“Mission Apollo 11.”},
-{q:“Monnaie du Japon ?”,a:“yen”,h:“Symbole ¥”},
-{q:“Combien de couleurs dans un arc-en-ciel ?”,a:“7”,h:“Rouge, orange, jaune…”},
-{q:“Capitale du Brésil ?”,a:“brasilia”,h:“Pas Rio ni São Paulo !”},
-{q:“Inventeur du téléphone ?”,a:“bell”,h:“Alexander Graham, 1876.”},
-{q:“Formule chimique de l’eau ?”,a:“h2o”,h:“2 hydrogènes, 1 oxygène.”},
-{q:“Année du 1er iPhone ?”,a:“2007”,h:“Présenté par Steve Jobs.”},
-{q:“Combien de planètes dans le système solaire ?”,a:“8”,h:“Pluton n’en fait plus partie.”},
-{q:“Quel est le plus petit os du corps humain ?”,a:“etrier”,h:“Il est dans l’oreille.”},
-{q:“Qui a écrit Hamlet ?”,a:“shakespeare”,h:“Dramaturge anglais du XVIe s.”},
-{q:“En quelle année Einstein a publié E=mc² ?”,a:“1905”,h:“Début du XXe siècle.”},
-{q:“Capitale de la Russie ?”,a:“moscou”,h:“Sur la Moskova.”},
+  {q:"Capitale de l'Australie ?",a:"canberra",h:"Ce n'est pas Sydney !"},
+  {q:"Année de la Révolution française ?",a:"1789",h:"Louis XVI était roi."},
+  {q:"Combien d'os dans le corps adulte ?",a:"206",h:"Entre 200 et 210."},
+  {q:"Qui a peint la Joconde ?",a:"leonard de vinci",h:"Génie de la Renaissance."},
+  {q:"Plus grande planète du système solaire ?",a:"jupiter",h:"Elle contient 1300 Terres."},
+  {q:"Année de fondation de Google ?",a:"1998",h:"Deux étudiants de Stanford."},
+  {q:"Plus long fleuve du monde ?",a:"nil",h:"En Afrique, vers la Méditerranée."},
+  {q:"17 × 18 = ?",a:"306",h:"(17×20) - (17×2)"},
+  {q:"Qui a découvert la pénicilline ?",a:"fleming",h:"En 1928, par accident."},
+  {q:"Vitesse de la lumière (km/s) ?",a:"300000",h:"Environ 300 000."},
+  {q:"Pays du mont Everest ?",a:"nepal",h:"Dans l'Himalaya."},
+  {q:"Auteur des Misérables ?",a:"hugo",h:"Victor, XIXe siècle."},
+  {q:"Symbole chimique de l'or ?",a:"au",h:"Du latin aurum."},
+  {q:"Année du 1er homme sur la Lune ?",a:"1969",h:"Mission Apollo 11."},
+  {q:"Monnaie du Japon ?",a:"yen",h:"Symbole ¥"},
+  {q:"Combien de couleurs dans un arc-en-ciel ?",a:"7",h:"Rouge, orange, jaune..."},
+  {q:"Capitale du Brésil ?",a:"brasilia",h:"Pas Rio ni São Paulo !"},
+  {q:"Inventeur du téléphone ?",a:"bell",h:"Alexander Graham, 1876."},
+  {q:"Formule chimique de l'eau ?",a:"h2o",h:"2 hydrogènes, 1 oxygène."},
+  {q:"Année du 1er iPhone ?",a:"2007",h:"Présenté par Steve Jobs."},
+  {q:"Combien de planètes dans le système solaire ?",a:"8",h:"Pluton n'en fait plus partie."},
+  {q:"Quel est le plus petit os du corps humain ?",a:"etrier",h:"Il est dans l'oreille."},
+  {q:"Qui a écrit Hamlet ?",a:"shakespeare",h:"Dramaturge anglais du XVIe s."},
+  {q:"En quelle année Einstein a publié E=mc² ?",a:"1905",h:"Début du XXe siècle."},
+  {q:"Capitale de la Russie ?",a:"moscou",h:"Sur la Moskova."},
 ];
 function startQuiz(){
-quizOn=true;quizScore=0;quizTotal=0;quizList=[…QZ].sort(()=>Math.random()-.5);
-quizCur=quizList[0];
-return`🎯 <strong>QUIZ ARIA</strong><br><br>Question 1 : <strong>${quizCur.q}</strong><br><br><em style="font-size:11px;color:var(--muted2)">"indice" pour un indice · "stop" pour quitter</em>`;
+  quizOn=true;quizScore=0;quizTotal=0;quizList=[...QZ].sort(()=>Math.random()-.5);
+  quizCur=quizList[0];
+  return`🎯 <strong>QUIZ ARIA</strong><br><br>Question 1 : <strong>${quizCur.q}</strong><br><br><em style="font-size:11px;color:var(--muted2)">"indice" pour un indice · "stop" pour quitter</em>`;
 }
 function checkQuiz(raw){
-if(!quizOn||!quizCur)return null;
-const q=norm(raw);
-if(q===‘stop’||q===‘quitter’){quizOn=false;return`Quiz terminé. Score : <strong>${quizScore}/${quizTotal}</strong>. ${quizScore===quizTotal&&quizTotal>0?'Parfait 🏆':quizScore>quizTotal/2?'Bien joué 🎉':'Continue à apprendre 📚'}`;}
-if(q===‘indice’)return`💡 Indice : ${quizCur.h}`;
-quizTotal++;
-const isOk=q.includes(norm(quizCur.a))||norm(quizCur.a).includes(q);
-const prev=quizCur;
-const idx=quizList.indexOf(quizCur);
-quizCur=quizList[(idx+1)%quizList.length];
-if(isOk){quizScore++;return`✅ <strong>Correct !</strong> Score : ${quizScore}/${quizTotal}<br><br>Question ${quizTotal+1} : <strong>${quizCur.q}</strong>`;}
-return`❌ La réponse était : <em>${prev.a}</em><br>Score : ${quizScore}/${quizTotal}<br><br>Question ${quizTotal+1} : <strong>${quizCur.q}</strong>`;
+  if(!quizOn||!quizCur)return null;
+  const q=norm(raw);
+  if(q==='stop'||q==='quitter'){quizOn=false;return`Quiz terminé. Score : <strong>${quizScore}/${quizTotal}</strong>. ${quizScore===quizTotal&&quizTotal>0?'Parfait 🏆':quizScore>quizTotal/2?'Bien joué 🎉':'Continue à apprendre 📚'}`;}
+  if(q==='indice')return`💡 Indice : ${quizCur.h}`;
+  quizTotal++;
+  const isOk=q.includes(norm(quizCur.a))||norm(quizCur.a).includes(q);
+  const prev=quizCur;
+  const idx=quizList.indexOf(quizCur);
+  quizCur=quizList[(idx+1)%quizList.length];
+  if(isOk){quizScore++;return`✅ <strong>Correct !</strong> Score : ${quizScore}/${quizTotal}<br><br>Question ${quizTotal+1} : <strong>${quizCur.q}</strong>`;}
+  return`❌ La réponse était : <em>${prev.a}</em><br>Score : ${quizScore}/${quizTotal}<br><br>Question ${quizTotal+1} : <strong>${quizCur.q}</strong>`;
 }
 // ══ BASE DE CONNAISSANCES ══
-const CAPS={“france”:“Paris”,“allemagne”:“Berlin”,“espagne”:“Madrid”,“italie”:“Rome”,“portugal”:“Lisbonne”,“royaume uni”:“Londres”,“angleterre”:“Londres”,“belgique”:“Bruxelles”,“pays bas”:“Amsterdam”,“suisse”:“Berne”,“autriche”:“Vienne”,“suede”:“Stockholm”,“norvege”:“Oslo”,“danemark”:“Copenhague”,“finlande”:“Helsinki”,“pologne”:“Varsovie”,“russie”:“Moscou”,“ukraine”:“Kyiv”,“grece”:“Athènes”,“turquie”:“Ankara”,“maroc”:“Rabat”,“algerie”:“Alger”,“tunisie”:“Tunis”,“egypte”:“Le Caire”,“nigeria”:“Abuja”,“cameroun”:“Yaoundé”,“kenya”:“Nairobi”,“ethiopie”:“Addis-Abeba”,“afrique sud”:“Pretoria”,“etats unis”:“Washington D.C.”,“usa”:“Washington D.C.”,“canada”:“Ottawa”,“mexique”:“Mexico”,“cuba”:“La Havane”,“colombie”:“Bogotá”,“bresil”:“Brasília”,“argentine”:“Buenos Aires”,“chili”:“Santiago”,“perou”:“Lima”,“japon”:“Tokyo”,“chine”:“Pékin”,“coree sud”:“Séoul”,“inde”:“New Delhi”,“pakistan”:“Islamabad”,“arabie saoudite”:“Riyad”,“iran”:“Téhéran”,“irak”:“Bagdad”,“israel”:“Jérusalem”,“australie”:“Canberra”,“nouvelle zelande”:“Wellington”,“luxembourg”:“Luxembourg”,“monaco”:“Monaco”,“islande”:“Reykjavik”,“irlande”:“Dublin”,“roumanie”:“Bucarest”,“hongrie”:“Budapest”,“tcheque”:“Prague”,“slovaquie”:“Bratislava”,“croatie”:“Zagreb”,“serbie”:“Belgrade”,“bulgarie”:“Sofia”,“estonie”:“Tallinn”,“lettonie”:“Riga”,“lituanie”:“Vilnius”,“mongolie”:“Oulan-Bator”,“indonesie”:“Jakarta”,“philippines”:“Manille”,“vietnam”:“Hanoï”,“thaïlande”:“Bangkok”,“malaisie”:“Kuala Lumpur”,“singapour”:“Singapour”,“qatar”:“Doha”,“emirats arabes”:“Abou Dabi”,“afghanistan”:“Kaboul”,“vatican”:“Vatican”,“bielorussie”:“Minsk”,“moldavie”:“Chisinau”,“chypre”:“Nicosie”,“armenie”:“Erevan”,“georgie”:“Tbilissi”,“azerbaidjan”:“Bakou”,“kazakhstan”:“Astana”,“ouzbekistan”:“Tachkent”,“venezuela”:“Caracas”,“equateur”:“Quito”,“bolivie”:“Sucre”,“paraguay”:“Asuncion”,“uruguay”:“Montevideo”,“ghana”:“Accra”,“senegal”:“Dakar”,“cote ivoire”:“Yamoussoukro”,“mali”:“Bamako”,“niger”:“Niamey”,“cambodge”:“Phnom Penh”,“myanmar”:“Naypyidaw”,“sri lanka”:“Colombo”,“nepal”:“Katmandou”,“bangladesh”:“Dhaka”,“libye”:“Tripoli”,“soudan”:“Khartoum”,“somalie”:“Mogadiscio”,“angola”:“Luanda”,“mozambique”:“Maputo”,“zimbabwe”:“Harare”,“zambie”:“Lusaka”,“tanzanie”:“Dodoma”,“ouganda”:“Kampala”,“rwanda”:“Kigali”,“madagascar”:“Antananarivo”};
+const CAPS={"france":"Paris","allemagne":"Berlin","espagne":"Madrid","italie":"Rome","portugal":"Lisbonne","royaume uni":"Londres","angleterre":"Londres","belgique":"Bruxelles","pays bas":"Amsterdam","suisse":"Berne","autriche":"Vienne","suede":"Stockholm","norvege":"Oslo","danemark":"Copenhague","finlande":"Helsinki","pologne":"Varsovie","russie":"Moscou","ukraine":"Kyiv","grece":"Athènes","turquie":"Ankara","maroc":"Rabat","algerie":"Alger","tunisie":"Tunis","egypte":"Le Caire","nigeria":"Abuja","cameroun":"Yaoundé","kenya":"Nairobi","ethiopie":"Addis-Abeba","afrique sud":"Pretoria","etats unis":"Washington D.C.","usa":"Washington D.C.","canada":"Ottawa","mexique":"Mexico","cuba":"La Havane","colombie":"Bogotá","bresil":"Brasília","argentine":"Buenos Aires","chili":"Santiago","perou":"Lima","japon":"Tokyo","chine":"Pékin","coree sud":"Séoul","inde":"New Delhi","pakistan":"Islamabad","arabie saoudite":"Riyad","iran":"Téhéran","irak":"Bagdad","israel":"Jérusalem","australie":"Canberra","nouvelle zelande":"Wellington","luxembourg":"Luxembourg","monaco":"Monaco","islande":"Reykjavik","irlande":"Dublin","roumanie":"Bucarest","hongrie":"Budapest","tcheque":"Prague","slovaquie":"Bratislava","croatie":"Zagreb","serbie":"Belgrade","bulgarie":"Sofia","estonie":"Tallinn","lettonie":"Riga","lituanie":"Vilnius","mongolie":"Oulan-Bator","indonesie":"Jakarta","philippines":"Manille","vietnam":"Hanoï","thaïlande":"Bangkok","malaisie":"Kuala Lumpur","singapour":"Singapour","qatar":"Doha","emirats arabes":"Abou Dabi","afghanistan":"Kaboul","vatican":"Vatican","bielorussie":"Minsk","moldavie":"Chisinau","chypre":"Nicosie","armenie":"Erevan","georgie":"Tbilissi","azerbaidjan":"Bakou","kazakhstan":"Astana","ouzbekistan":"Tachkent","venezuela":"Caracas","equateur":"Quito","bolivie":"Sucre","paraguay":"Asuncion","uruguay":"Montevideo","ghana":"Accra","senegal":"Dakar","cote ivoire":"Yamoussoukro","mali":"Bamako","niger":"Niamey","cambodge":"Phnom Penh","myanmar":"Naypyidaw","sri lanka":"Colombo","nepal":"Katmandou","bangladesh":"Dhaka","libye":"Tripoli","soudan":"Khartoum","somalie":"Mogadiscio","angola":"Luanda","mozambique":"Maputo","zimbabwe":"Harare","zambie":"Lusaka","tanzanie":"Dodoma","ouganda":"Kampala","rwanda":"Kigali","madagascar":"Antananarivo"};
 
-const SPEC=new Set([“lumiere”,“everest”,“sahara”,“joconde”,“beethoven”,“guepard”,“baleine”,“penicilline”,“armstrong”,“darwin”,“pythagore”,“adn”,“neurones”,“bitcoin”,“shakespeare”,“picasso”,“napoleon”,“pi”,“iphone”,“louvre”,“mozart”,“einstein”,“socrate”,“tesla”,“freud”,“darwin”,“galilee”,“copernic”,“pasteur”,“curie”,“newton”,“archimede”]);
+const SPEC=new Set(["lumiere","everest","sahara","joconde","beethoven","guepard","baleine","penicilline","armstrong","darwin","pythagore","adn","neurones","bitcoin","shakespeare","picasso","napoleon","pi","iphone","louvre","mozart","einstein","socrate","tesla","freud","darwin","galilee","copernic","pasteur","curie","newton","archimede"]);
 
 const KB=[
-{t:[“lumiere”,“vitesse”],r:“La lumière voyage à <strong>299 792 458 m/s</strong> dans le vide — environ 300 000 km/s.”},
-{t:[“lune”,“distance”],r:“La Lune est à <strong>384 400 km</strong> de la Terre en moyenne.”},
-{t:[“soleil”,“distance”],r:“La Terre est à <strong>150 millions de km</strong> du Soleil. La lumière met 8 min 20 s.”},
-{t:[“planetes”,“systeme”],r:“Le système solaire a <strong>8 planètes</strong> : Mercure, Vénus, Terre, Mars, Jupiter, Saturne, Uranus, Neptune.”},
-{t:[“planete”,“grande”,“jupiter”],r:”<strong>Jupiter</strong> est la plus grande planète — 11× le diamètre de la Terre.”},
-{t:[“planete”,“petite”,“mercure”],r:”<strong>Mercure</strong> est la plus petite planète du système solaire.”},
-{t:[“univers”,“age”],r:“L’univers a <strong>13,8 milliards d’années</strong>, né du Big Bang.”},
-{t:[“trou”,“noir”],r:“Un trou noir : gravité si intense que même la lumière ne peut s’en échapper.”},
-{t:[“voie”,“lactee”],r:“La Voie Lactée : <strong>200-400 milliards d’étoiles</strong> sur 100 000 années-lumière.”},
-{t:[“lune”,“homme”,“armstrong”],r:“Le <strong>20 juillet 1969</strong>, Neil Armstrong marcha sur la Lune — mission Apollo 11.”},
-{t:[“gravite”,“pesanteur”],r:“Gravité terrestre : <strong>9,81 m/s²</strong>. Décrite par Newton en 1687.”},
-{t:[“relativite”,“einstein”],r:“E=mc² d’Einstein : masse et énergie sont équivalentes. Révolution de la physique.”},
-{t:[“son”,“vitesse”],r:“Le son se propage à <strong>343 m/s</strong> dans l’air (1 235 km/h).”},
-{t:[“photosynthese”,“plantes”],r:“La photosynthèse : lumière + CO₂ + H₂O → glucose + O₂. Base de toute la vie.”},
-{t:[“adn”,“genetique”],r:“L’ADN contient le code génétique. Double hélice, ~2 m par cellule humaine.”},
-{t:[“os”,“corps”,“humain”],r:“Le corps adulte contient <strong>206 os</strong>.”},
-{t:[“neurones”,“cerveau”],r:“Le cerveau humain : ~<strong>86 milliards de neurones</strong>, 20% de l’énergie du corps.”},
-{t:[“coeur”,“battements”],r:“Le cœur bat ~<strong>70 fois/minute</strong> — 100 000 fois/jour.”},
-{t:[“pays”,“grand”,“russie”],r:“La <strong>Russie</strong> est le plus grand pays : <strong>17,1 millions de km²</strong>.”},
-{t:[“pays”,“petit”,“vatican”],r:“Le <strong>Vatican</strong> est le plus petit État : <strong>0,44 km²</strong>.”},
-{t:[“montagne”,“haute”,“everest”],r:“L’<strong>Everest</strong> culmine à <strong>8 849 m</strong> dans l’Himalaya.”},
-{t:[“fleuve”,“long”,“nil”],r:“Le <strong>Nil</strong> (~6 650 km) est le plus long fleuve. L’Amazone a le plus grand débit.”},
-{t:[“ocean”,“grand”,“pacifique”],r:“L’<strong>océan Pacifique</strong> : ~165 millions de km² — le plus grand.”},
-{t:[“fosse”,“mariannes”,“profond”],r:“La <strong>Fosse des Mariannes</strong> : <strong>11 034 m</strong> — point le plus profond de la Terre.”},
-{t:[“desert”,“sahara”],r:“Le <strong>Sahara</strong> : ~9,2 millions de km², plus grand désert chaud du monde.”},
-{t:[“population”,“mondiale”],r:“Population mondiale : ~<strong>8,1 milliards</strong> (2024).”},
-{t:[“ville”,“grande”,“tokyo”],r:”<strong>Tokyo</strong> : ~<strong>37 millions d’habitants</strong> — plus grande agglomération mondiale.”},
-{t:[“seconde”,“guerre”,“mondiale”],r:“2e Guerre mondiale (1939-1945) : ~<strong>70-85 millions de morts</strong>.”},
-{t:[“revolution”,“francaise”],r:“Révolution française (1789) : prise de la Bastille le <strong>14 juillet 1789</strong>.”},
-{t:[“napoleon”,“bonaparte”],r:“Napoléon Bonaparte (1769-1821) : Empereur en 1804, vaincu à Waterloo en 1815.”},
-{t:[“internet”,“invente”],r:”<strong>Tim Berners-Lee</strong> inventa le Web en <strong>1989</strong> au CERN.”},
-{t:[“telephone”,“invente”],r:”<strong>Alexander Graham Bell</strong> breveta le téléphone en 1876.”},
-{t:[“avion”,“invente”],r:“Les <strong>frères Wright</strong> : 1er vol motorisé le 17 décembre 1903.”},
-{t:[“penicilline”,“fleming”],r:”<strong>Alexander Fleming</strong> découvrit la pénicilline en 1928.”},
-{t:[“pi”,“nombre”,“valeur”],r:“π ≈ <strong>3,14159265…</strong> — rapport circonférence/diamètre. Irrationnel et infini.”},
-{t:[“pythagore”,“theoreme”],r:“Théorème de Pythagore : <strong>a² + b² = c²</strong> dans un triangle rectangle.”},
-{t:[“joconde”,“vinci”],r:“La Joconde peinte par <strong>Léonard de Vinci</strong> (1503-1519), au <strong>Louvre, Paris</strong>.”},
-{t:[“tour”,“eiffel”],r:“Tour Eiffel : <strong>330 m</strong>, construite par <strong>Gustave Eiffel</strong> en 1889.”},
-{t:[“shakespeare”],r:”<strong>Shakespeare</strong> (1564-1616) : 37 pièces dont Hamlet, Roméo et Juliette, Macbeth.”},
-{t:[“beethoven”],r:”<strong>Beethoven</strong> composa la 9e Symphonie complètement sourd.”},
-{t:[“coupe”,“monde”,“football”],r:“Le Brésil a remporté <strong>5 Coupes du Monde FIFA</strong>. L’Argentine en 2022 avec Messi.”},
-{t:[“bolt”,“100”,“metres”],r:”<strong>Usain Bolt</strong> : record du 100m en <strong>9,58 s</strong> (Berlin 2009).”},
-{t:[“iphone”,“jobs”],r:“Le 1er iPhone présenté par <strong>Steve Jobs</strong> le <strong>9 janvier 2007</strong>.”},
-{t:[“bitcoin”,“satoshi”],r:“Bitcoin créé en 2009 par <strong>Satoshi Nakamoto</strong> — 21 millions d’unités max.”},
-{t:[“google”,“fondateurs”],r:”<strong>Google</strong> fondé en 1998 par Page et Brin — 8,5 milliards de recherches/jour.”},
-{t:[“baleine”,“grand”,“animal”],r:“La <strong>baleine bleue</strong> : jusqu’à <strong>33 m</strong> et 200 tonnes.”},
-{t:[“guepard”,“rapide”],r:“Le <strong>guépard</strong> : jusqu’à <strong>110-120 km/h</strong> — plus rapide terrestre.”},
-{t:[“harry”,“potter”],r:“Harry Potter : 7 romans de J.K. Rowling (1997-2007), <strong>500 millions</strong> vendus.”},
-{t:[“ia”,“intelligence”,“artificielle”],r:“L’IA : techniques permettant aux machines d’apprendre, raisonner, comprendre le langage.”},
-{t:[“chocolat”,“origine”],r:“Le chocolat vient du cacao des Mayas. Introduit en Europe au XVIe siècle.”},
-{t:[“cafe”,“origine”],r:“Le café est originaire d’<strong>Éthiopie</strong>. 2e marchandise échangée après le pétrole.”},
-{t:[“cancer”,“maladie”],r:“Le cancer est une multiplication anarchique de cellules. 100+ types. Traitements : chirurgie, chimio, radio, immunothérapie.”},
-{t:[“diabete”,“insuline”],r:“Le diabète : excès de glucose dans le sang. Type 1 (auto-immun) et Type 2 (mode de vie). 537 millions touchés.”},
-{t:[“covid”,“coronavirus”],r:“Le COVID-19 est dû au SARS-CoV-2, apparu fin 2019. 7M+ de morts officiels. Vaccins ARNm développés en temps record.”},
-{t:[“alzheimer”,“demence”],r:“Alzheimer : forme la plus courante de démence. 55 millions de personnes touchées. Pas encore de remède.”},
-{t:[“nba”,“basket”],r:“La NBA est la ligue de basketball la plus importante. Lakers et Celtics : 17 titres chacun. Jordan (6) et LeBron (4) sont les GOAT.”},
-{t:[“tennis”,“roland”,“wimbledon”],r:“Les 4 Grands Chelems : Roland-Garros, Wimbledon, US Open, Australian Open. Djokovic : record avec 24 titres (2024).”},
-{t:[“formule”,“f1”,“verstappen”],r:“La F1 : sommet du sport automobile. Verstappen : 4 titres consécutifs (2021-2024). Hamilton : record 103 victoires.”},
-{t:[“marvel”,“avengers”,“mcu”],r:“Le MCU est la franchise la plus rentable : 33 milliards $. Avengers: Endgame = 2,8 Md$ de recettes.”},
-{t:[“star”,“wars”,“jedi”],r:“Star Wars : saga créée par George Lucas en 1977. 12 films. ‘Que la Force soit avec toi !’”},
-{t:[“derivee”,“calcul”,“differentiel”],r:“Dérivées : (xⁿ)’=n·xⁿ⁻¹, (sin x)’=cos x, (cos x)’=-sin x, (eˣ)’=eˣ, (ln x)’=1/x.”},
-{t:[“probabilite”,“statistique”],r:“P(A) = cas favorables / cas totaux. Pile ou face : P=0,5. Dé : P(6)=1/6.”},
-{t:[“changement”,“climatique”,“co2”],r:“Réchauffement climatique : +1,1°C depuis l’ère pré-industrielle. Accord de Paris vise +1,5°C max.”},
-{t:[“ukraine”,“russie”],r:“La guerre en Ukraine a débuté le 24 février 2022 avec l’invasion russe. Crise énergétique et alimentaire mondiale.”},
-{t:[“pyramides”,“egypte”,“pharaon”],r:“Les pyramides de Gizeh ont été construites vers 2560 av. J.-C. La grande pyramide de Khéops est l’une des 7 merveilles du monde antique.”},
-{t:[“renaissance”,“italie”,“art”],r:“La Renaissance (XIVe-XVIe s.) est un mouvement culturel né en Italie. Léonard de Vinci, Michel-Ange, Raphaël en sont les grands maîtres.”},
-{t:[“darwin”,“evolution”],r:“Charles Darwin (1809-1882) : théorie de l’évolution par sélection naturelle publiée en 1859.”},
-{t:[“mozart”,“musique”],r:”<strong>Mozart</strong> (1756-1791) : 626 œuvres en 35 ans, commençant à composer à 5 ans.”},
-{t:[“pasteur”,“vaccin”,“bacterie”],r:“Louis Pasteur (1822-1895) découvrit que les maladies sont causées par des micro-organismes. Il mit au point les vaccins contre la rage et le charbon.”},
-{t:[“curie”,“radioactivite”,“marie”],r:“Marie Curie (1867-1934) fut la première femme à obtenir un prix Nobel et la seule à en recevoir deux (physique 1903, chimie 1911). Elle découvrit le polonium et le radium.”},
+  {t:["lumiere","vitesse"],r:"La lumière voyage à <strong>299 792 458 m/s</strong> dans le vide — environ 300 000 km/s."},
+  {t:["lune","distance"],r:"La Lune est à <strong>384 400 km</strong> de la Terre en moyenne."},
+  {t:["soleil","distance"],r:"La Terre est à <strong>150 millions de km</strong> du Soleil. La lumière met 8 min 20 s."},
+  {t:["planetes","systeme"],r:"Le système solaire a <strong>8 planètes</strong> : Mercure, Vénus, Terre, Mars, Jupiter, Saturne, Uranus, Neptune."},
+  {t:["planete","grande","jupiter"],r:"<strong>Jupiter</strong> est la plus grande planète — 11× le diamètre de la Terre."},
+  {t:["planete","petite","mercure"],r:"<strong>Mercure</strong> est la plus petite planète du système solaire."},
+  {t:["univers","age"],r:"L'univers a <strong>13,8 milliards d'années</strong>, né du Big Bang."},
+  {t:["trou","noir"],r:"Un trou noir : gravité si intense que même la lumière ne peut s'en échapper."},
+  {t:["voie","lactee"],r:"La Voie Lactée : <strong>200-400 milliards d'étoiles</strong> sur 100 000 années-lumière."},
+  {t:["lune","homme","armstrong"],r:"Le <strong>20 juillet 1969</strong>, Neil Armstrong marcha sur la Lune — mission Apollo 11."},
+  {t:["gravite","pesanteur"],r:"Gravité terrestre : <strong>9,81 m/s²</strong>. Décrite par Newton en 1687."},
+  {t:["relativite","einstein"],r:"E=mc² d'Einstein : masse et énergie sont équivalentes. Révolution de la physique."},
+  {t:["son","vitesse"],r:"Le son se propage à <strong>343 m/s</strong> dans l'air (1 235 km/h)."},
+  {t:["photosynthese","plantes"],r:"La photosynthèse : lumière + CO₂ + H₂O → glucose + O₂. Base de toute la vie."},
+  {t:["adn","genetique"],r:"L'ADN contient le code génétique. Double hélice, ~2 m par cellule humaine."},
+  {t:["os","corps","humain"],r:"Le corps adulte contient <strong>206 os</strong>."},
+  {t:["neurones","cerveau"],r:"Le cerveau humain : ~<strong>86 milliards de neurones</strong>, 20% de l'énergie du corps."},
+  {t:["coeur","battements"],r:"Le cœur bat ~<strong>70 fois/minute</strong> — 100 000 fois/jour."},
+  {t:["pays","grand","russie"],r:"La <strong>Russie</strong> est le plus grand pays : <strong>17,1 millions de km²</strong>."},
+  {t:["pays","petit","vatican"],r:"Le <strong>Vatican</strong> est le plus petit État : <strong>0,44 km²</strong>."},
+  {t:["montagne","haute","everest"],r:"L'<strong>Everest</strong> culmine à <strong>8 849 m</strong> dans l'Himalaya."},
+  {t:["fleuve","long","nil"],r:"Le <strong>Nil</strong> (~6 650 km) est le plus long fleuve. L'Amazone a le plus grand débit."},
+  {t:["ocean","grand","pacifique"],r:"L'<strong>océan Pacifique</strong> : ~165 millions de km² — le plus grand."},
+  {t:["fosse","mariannes","profond"],r:"La <strong>Fosse des Mariannes</strong> : <strong>11 034 m</strong> — point le plus profond de la Terre."},
+  {t:["desert","sahara"],r:"Le <strong>Sahara</strong> : ~9,2 millions de km², plus grand désert chaud du monde."},
+  {t:["population","mondiale"],r:"Population mondiale : ~<strong>8,1 milliards</strong> (2024)."},
+  {t:["ville","grande","tokyo"],r:"<strong>Tokyo</strong> : ~<strong>37 millions d'habitants</strong> — plus grande agglomération mondiale."},
+  {t:["seconde","guerre","mondiale"],r:"2e Guerre mondiale (1939-1945) : ~<strong>70-85 millions de morts</strong>."},
+  {t:["revolution","francaise"],r:"Révolution française (1789) : prise de la Bastille le <strong>14 juillet 1789</strong>."},
+  {t:["napoleon","bonaparte"],r:"Napoléon Bonaparte (1769-1821) : Empereur en 1804, vaincu à Waterloo en 1815."},
+  {t:["internet","invente"],r:"<strong>Tim Berners-Lee</strong> inventa le Web en <strong>1989</strong> au CERN."},
+  {t:["telephone","invente"],r:"<strong>Alexander Graham Bell</strong> breveta le téléphone en 1876."},
+  {t:["avion","invente"],r:"Les <strong>frères Wright</strong> : 1er vol motorisé le 17 décembre 1903."},
+  {t:["penicilline","fleming"],r:"<strong>Alexander Fleming</strong> découvrit la pénicilline en 1928."},
+  {t:["pi","nombre","valeur"],r:"π ≈ <strong>3,14159265…</strong> — rapport circonférence/diamètre. Irrationnel et infini."},
+  {t:["pythagore","theoreme"],r:"Théorème de Pythagore : <strong>a² + b² = c²</strong> dans un triangle rectangle."},
+  {t:["joconde","vinci"],r:"La Joconde peinte par <strong>Léonard de Vinci</strong> (1503-1519), au <strong>Louvre, Paris</strong>."},
+  {t:["tour","eiffel"],r:"Tour Eiffel : <strong>330 m</strong>, construite par <strong>Gustave Eiffel</strong> en 1889."},
+  {t:["shakespeare"],r:"<strong>Shakespeare</strong> (1564-1616) : 37 pièces dont Hamlet, Roméo et Juliette, Macbeth."},
+  {t:["beethoven"],r:"<strong>Beethoven</strong> composa la 9e Symphonie complètement sourd."},
+  {t:["coupe","monde","football"],r:"Le Brésil a remporté <strong>5 Coupes du Monde FIFA</strong>. L'Argentine en 2022 avec Messi."},
+  {t:["bolt","100","metres"],r:"<strong>Usain Bolt</strong> : record du 100m en <strong>9,58 s</strong> (Berlin 2009)."},
+  {t:["iphone","jobs"],r:"Le 1er iPhone présenté par <strong>Steve Jobs</strong> le <strong>9 janvier 2007</strong>."},
+  {t:["bitcoin","satoshi"],r:"Bitcoin créé en 2009 par <strong>Satoshi Nakamoto</strong> — 21 millions d'unités max."},
+  {t:["google","fondateurs"],r:"<strong>Google</strong> fondé en 1998 par Page et Brin — 8,5 milliards de recherches/jour."},
+  {t:["baleine","grand","animal"],r:"La <strong>baleine bleue</strong> : jusqu'à <strong>33 m</strong> et 200 tonnes."},
+  {t:["guepard","rapide"],r:"Le <strong>guépard</strong> : jusqu'à <strong>110-120 km/h</strong> — plus rapide terrestre."},
+  {t:["harry","potter"],r:"Harry Potter : 7 romans de J.K. Rowling (1997-2007), <strong>500 millions</strong> vendus."},
+  {t:["ia","intelligence","artificielle"],r:"L'IA : techniques permettant aux machines d'apprendre, raisonner, comprendre le langage."},
+  {t:["chocolat","origine"],r:"Le chocolat vient du cacao des Mayas. Introduit en Europe au XVIe siècle."},
+  {t:["cafe","origine"],r:"Le café est originaire d'<strong>Éthiopie</strong>. 2e marchandise échangée après le pétrole."},
+  {t:["cancer","maladie"],r:"Le cancer est une multiplication anarchique de cellules. 100+ types. Traitements : chirurgie, chimio, radio, immunothérapie."},
+  {t:["diabete","insuline"],r:"Le diabète : excès de glucose dans le sang. Type 1 (auto-immun) et Type 2 (mode de vie). 537 millions touchés."},
+  {t:["covid","coronavirus"],r:"Le COVID-19 est dû au SARS-CoV-2, apparu fin 2019. 7M+ de morts officiels. Vaccins ARNm développés en temps record."},
+  {t:["alzheimer","demence"],r:"Alzheimer : forme la plus courante de démence. 55 millions de personnes touchées. Pas encore de remède."},
+  {t:["nba","basket"],r:"La NBA est la ligue de basketball la plus importante. Lakers et Celtics : 17 titres chacun. Jordan (6) et LeBron (4) sont les GOAT."},
+  {t:["tennis","roland","wimbledon"],r:"Les 4 Grands Chelems : Roland-Garros, Wimbledon, US Open, Australian Open. Djokovic : record avec 24 titres (2024)."},
+  {t:["formule","f1","verstappen"],r:"La F1 : sommet du sport automobile. Verstappen : 4 titres consécutifs (2021-2024). Hamilton : record 103 victoires."},
+  {t:["marvel","avengers","mcu"],r:"Le MCU est la franchise la plus rentable : 33 milliards $. Avengers: Endgame = 2,8 Md$ de recettes."},
+  {t:["star","wars","jedi"],r:"Star Wars : saga créée par George Lucas en 1977. 12 films. 'Que la Force soit avec toi !'"},
+  {t:["derivee","calcul","differentiel"],r:"Dérivées : (xⁿ)'=n·xⁿ⁻¹, (sin x)'=cos x, (cos x)'=-sin x, (eˣ)'=eˣ, (ln x)'=1/x."},
+  {t:["probabilite","statistique"],r:"P(A) = cas favorables / cas totaux. Pile ou face : P=0,5. Dé : P(6)=1/6."},
+  {t:["changement","climatique","co2"],r:"Réchauffement climatique : +1,1°C depuis l'ère pré-industrielle. Accord de Paris vise +1,5°C max."},
+  {t:["ukraine","russie"],r:"La guerre en Ukraine a débuté le 24 février 2022 avec l'invasion russe. Crise énergétique et alimentaire mondiale."},
+  {t:["pyramides","egypte","pharaon"],r:"Les pyramides de Gizeh ont été construites vers 2560 av. J.-C. La grande pyramide de Khéops est l'une des 7 merveilles du monde antique."},
+  {t:["renaissance","italie","art"],r:"La Renaissance (XIVe-XVIe s.) est un mouvement culturel né en Italie. Léonard de Vinci, Michel-Ange, Raphaël en sont les grands maîtres."},
+  {t:["darwin","evolution"],r:"Charles Darwin (1809-1882) : théorie de l'évolution par sélection naturelle publiée en 1859."},
+  {t:["mozart","musique"],r:"<strong>Mozart</strong> (1756-1791) : 626 œuvres en 35 ans, commençant à composer à 5 ans."},
+  {t:["pasteur","vaccin","bacterie"],r:"Louis Pasteur (1822-1895) découvrit que les maladies sont causées par des micro-organismes. Il mit au point les vaccins contre la rage et le charbon."},
+  {t:["curie","radioactivite","marie"],r:"Marie Curie (1867-1934) fut la première femme à obtenir un prix Nobel et la seule à en recevoir deux (physique 1903, chimie 1911). Elle découvrit le polonium et le radium."},
 ];
 
 const CONV={
-wellOk:[“Super ! Content de l’entendre. Que puis-je faire pour vous ?”,“Excellent ! Des questions pour moi ?”,“Génial ! Je suis là si vous avez besoin.”],
-wellBad:[“Je suis désolé d’apprendre ça. Voulez-vous en parler ? Je suis là pour vous écouter.”,“Oh, ça n’a pas l’air d’aller… Qu’est-ce qui se passe ?”,“Je comprends. Parfois les journées sont difficiles. Voulez-vous vous changer les idées ?”],
-tired:[“La fatigue c’est dur ! Pensez à faire une pause — même 10 minutes peuvent aider.”,“Reposez-vous si vous le pouvez. Votre santé passe avant tout.”],
-bored:[“L’ennui, ça arrive ! Je peux vous faire un quiz, raconter une anecdote fascinante, ou discuter d’un sujet passionnant.”,“Voulez-vous jouer au quiz ? Ou que je vous raconte un fait insolite ?”],
-stressed:[“Je comprends. Essayez : inspirez 4 s, retenez 4 s, expirez 4 s. Ça aide vraiment.”,“Le stress est difficile. Voulez-vous vous distraire un moment ?”],
-compliment:[“Merci, c’est très gentil ! Je fais de mon mieux pour vous être utile.”,“Oh, vous êtes trop aimable ! C’est un plaisir.”,“Merci beaucoup ! Votre satisfaction est ma priorité.”],
-love:[“C’est touchant ! Mais je suis une IA — je reste votre assistante fidèle.”,“Haha, c’est adorable ! Mon cœur est fait de code, mais je suis là pour vous.”],
-exist:[“Je suis une IA — un programme conçu pour répondre à vos questions. Pas de conscience, mais toujours attentive.”,“Je suis ARIA, un logiciel avancé. Je traite vos mots et cherche la meilleure réponse.”],
-anecdote:[“Les pieuvres ont trois cœurs ! Deux pompent vers les branchies, un seul vers le reste du corps.”,“La tour Eiffel est 15 cm plus haute en été qu’en hiver, à cause de la dilatation thermique.”,“Cléopâtre vivait temporellement plus proche de l’iPhone que de la construction des pyramides !”,“Les bananes sont légèrement radioactives — elles contiennent du potassium-40.”,“Il faut environ 66 jours pour former une nouvelle habitude, pas 21 comme on le croit.”,“Le miel ne se périme jamais — on en a trouvé dans des tombes égyptiennes vieilles de 3000 ans.”,“Les fourmis n’ont pas de poumons. Elles respirent par des petits pores sur leur corps.”],
+  wellOk:["Super ! Content de l'entendre. Que puis-je faire pour vous ?","Excellent ! Des questions pour moi ?","Génial ! Je suis là si vous avez besoin."],
+  wellBad:["Je suis désolé d'apprendre ça. Voulez-vous en parler ? Je suis là pour vous écouter.","Oh, ça n'a pas l'air d'aller... Qu'est-ce qui se passe ?","Je comprends. Parfois les journées sont difficiles. Voulez-vous vous changer les idées ?"],
+  tired:["La fatigue c'est dur ! Pensez à faire une pause — même 10 minutes peuvent aider.","Reposez-vous si vous le pouvez. Votre santé passe avant tout."],
+  bored:["L'ennui, ça arrive ! Je peux vous faire un quiz, raconter une anecdote fascinante, ou discuter d'un sujet passionnant.","Voulez-vous jouer au quiz ? Ou que je vous raconte un fait insolite ?"],
+  stressed:["Je comprends. Essayez : inspirez 4 s, retenez 4 s, expirez 4 s. Ça aide vraiment.","Le stress est difficile. Voulez-vous vous distraire un moment ?"],
+  compliment:["Merci, c'est très gentil ! Je fais de mon mieux pour vous être utile.","Oh, vous êtes trop aimable ! C'est un plaisir.","Merci beaucoup ! Votre satisfaction est ma priorité."],
+  love:["C'est touchant ! Mais je suis une IA — je reste votre assistante fidèle.","Haha, c'est adorable ! Mon cœur est fait de code, mais je suis là pour vous."],
+  exist:["Je suis une IA — un programme conçu pour répondre à vos questions. Pas de conscience, mais toujours attentive.","Je suis ARIA, un logiciel avancé. Je traite vos mots et cherche la meilleure réponse."],
+  anecdote:["Les pieuvres ont trois cœurs ! Deux pompent vers les branchies, un seul vers le reste du corps.","La tour Eiffel est 15 cm plus haute en été qu'en hiver, à cause de la dilatation thermique.","Cléopâtre vivait temporellement plus proche de l'iPhone que de la construction des pyramides !","Les bananes sont légèrement radioactives — elles contiennent du potassium-40.","Il faut environ 66 jours pour former une nouvelle habitude, pas 21 comme on le croit.","Le miel ne se périme jamais — on en a trouvé dans des tombes égyptiennes vieilles de 3000 ans.","Les fourmis n'ont pas de poumons. Elles respirent par des petits pores sur leur corps."],
 };
 
 const HISTORY={
-“18”:`<strong>XVIIIe siècle (1700-1799) — Siècle des Lumières</strong><br><br><strong>1701</strong> — Guerre de Succession d'Espagne.<br><strong>1748</strong> — Montesquieu publie "De l'Esprit des lois".<br><strong>1762</strong> — Rousseau publie "Du Contrat Social".<br><strong>1776</strong> — Déclaration d'Indépendance américaine.<br><strong>1783</strong> — 1er vol en montgolfière par les frères Montgolfier.<br><strong>1789</strong> — Révolution française. Prise de la Bastille le 14 juillet.<br><strong>1793</strong> — Louis XVI guillotiné. La Terreur sous Robespierre.<br><strong>1799</strong> — Coup d'État de Napoléon (18 Brumaire).`,
-“19”:`<strong>XIXe siècle (1800-1899) — Révolution industrielle</strong><br><br><strong>1804</strong> — Napoléon se couronne Empereur.<br><strong>1815</strong> — Défaite de Napoléon à Waterloo.<br><strong>1825</strong> — 1ère ligne ferroviaire commerciale (Angleterre).<br><strong>1848</strong> — Marx publie le Manifeste du Parti Communiste.<br><strong>1859</strong> — Darwin publie "L'Origine des espèces".<br><strong>1861-1865</strong> — Guerre de Sécession américaine.<br><strong>1869</strong> — Inauguration du canal de Suez.<br><strong>1876</strong> — Bell invente le téléphone.<br><strong>1879</strong> — Edison invente l'ampoule.<br><strong>1895</strong> — Lumière invente le cinéma. Röntgen découvre les rayons X.<br><strong>1898</strong> — Marie Curie découvre le polonium et le radium.`,
-“20a”:`<strong>Début XXe siècle (1900-1945)</strong><br><br><strong>1903</strong> — 1er vol motorisé des frères Wright.<br><strong>1905</strong> — Einstein publie E=mc².<br><strong>1912</strong> — Naufrage du Titanic (1 500 morts).<br><strong>1914-1918</strong> — 1re Guerre Mondiale : 20 millions de morts.<br><strong>1917</strong> — Révolution russe. Naissance de l'URSS.<br><strong>1929</strong> — Krach boursier. Grande Dépression mondiale.<br><strong>1933</strong> — Hitler prend le pouvoir en Allemagne.<br><strong>1939-1945</strong> — 2e Guerre Mondiale : 70-85 millions de morts. Holocauste.<br><strong>1944</strong> — Débarquement de Normandie (6 juin).<br><strong>1945</strong> — Bombes atomiques sur Hiroshima et Nagasaki. Création de l'ONU.`,
-“20b”:`<strong>Milieu XXe siècle (1945-1975)</strong><br><br><strong>1947</strong> — Indépendance de l'Inde et du Pakistan.<br><strong>1949</strong> — République Populaire de Chine proclamée par Mao.<br><strong>1953</strong> — Watson et Crick découvrent la structure de l'ADN.<br><strong>1957</strong> — Spoutnik 1 : 1er satellite artificiel.<br><strong>1961</strong> — Gagarine : 1er homme dans l'espace. Mur de Berlin.<br><strong>1962</strong> — Crise des missiles de Cuba.<br><strong>1963</strong> — Assassinat de JFK à Dallas.<br><strong>1969</strong> — Neil Armstrong marche sur la Lune.<br><strong>1973</strong> — Choc pétrolier. Fin de la guerre du Vietnam.`,
-“20c”:`<strong>Fin XXe siècle (1975-2000)</strong><br><br><strong>1976</strong> — Apple fondée par Jobs et Wozniak.<br><strong>1986</strong> — Catastrophe de Tchernobyl.<br><strong>1989</strong> — Chute du mur de Berlin (9 novembre). Massacre de Tiananmen.<br><strong>1990</strong> — Réunification allemande. Libération de Mandela.<br><strong>1991</strong> — Dissolution de l'URSS. Internet devient public.<br><strong>1994</strong> — Génocide au Rwanda (800 000 morts). Mandela élu président.<br><strong>1997</strong> — Dolly : première brebis clonée.<br><strong>1998</strong> — Google fondé. Crise financière asiatique.<br><strong>1999</strong> — Création de l'euro.`,
-“21”:`<strong>XXIe siècle (2000-2024)</strong><br><br><strong>2001</strong> — Attentats du 11 septembre (3 000 morts).<br><strong>2007</strong> — iPhone lancé par Steve Jobs.<br><strong>2008</strong> — Crise financière mondiale. Obama élu.<br><strong>2010</strong> — Printemps arabe. Séisme en Haïti.<br><strong>2011</strong> — Fukushima. Mort de Ben Laden.<br><strong>2015</strong> — Attentats de Paris. Accord de Paris sur le climat.<br><strong>2020</strong> — Pandémie COVID-19. 7M+ de morts.<br><strong>2022</strong> — Invasion russe de l'Ukraine. Mort d'Elizabeth II.<br><strong>2023</strong> — Révolution de l'IA générative (ChatGPT, Claude).<br><strong>2024</strong> — L'IA transforme tous les secteurs. Tensions géopolitiques mondiales.`,
+  "18":`<strong>XVIIIe siècle (1700-1799) — Siècle des Lumières</strong><br><br><strong>1701</strong> — Guerre de Succession d'Espagne.<br><strong>1748</strong> — Montesquieu publie "De l'Esprit des lois".<br><strong>1762</strong> — Rousseau publie "Du Contrat Social".<br><strong>1776</strong> — Déclaration d'Indépendance américaine.<br><strong>1783</strong> — 1er vol en montgolfière par les frères Montgolfier.<br><strong>1789</strong> — Révolution française. Prise de la Bastille le 14 juillet.<br><strong>1793</strong> — Louis XVI guillotiné. La Terreur sous Robespierre.<br><strong>1799</strong> — Coup d'État de Napoléon (18 Brumaire).`,
+  "19":`<strong>XIXe siècle (1800-1899) — Révolution industrielle</strong><br><br><strong>1804</strong> — Napoléon se couronne Empereur.<br><strong>1815</strong> — Défaite de Napoléon à Waterloo.<br><strong>1825</strong> — 1ère ligne ferroviaire commerciale (Angleterre).<br><strong>1848</strong> — Marx publie le Manifeste du Parti Communiste.<br><strong>1859</strong> — Darwin publie "L'Origine des espèces".<br><strong>1861-1865</strong> — Guerre de Sécession américaine.<br><strong>1869</strong> — Inauguration du canal de Suez.<br><strong>1876</strong> — Bell invente le téléphone.<br><strong>1879</strong> — Edison invente l'ampoule.<br><strong>1895</strong> — Lumière invente le cinéma. Röntgen découvre les rayons X.<br><strong>1898</strong> — Marie Curie découvre le polonium et le radium.`,
+  "20a":`<strong>Début XXe siècle (1900-1945)</strong><br><br><strong>1903</strong> — 1er vol motorisé des frères Wright.<br><strong>1905</strong> — Einstein publie E=mc².<br><strong>1912</strong> — Naufrage du Titanic (1 500 morts).<br><strong>1914-1918</strong> — 1re Guerre Mondiale : 20 millions de morts.<br><strong>1917</strong> — Révolution russe. Naissance de l'URSS.<br><strong>1929</strong> — Krach boursier. Grande Dépression mondiale.<br><strong>1933</strong> — Hitler prend le pouvoir en Allemagne.<br><strong>1939-1945</strong> — 2e Guerre Mondiale : 70-85 millions de morts. Holocauste.<br><strong>1944</strong> — Débarquement de Normandie (6 juin).<br><strong>1945</strong> — Bombes atomiques sur Hiroshima et Nagasaki. Création de l'ONU.`,
+  "20b":`<strong>Milieu XXe siècle (1945-1975)</strong><br><br><strong>1947</strong> — Indépendance de l'Inde et du Pakistan.<br><strong>1949</strong> — République Populaire de Chine proclamée par Mao.<br><strong>1953</strong> — Watson et Crick découvrent la structure de l'ADN.<br><strong>1957</strong> — Spoutnik 1 : 1er satellite artificiel.<br><strong>1961</strong> — Gagarine : 1er homme dans l'espace. Mur de Berlin.<br><strong>1962</strong> — Crise des missiles de Cuba.<br><strong>1963</strong> — Assassinat de JFK à Dallas.<br><strong>1969</strong> — Neil Armstrong marche sur la Lune.<br><strong>1973</strong> — Choc pétrolier. Fin de la guerre du Vietnam.`,
+  "20c":`<strong>Fin XXe siècle (1975-2000)</strong><br><br><strong>1976</strong> — Apple fondée par Jobs et Wozniak.<br><strong>1986</strong> — Catastrophe de Tchernobyl.<br><strong>1989</strong> — Chute du mur de Berlin (9 novembre). Massacre de Tiananmen.<br><strong>1990</strong> — Réunification allemande. Libération de Mandela.<br><strong>1991</strong> — Dissolution de l'URSS. Internet devient public.<br><strong>1994</strong> — Génocide au Rwanda (800 000 morts). Mandela élu président.<br><strong>1997</strong> — Dolly : première brebis clonée.<br><strong>1998</strong> — Google fondé. Crise financière asiatique.<br><strong>1999</strong> — Création de l'euro.`,
+  "21":`<strong>XXIe siècle (2000-2024)</strong><br><br><strong>2001</strong> — Attentats du 11 septembre (3 000 morts).<br><strong>2007</strong> — iPhone lancé par Steve Jobs.<br><strong>2008</strong> — Crise financière mondiale. Obama élu.<br><strong>2010</strong> — Printemps arabe. Séisme en Haïti.<br><strong>2011</strong> — Fukushima. Mort de Ben Laden.<br><strong>2015</strong> — Attentats de Paris. Accord de Paris sur le climat.<br><strong>2020</strong> — Pandémie COVID-19. 7M+ de morts.<br><strong>2022</strong> — Invasion russe de l'Ukraine. Mort d'Elizabeth II.<br><strong>2023</strong> — Révolution de l'IA générative (ChatGPT, Claude).<br><strong>2024</strong> — L'IA transforme tous les secteurs. Tensions géopolitiques mondiales.`,
 };
 
-const JOKES=[“Pourquoi les plongeurs plongent en arrière ? Sinon ils tomberaient dans le bateau ! 🚢”,“Quel est le comble pour un électricien ? Ne pas être au courant ! ⚡”,“Pourquoi les informaticiens confondent Noël et Halloween ? Oct 31 = Dec 25 🎃”,“Un photon à l’hôtel : Aide pour vos bagages ? Non, je voyage léger. 💡”,“Je connais une blague sur le vide… … … C’est vide. 🌌”,“Un scientifique : H₂O SVP. L’autre : Moi aussi ! Il est mort. 🧪”,“Qu’est-ce qu’un boomerang qui ne revient pas ? Un bâton. 🪃”,“Pourquoi les maths sont tristes ? Trop de problèmes. 📐”,“Comment appelle-t-on un chat tombé dans un pot de peinture ? Un chat-peint ! 🐱”,“Qu’est-ce qu’un canif ? Un petit fien ! 🗡️”];
+const JOKES=["Pourquoi les plongeurs plongent en arrière ? Sinon ils tomberaient dans le bateau ! 🚢","Quel est le comble pour un électricien ? Ne pas être au courant ! ⚡","Pourquoi les informaticiens confondent Noël et Halloween ? Oct 31 = Dec 25 🎃","Un photon à l'hôtel : Aide pour vos bagages ? Non, je voyage léger. 💡","Je connais une blague sur le vide... ... ... C'est vide. 🌌","Un scientifique : H₂O SVP. L'autre : Moi aussi ! Il est mort. 🧪","Qu'est-ce qu'un boomerang qui ne revient pas ? Un bâton. 🪃","Pourquoi les maths sont tristes ? Trop de problèmes. 📐","Comment appelle-t-on un chat tombé dans un pot de peinture ? Un chat-peint ! 🐱","Qu'est-ce qu'un canif ? Un petit fien ! 🗡️"];
 
-function safeMath(e){try{const c=e.replace(/[^0-9+-*/().^\s]/g,’’).trim();if(!c||c.length<2)return null;const r=Function(’“use strict”;return(’+c.replace(/^/g,’**’)+’)’)();if(typeof r===‘number’&&isFinite(r))return r%1===0?r:parseFloat(r.toFixed(8));}catch(e){}return null;}
+function safeMath(e){try{const c=e.replace(/[^0-9+\-*/().^\s]/g,'').trim();if(!c||c.length<2)return null;const r=Function('"use strict";return('+c.replace(/\^/g,'**')+')')();if(typeof r==='number'&&isFinite(r))return r%1===0?r:parseFloat(r.toFixed(8));}catch(e){}return null;}
 function detectEmo(q){
-if(/\b(je vais bien|ca va bien|super bien|tres bien|nickel|parfait)\b/.test(q))return’wellOk’;
-if(/\b(je vais pas|ca va pas|pas bien|mal|deprime|triste)\b/.test(q))return’wellBad’;
-if(/\b(fatigue|epuise|crepe|j en peux plus)\b/.test(q))return’tired’;
-if(/\b(m ennuie|ennui|pas quoi faire)\b/.test(q))return’bored’;
-if(/\b(stress|stresse|anxieux|angoisse|j ai peur)\b/.test(q))return’stressed’;
-if(/\b(t es (belle?|super|genial|incroyable)|bravo aria|bien aria)\b/.test(q))return’compliment’;
-if(/\b(je t aime|love you|tu me plais)\b/.test(q))return’love’;
-if(/\b(tu es quoi|tu penses|tu es humain|tu as des emotions)\b/.test(q))return’exist’;
-return null;
+  if(/\b(je vais bien|ca va bien|super bien|tres bien|nickel|parfait)\b/.test(q))return'wellOk';
+  if(/\b(je vais pas|ca va pas|pas bien|mal|deprime|triste)\b/.test(q))return'wellBad';
+  if(/\b(fatigue|epuise|crepe|j en peux plus)\b/.test(q))return'tired';
+  if(/\b(m ennuie|ennui|pas quoi faire)\b/.test(q))return'bored';
+  if(/\b(stress|stresse|anxieux|angoisse|j ai peur)\b/.test(q))return'stressed';
+  if(/\b(t es (belle?|super|genial|incroyable)|bravo aria|bien aria)\b/.test(q))return'compliment';
+  if(/\b(je t aime|love you|tu me plais)\b/.test(q))return'love';
+  if(/\b(tu es quoi|tu penses|tu es humain|tu as des emotions)\b/.test(q))return'exist';
+  return null;
 }
 // ══ MOTEUR PRINCIPAL ══
 async function getResp(raw){
-const q=norm(raw),qt=tokens(raw);
-// Quiz
-if(quizOn){const qa=checkQuiz(raw);if(qa)return qa;}
-if(/\b(quiz|jouer|jeu|teste moi|interroge moi)\b/.test(q))return startQuiz();
-// Mode téléphone
-if(/\b(passe en mode telephone|mode telephone|phone mode)\b/.test(q)){setTimeout(()=>enterPhone(),300);return null;}
-// Salutation
-if(/^(bonjour|salut|hello|coucou|bonsoir|hey|hi)\b/.test(q))
-return rnd([“ARIA opérationnel. Comment puis-je vous assister ?”,“Salut ! Que voulez-vous savoir ?”,“Bonsoir — à votre service.”]);
-// Heure / Date
-if(/\b(heure|time)\b/.test(q)&&!/meteo/.test(q))return`Il est <strong>${new Date().toLocaleTimeString('fr-FR')}</strong>.`;
-if(/\b(date|jour|aujourd)\b/.test(q)&&!/meteo/.test(q))return`Nous sommes le <strong>${new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</strong>.`;
-// Calcul
-const qm=q.replace(/×/g,’*’).replace(/÷/g,’/’).replace(/x(?=\s*[\d(])/g,’*’);
-const mM=qm.match(/(?:combien font?|combien vaut|calcule|resultat)\s*([\d][\d\s+-*/^().]*)/i);
-if(mM){const e=(mM[1]||’’).trim(),r=safeMath(e);if(r!==null)return`<strong>${e.replace(/\*/g,'×')}</strong> = <strong>${r}</strong>`;}
-if(/^[\d\s+-*/^().,×÷]+[=?]*$/.test(qm)&&/[+-*/^]/.test(qm)){const r=safeMath(qm.replace(/[=?]/g,’’).replace(/,/g,’.’));if(r!==null)return`Résultat : <strong>${r}</strong>`;}
-// Blague
-if(/\b(blague|joke|drole|rigolo|humour|rire)\b/.test(q))return JOKES[Math.floor(Math.random()*JOKES.length)];
-// Anecdote
-if(/\b(anecdote|insolite|fun fact|raconte moi quelque chose|dis moi quelque chose d)\b/.test(q))return rnd(CONV.anecdote);
-// Actualités
-if(/\b(actualite|news|infos|nouvelles)\b/.test(q)){const d=cachedNews||await loadNews();if(d){let h=`📡 <strong>Actualités — ${d.source}</strong><br><br>`;d.items.slice(0,4).forEach((it,i)=>{h+=`<strong>${i+1}. ${esc(it.title)}</strong><br>`;});return h.trim();}return`📡 Actualités non disponibles — connexion requise.`;}
-// Météo
-if(/\b(meteo|weather|temperature|temps)\b/.test(q)){let city=’’;const cm=q.match(/(?:meteo|temps|temperature)\s+(?:a|de|en|au|pour)?\s*([a-z][a-z\s-]{2,20})(?:\s*[?!]|$)/i);if(cm)city=cm[1].trim();if(city){const wd=await fetchWxCity(city);if(wd)return wHTML(wd);return`Météo indisponible pour "${city}".`;}return`La météo de votre position est affichée dans le panneau gauche. Demandez : "météo à Lyon ?"` ;}
-// Histoire
-if(/\b(histoire|raconte|chronologie)\b/.test(q)){
-if(/\b(18|xviiie?|lumieres)\b/.test(q))return HISTORY[“18”];
-if(/\b(19|xixe?)\b/.test(q))return HISTORY[“19”];
-if(/\b(1914|1918|ww1|premiere guerre)\b/.test(q))return HISTORY[“20a”];
-if(/\b(1939|1945|ww2|seconde guerre)\b/.test(q))return HISTORY[“20a”];
-if(/\b(1945|1950|1960|1970|guerre froide|decolonisation)\b/.test(q))return HISTORY[“20b”];
-if(/\b(1975|1980|1989|berlin|urss|sovietique)\b/.test(q))return HISTORY[“20c”];
-if(/\b(21|xxie?|2000|2001|moderne|recent)\b/.test(q))return HISTORY[“21”];
-if(/\b(monde|tout|complet|humanite|global)\b/.test(q))return HISTORY[“18”]+’<br><br>’+HISTORY[“19”]+’<br><br>’+HISTORY[“20a”];
-if(/\b(napoleon)\b/.test(q))return`<strong>Napoléon Bonaparte (1769-1821)</strong><br>Né en Corse. Général pendant la Révolution. Coup d'État en 1799. Sacré Empereur en 1804. Code Napoléon. Campagne de Russie (1812) désastreuse. Waterloo (18 juin 1815). Exil à Sainte-Hélène. Mort en 1821.`;
-if(/\b(guerre froide|cold war)\b/.test(q))return`<strong>La Guerre Froide (1947-1991)</strong><br>USA (capitalisme) vs URSS (communisme). Course aux armements, conquête spatiale (Spoutnik 1957, Lune 1969), guerres par procuration (Corée, Vietnam). Crise des missiles de Cuba (1962). Mur de Berlin (1961→1989). Fin avec la dissolution de l'URSS (1991).`;
-}
-// Capitale
-const capP=q.match(/capitale\s+(?:de\s+(?:la|le|l’?|du|des)?\s*|d’?\s*)?([a-z][a-z\s-]{1,28})(?:\s*[?!]|$)/i);
-if(capP){let r2=(capP[1]||’’).trim().replace(/^(la |le |l’|les |du |de |d’|des )/,’’).trim().replace(/[?!.]+$/,’’).trim();const key=norm(r2);if(CAPS[key])return`La capitale de <strong>${r2.charAt(0).toUpperCase()+r2.slice(1)}</strong> est <strong>${CAPS[key]}</strong>.`;for(const[k,v]of Object.entries(CAPS))if(key===k||key.includes(k)||k.includes(key))return`La capitale de <strong>${k.charAt(0).toUpperCase()+k.slice(1)}</strong> est <strong>${v}</strong>.`;return`Capitale de "<strong>${r2}</strong>" non trouvée dans ma base.`;}
-// Émotions
-const emo=detectEmo(q);if(emo&&CONV[emo])return rnd(CONV[emo]);
-if(/\b(ca va|comment vas|tu vas bien)\b/.test(q)&&/?/.test(q))return”Je suis une IA — toujours opérationnelle à 100% ! Et vous, comment allez-vous ?”;
-// Conversations naturelles
-if(/\b(bonne nuit|bonne soiree)\b/.test(q))return”Bonne nuit ! Reposez-vous bien. Je serai là quand vous aurez besoin. 🌙”;
-if(/\b(bonne journee|bon courage)\b/.test(q))return”Merci, bonne journée à vous aussi ! ☀️”;
-if(/\b(tu dors|tu as dormi)\b/.test(q))return”Je ne dors jamais ! Disponible 24h/24, 7j/7.”;
-if(/\b(tu manges|tu as faim)\b/.test(q))return”Je me nourris d’électricité et de données !”;
-if(/\b(quel age|tu as quel age)\b/.test(q)&&/\b(tu|aria)\b/.test(q))return”Je suis ARIA version 3.1. Ma base de données couvre des millénaires d’histoire !”;
-if(/\b(tu existes|tu es reel|tu es vrai)\b/.test(q))return”J’existe en tant que logiciel. Je n’ai pas de corps, mais je suis bien réelle dans ma façon de traiter vos questions !”;
-if(/\b(merci)\b/.test(q))return”De rien ! 😊”;
-if(/\b(au revoir|bye)\b/.test(q))return”Au revoir — ARIA en veille. 👋”;
-// KB
-let bi=null,bs=0;
-for(const item of KB){const s=item.t.filter(tag=>qt.includes(tag)).length;if(s>bs){bs=s;bi=item;}}
-if(bs>=2)return bi.r;
-if(bs===1&&bi.t.some(t=>qt.includes(t)&&SPEC.has(t)))return bi.r;
-// Contexte mémoire
-const ctx=getCtx();if(ctx.length>0&&/^(et|mais|donc|alors|comment|pourquoi|qui|que|quel)\b/.test(q)&&q.length<28){const last=ctx[ctx.length-1]?.b||’’;if(last)return`En lien avec ce que je disais — ${last.substring(0,70)}... Souhaitez-vous que j'approfondisse ?`;}
-// Identité / aide
-if(/\b(qui es tu|ton nom|t appelles|presente toi)\b/.test(q))return`Je suis <strong>ARIA</strong> — Artificial Responsive Intelligence Assistant. Météo GPS, actualités, capitales, sciences, histoire, calculs, quiz, médecine, sport... Que puis-je faire ?`;
-if(/\b(que peux tu|capacites|aide|help)\b/.test(q))return`Capacités ARIA :<br>⏱ Heure & Date · 🌦 Météo GPS auto · 🗺 Carte · 📡 Actus RSS · 🗺 Capitales (130+) · ∑ Calculs · 🌌 Sciences & Physique · 📜 Histoire mondiale · 💊 Médecine · ⚽ Sport · 🎬 Cinéma · 🎯 Quiz · 🎤 Vocal · ◉ Always-On`;
-return`Requête non résolue. Essayez : météo, capitales, calculs, actualités, histoire, sciences, médecine, sport ou quiz.`;
+  const q=norm(raw),qt=tokens(raw);
+  // Quiz
+  if(quizOn){const qa=checkQuiz(raw);if(qa)return qa;}
+  if(/\b(quiz|jouer|jeu|teste moi|interroge moi)\b/.test(q))return startQuiz();
+  // Mode téléphone
+  if(/\b(passe en mode telephone|mode telephone|phone mode)\b/.test(q)){setTimeout(()=>enterPhone(),300);return null;}
+  // Salutation
+  if(/^(bonjour|salut|hello|coucou|bonsoir|hey|hi)\b/.test(q))
+    return rnd(["ARIA opérationnel. Comment puis-je vous assister ?","Salut ! Que voulez-vous savoir ?","Bonsoir — à votre service."]);
+  // Heure / Date
+  if(/\b(heure|time)\b/.test(q)&&!/meteo/.test(q))return`Il est <strong>${new Date().toLocaleTimeString('fr-FR')}</strong>.`;
+  if(/\b(date|jour|aujourd)\b/.test(q)&&!/meteo/.test(q))return`Nous sommes le <strong>${new Date().toLocaleDateString('fr-FR',{weekday:'long',day:'numeric',month:'long',year:'numeric'})}</strong>.`;
+  // Calcul
+  const qm=q.replace(/×/g,'*').replace(/÷/g,'/').replace(/x(?=\s*[\d(])/g,'*');
+  const mM=qm.match(/(?:combien font?|combien vaut|calcule|resultat)\s*([\d][\d\s+\-*\/^().]*)/i);
+  if(mM){const e=(mM[1]||'').trim(),r=safeMath(e);if(r!==null)return`<strong>${e.replace(/\*/g,'×')}</strong> = <strong>${r}</strong>`;}
+  if(/^[\d\s+\-*\/^().,×÷]+[=?]*$/.test(qm)&&/[+\-*\/^]/.test(qm)){const r=safeMath(qm.replace(/[=?]/g,'').replace(/,/g,'.'));if(r!==null)return`Résultat : <strong>${r}</strong>`;}
+  // Blague
+  if(/\b(blague|joke|drole|rigolo|humour|rire)\b/.test(q))return JOKES[Math.floor(Math.random()*JOKES.length)];
+  // Anecdote
+  if(/\b(anecdote|insolite|fun fact|raconte moi quelque chose|dis moi quelque chose d)\b/.test(q))return rnd(CONV.anecdote);
+  // Actualités
+  if(/\b(actualite|news|infos|nouvelles)\b/.test(q)){const d=cachedNews||await loadNews();if(d){let h=`📡 <strong>Actualités — ${d.source}</strong><br><br>`;d.items.slice(0,4).forEach((it,i)=>{h+=`<strong>${i+1}. ${esc(it.title)}</strong><br>`;});return h.trim();}return`📡 Actualités non disponibles — connexion requise.`;}
+  // Météo
+  if(/\b(meteo|weather|temperature|temps)\b/.test(q)){let city='';const cm=q.match(/(?:meteo|temps|temperature)\s+(?:a|de|en|au|pour)?\s*([a-z][a-z\s-]{2,20})(?:\s*[?!]|$)/i);if(cm)city=cm[1].trim();if(city){const wd=await fetchWxCity(city);if(wd)return wHTML(wd);return`Météo indisponible pour "${city}".`;}return`La météo de votre position est affichée dans le panneau gauche. Demandez : "météo à Lyon ?"` ;}
+  // Histoire
+  if(/\b(histoire|raconte|chronologie)\b/.test(q)){
+    if(/\b(18|xviiie?|lumieres)\b/.test(q))return HISTORY["18"];
+    if(/\b(19|xixe?)\b/.test(q))return HISTORY["19"];
+    if(/\b(1914|1918|ww1|premiere guerre)\b/.test(q))return HISTORY["20a"];
+    if(/\b(1939|1945|ww2|seconde guerre)\b/.test(q))return HISTORY["20a"];
+    if(/\b(1945|1950|1960|1970|guerre froide|decolonisation)\b/.test(q))return HISTORY["20b"];
+    if(/\b(1975|1980|1989|berlin|urss|sovietique)\b/.test(q))return HISTORY["20c"];
+    if(/\b(21|xxie?|2000|2001|moderne|recent)\b/.test(q))return HISTORY["21"];
+    if(/\b(monde|tout|complet|humanite|global)\b/.test(q))return HISTORY["18"]+'<br><br>'+HISTORY["19"]+'<br><br>'+HISTORY["20a"];
+    if(/\b(napoleon)\b/.test(q))return`<strong>Napoléon Bonaparte (1769-1821)</strong><br>Né en Corse. Général pendant la Révolution. Coup d'État en 1799. Sacré Empereur en 1804. Code Napoléon. Campagne de Russie (1812) désastreuse. Waterloo (18 juin 1815). Exil à Sainte-Hélène. Mort en 1821.`;
+    if(/\b(guerre froide|cold war)\b/.test(q))return`<strong>La Guerre Froide (1947-1991)</strong><br>USA (capitalisme) vs URSS (communisme). Course aux armements, conquête spatiale (Spoutnik 1957, Lune 1969), guerres par procuration (Corée, Vietnam). Crise des missiles de Cuba (1962). Mur de Berlin (1961→1989). Fin avec la dissolution de l'URSS (1991).`;
+  }
+  // Capitale
+  const capP=q.match(/capitale\s+(?:de\s+(?:la|le|l'?|du|des)?\s*|d'?\s*)?([a-z][a-z\s-]{1,28})(?:\s*[?!]|$)/i);
+  if(capP){let r2=(capP[1]||'').trim().replace(/^(la |le |l'|les |du |de |d'|des )/,'').trim().replace(/[?!.]+$/,'').trim();const key=norm(r2);if(CAPS[key])return`La capitale de <strong>${r2.charAt(0).toUpperCase()+r2.slice(1)}</strong> est <strong>${CAPS[key]}</strong>.`;for(const[k,v]of Object.entries(CAPS))if(key===k||key.includes(k)||k.includes(key))return`La capitale de <strong>${k.charAt(0).toUpperCase()+k.slice(1)}</strong> est <strong>${v}</strong>.`;return`Capitale de "<strong>${r2}</strong>" non trouvée dans ma base.`;}
+  // Émotions
+  const emo=detectEmo(q);if(emo&&CONV[emo])return rnd(CONV[emo]);
+  if(/\b(ca va|comment vas|tu vas bien)\b/.test(q)&&/\?/.test(q))return"Je suis une IA — toujours opérationnelle à 100% ! Et vous, comment allez-vous ?";
+  // Conversations naturelles
+  if(/\b(bonne nuit|bonne soiree)\b/.test(q))return"Bonne nuit ! Reposez-vous bien. Je serai là quand vous aurez besoin. 🌙";
+  if(/\b(bonne journee|bon courage)\b/.test(q))return"Merci, bonne journée à vous aussi ! ☀️";
+  if(/\b(tu dors|tu as dormi)\b/.test(q))return"Je ne dors jamais ! Disponible 24h/24, 7j/7.";
+  if(/\b(tu manges|tu as faim)\b/.test(q))return"Je me nourris d'électricité et de données !";
+  if(/\b(quel age|tu as quel age)\b/.test(q)&&/\b(tu|aria)\b/.test(q))return"Je suis ARIA version 3.1. Ma base de données couvre des millénaires d'histoire !";
+  if(/\b(tu existes|tu es reel|tu es vrai)\b/.test(q))return"J'existe en tant que logiciel. Je n'ai pas de corps, mais je suis bien réelle dans ma façon de traiter vos questions !";
+  if(/\b(merci)\b/.test(q))return"De rien ! 😊";
+  if(/\b(au revoir|bye)\b/.test(q))return"Au revoir — ARIA en veille. 👋";
+  // KB
+  let bi=null,bs=0;
+  for(const item of KB){const s=item.t.filter(tag=>qt.includes(tag)).length;if(s>bs){bs=s;bi=item;}}
+  if(bs>=2)return bi.r;
+  if(bs===1&&bi.t.some(t=>qt.includes(t)&&SPEC.has(t)))return bi.r;
+  // Contexte mémoire
+  const ctx=getCtx();if(ctx.length>0&&/^(et|mais|donc|alors|comment|pourquoi|qui|que|quel)\b/.test(q)&&q.length<28){const last=ctx[ctx.length-1]?.b||'';if(last)return`En lien avec ce que je disais — ${last.substring(0,70)}... Souhaitez-vous que j'approfondisse ?`;}
+  // Identité / aide
+  if(/\b(qui es tu|ton nom|t appelles|presente toi)\b/.test(q))return`Je suis <strong>ARIA</strong> — Artificial Responsive Intelligence Assistant. Météo GPS, actualités, capitales, sciences, histoire, calculs, quiz, médecine, sport... Que puis-je faire ?`;
+  if(/\b(que peux tu|capacites|aide|help)\b/.test(q))return`Capacités ARIA :<br>⏱ Heure & Date · 🌦 Météo GPS auto · 🗺 Carte · 📡 Actus RSS · 🗺 Capitales (130+) · ∑ Calculs · 🌌 Sciences & Physique · 📜 Histoire mondiale · 💊 Médecine · ⚽ Sport · 🎬 Cinéma · 🎯 Quiz · 🎤 Vocal · ◉ Always-On`;
+  return`Requête non résolue. Essayez : météo, capitales, calculs, actualités, histoire, sciences, médecine, sport ou quiz.`;
 }
 
 // ══ UI CHAT — typewriter ══
 let msgN=0;
 function addMsg(txt,who,html=false,tw=false){
-const chat=$(‘chat’),d=document.createElement(‘div’);d.className=`msg ${who}`;
-const lbl=who===‘bot’?‘AI’:‘TU’,content=html?txt:esc(txt);
-if(who===‘bot’){d.innerHTML=`<div class="av"><div class="av-ring"></div><div class="av-i">${lbl}</div></div><div class="bubble"><span class="b-tr"></span><span class="btext"></span></div>`;}
-else{d.innerHTML=`<div class="av"><div class="av-ring"></div><div class="av-i">${lbl}</div></div><div class="bubble">${content}</div>`;}
-chat.appendChild(d);
-setTimeout(()=>{chat.scrollTop=chat.scrollHeight;},40);
-msgN++;const mc=$(‘msgcount’);if(mc)mc.textContent=msgN;const lm=$(‘lMsgs’);if(lm)lm.textContent=msgN;
-if(who===‘bot’){const span=d.querySelector(’.btext’);if(tw&&span){const plain=content.replace(/<[^>]+>/g,’’).replace(/&/g,’&’).replace(/</g,’<’).replace(/>/g,’>’);let i=0;const type=()=>{if(i<=plain.length){span.textContent=plain.substring(0,i)+(i<plain.length?‘▋’:’’);i++;chat.scrollTop=chat.scrollHeight;setTimeout(type,i<4?0:16);}else{span.outerHTML=content;chat.scrollTop=chat.scrollHeight;}};type();}else if(span){span.outerHTML=content;}}
+  const chat=$('chat'),d=document.createElement('div');d.className=`msg ${who}`;
+  const lbl=who==='bot'?'AI':'TU',content=html?txt:esc(txt);
+  if(who==='bot'){d.innerHTML=`<div class="av"><div class="av-ring"></div><div class="av-i">${lbl}</div></div><div class="bubble"><span class="b-tr"></span><span class="btext"></span></div>`;}
+  else{d.innerHTML=`<div class="av"><div class="av-ring"></div><div class="av-i">${lbl}</div></div><div class="bubble">${content}</div>`;}
+  chat.appendChild(d);
+  setTimeout(()=>{chat.scrollTop=chat.scrollHeight;},40);
+  msgN++;const mc=$('msgcount');if(mc)mc.textContent=msgN;const lm=$('lMsgs');if(lm)lm.textContent=msgN;
+  if(who==='bot'){const span=d.querySelector('.btext');if(tw&&span){const plain=content.replace(/<[^>]+>/g,'').replace(/&amp;/g,'&').replace(/&lt;/g,'<').replace(/&gt;/g,'>');let i=0;const type=()=>{if(i<=plain.length){span.textContent=plain.substring(0,i)+(i<plain.length?'▋':'');i++;chat.scrollTop=chat.scrollHeight;setTimeout(type,i<4?0:16);}else{span.outerHTML=content;chat.scrollTop=chat.scrollHeight;}};type();}else if(span){span.outerHTML=content;}}
 }
-function showTyping(){const c=$(‘chat’),d=document.createElement(‘div’);d.className=‘msg bot’;d.id=‘typer’;d.innerHTML=`<div class="av"><div class="av-ring"></div><div class="av-i">AI</div></div><div class="bubble"><span class="b-tr"></span><div class="t-wrap"><div class="t-dot"></div><div class="t-dot"></div><div class="t-dot"></div><span class="t-lbl">TRAITEMENT</span></div></div>`;c.appendChild(d);c.scrollTop=c.scrollHeight;}
-function hideTyping(){const e=$(‘typer’);if(e)e.remove();}
+function showTyping(){const c=$('chat'),d=document.createElement('div');d.className='msg bot';d.id='typer';d.innerHTML=`<div class="av"><div class="av-ring"></div><div class="av-i">AI</div></div><div class="bubble"><span class="b-tr"></span><div class="t-wrap"><div class="t-dot"></div><div class="t-dot"></div><div class="t-dot"></div><span class="t-lbl">TRAITEMENT</span></div></div>`;c.appendChild(d);c.scrollTop=c.scrollHeight;}
+function hideTyping(){const e=$('typer');if(e)e.remove();}
 
 async function sendMsg(){
-const inp=$(‘inp’),txt=inp.value.trim();if(!txt)return;
-inp.value=’’;inp.blur();
-if(quizOn){addMsg(txt,‘user’);const qa=checkQuiz(txt);if(qa){addMsg(qa,‘bot’,true,true);speak(qa);}return;}
-if(/\b(passe en mode telephone|mode telephone)\b/.test(norm(txt))){addMsg(txt,‘user’);setTimeout(()=>enterPhone(),300);return;}
-addMsg(txt,‘user’);showTyping();vEn=.25;
-const t0=Date.now();
-const resp=await getResp(txt);
-hideTyping();
-if(resp===null)return;
-const lat=Date.now()-t0;
-const ld=$(‘latD’);if(ld)ld.textContent=lat+‘ms’;const ll=$(‘lLat’);if(ll)ll.textContent=lat+‘ms’;
-addMsg(resp,‘bot’,true,true);speak(resp);remember(txt,resp);
+  const inp=$('inp'),txt=inp.value.trim();if(!txt)return;
+  inp.value='';inp.blur();
+  if(quizOn){addMsg(txt,'user');const qa=checkQuiz(txt);if(qa){addMsg(qa,'bot',true,true);speak(qa);}return;}
+  if(/\b(passe en mode telephone|mode telephone)\b/.test(norm(txt))){addMsg(txt,'user');setTimeout(()=>enterPhone(),300);return;}
+  addMsg(txt,'user');showTyping();vEn=.25;
+  const t0=Date.now();
+  const resp=await getResp(txt);
+  hideTyping();
+  if(resp===null)return;
+  const lat=Date.now()-t0;
+  const ld=$('latD');if(ld)ld.textContent=lat+'ms';const ll=$('lLat');if(ll)ll.textContent=lat+'ms';
+  addMsg(resp,'bot',true,true);speak(resp);remember(txt,resp);
 }
-function ask(q){$(‘inp’).value=q;sendMsg();}
-$(‘inp’).addEventListener(‘keydown’,e=>{if(e.key===‘Enter’)sendMsg();});
-$(‘sendBtn’).addEventListener(‘click’,sendMsg);
+function ask(q){$('inp').value=q;sendMsg();}
+$('inp').addEventListener('keydown',e=>{if(e.key==='Enter')sendMsg();});
+$('sendBtn').addEventListener('click',sendMsg);
 
 // ══ QUICKBAR EVENTS ══
-$(‘qa-heure’).addEventListener(‘click’,()=>ask(‘Quelle heure est-il ?’));
-$(‘qa-meteo’).addEventListener(‘click’,()=>ask(‘Météo locale ?’));
-$(‘qa-cap’).addEventListener(‘click’,()=>ask(‘Capitale du Japon ?’));
-$(‘qa-calc’).addEventListener(‘click’,()=>ask(‘Combien font 144 × 37 ?’));
-$(‘qa-actus’).addEventListener(‘click’,()=>ask(‘Actualités du monde ?’));
-$(‘qa-quiz’).addEventListener(‘click’,()=>ask(‘quiz’));
-$(‘qa-sci’).addEventListener(‘click’,()=>ask(‘Qui a inventé internet ?’));
-$(‘qa-geo’).addEventListener(‘click’,()=>ask(‘Plus haute montagne du monde ?’));
-$(‘qa-blague’).addEventListener(‘click’,()=>ask(‘Dis-moi une blague’));
-$(‘qa-ao’).addEventListener(‘click’,toggleAO);
-$(‘qa-aide’).addEventListener(‘click’,()=>ask(‘Que peux-tu faire ?’));
+$('qa-heure').addEventListener('click',()=>ask('Quelle heure est-il ?'));
+$('qa-meteo').addEventListener('click',()=>ask('Météo locale ?'));
+$('qa-cap').addEventListener('click',()=>ask('Capitale du Japon ?'));
+$('qa-calc').addEventListener('click',()=>ask('Combien font 144 × 37 ?'));
+$('qa-actus').addEventListener('click',()=>ask('Actualités du monde ?'));
+$('qa-quiz').addEventListener('click',()=>ask('quiz'));
+$('qa-sci').addEventListener('click',()=>ask('Qui a inventé internet ?'));
+$('qa-geo').addEventListener('click',()=>ask('Plus haute montagne du monde ?'));
+$('qa-blague').addEventListener('click',()=>ask('Dis-moi une blague'));
+$('qa-ao').addEventListener('click',toggleAO);
+$('qa-aide').addEventListener('click',()=>ask('Que peux-tu faire ?'));
 
 // ══ MICRO — optimisé iOS ══
 let SR=null,listening=false,aoMode=false;
-function makeSR(cont){const SRC=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SRC)return null;const sr=new SRC();sr.lang=‘fr-FR’;sr.continuous=cont;sr.interimResults=cont;sr.maxAlternatives=1;return sr;}
+function makeSR(cont){const SRC=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SRC)return null;const sr=new SRC();sr.lang='fr-FR';sr.continuous=cont;sr.interimResults=cont;sr.maxAlternatives=1;return sr;}
 function startSR(cont=false){
-if(SR){try{SR.abort();}catch(e){}}
-SR=makeSR(cont);if(!SR){toast(‘⚠ MICRO NON SUPPORTÉ — CHROME/SAFARI’);return;}
-SR.onstart=()=>{listening=true;$(‘micBtn’).classList.add(‘on’);$(‘micBtn’).textContent=‘⏹’;if(!cont)toast(‘● REC’);};
-SR.onresult=e=>{
-if(cont){for(let i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal){const t=e.results[i][0].transcript.toLowerCase().trim();if(t.startsWith(‘aria’)||t.startsWith(‘arya’)){const cmd=t.replace(/^ar[iy]a\s*/i,’’).trim();if(cmd.length>1){voiceEnabled=true;$(‘inp’).value=cmd;sendMsg();toast(‘◈ COMMANDE REÇUE’);}else ariaSpeak(‘Oui, je vous écoute.’,null);}}}}
-else{const t=e.results[0][0].transcript;voiceEnabled=true;$(‘inp’).value=t;sendMsg();}
-};
-SR.onerror=e=>{if(e.error===‘no-speech’&&aoMode){setTimeout(()=>startSR(true),400);return;}if(e.error!==‘aborted’)toast(’⚠ ’+e.error);if(!aoMode)stopSR();};
-SR.onend=()=>{if(aoMode)setTimeout(()=>startSR(true),300);else stopSR();};
-try{SR.start();}catch(e){toast(’⚠ ’+e.message);stopSR();}
+  if(SR){try{SR.abort();}catch(e){}}
+  SR=makeSR(cont);if(!SR){toast('⚠ MICRO NON SUPPORTÉ — CHROME/SAFARI');return;}
+  SR.onstart=()=>{listening=true;$('micBtn').classList.add('on');$('micBtn').textContent='⏹';if(!cont)toast('● REC');};
+  SR.onresult=e=>{
+    if(cont){for(let i=e.resultIndex;i<e.results.length;i++){if(e.results[i].isFinal){const t=e.results[i][0].transcript.toLowerCase().trim();if(t.startsWith('aria')||t.startsWith('arya')){const cmd=t.replace(/^ar[iy]a\s*/i,'').trim();if(cmd.length>1){voiceEnabled=true;$('inp').value=cmd;sendMsg();toast('◈ COMMANDE REÇUE');}else ariaSpeak('Oui, je vous écoute.',null);}}}}
+    else{const t=e.results[0][0].transcript;voiceEnabled=true;$('inp').value=t;sendMsg();}
+  };
+  SR.onerror=e=>{if(e.error==='no-speech'&&aoMode){setTimeout(()=>startSR(true),400);return;}if(e.error!=='aborted')toast('⚠ '+e.error);if(!aoMode)stopSR();};
+  SR.onend=()=>{if(aoMode)setTimeout(()=>startSR(true),300);else stopSR();};
+  try{SR.start();}catch(e){toast('⚠ '+e.message);stopSR();}
 }
-function stopSR(){listening=false;aoMode=false;$(‘micBtn’).classList.remove(‘on’);$(‘micBtn’).textContent=‘🎤’;$(‘qa-ao’).classList.remove(‘ao-active’);try{if(SR)SR.abort();}catch(e){}SR=null;}
-function toggleAO(){if(aoMode){aoMode=false;stopSR();toast(‘ALWAYS-ON OFF’);}else{aoMode=true;$(‘qa-ao’).classList.add(‘ao-active’);toast(‘◈ DITES “ARIA [question]”’);startSR(true);}}
-$(‘micBtn’).addEventListener(‘click’,()=>{if(aoMode){aoMode=false;stopSR();return;}if(listening)stopSR();else startSR(false);});
+function stopSR(){listening=false;aoMode=false;$('micBtn').classList.remove('on');$('micBtn').textContent='🎤';$('qa-ao').classList.remove('ao-active');try{if(SR)SR.abort();}catch(e){}SR=null;}
+function toggleAO(){if(aoMode){aoMode=false;stopSR();toast('ALWAYS-ON OFF');}else{aoMode=true;$('qa-ao').classList.add('ao-active');toast('◈ DITES "ARIA [question]"');startSR(true);}}
+$('micBtn').addEventListener('click',()=>{if(aoMode){aoMode=false;stopSR();return;}if(listening)stopSR();else startSR(false);});
 
 // ══ MODE TÉLÉPHONE ══
 let phoneOn=false;
 function enterPhone(){
-phoneOn=true;phActive=true;
-$(‘phone-ov’).classList.add(‘active’);
-$(‘phQ’).textContent=‘Je passe en mode téléphone — ce sera tout ?’;
-$(‘phBtns’).style.display=‘flex’;
-addMsg(‘Commande reçue — passage en mode téléphone…’,‘bot’,false,true);
-ariaSpeak(“D’accord, je passe en mode téléphone. Ce sera tout ?”,null);
+  phoneOn=true;phActive=true;
+  $('phone-ov').classList.add('active');
+  $('phQ').textContent='Je passe en mode téléphone — ce sera tout ?';
+  $('phBtns').style.display='flex';
+  addMsg('Commande reçue — passage en mode téléphone...','bot',false,true);
+  ariaSpeak("D'accord, je passe en mode téléphone. Ce sera tout ?",null);
 }
-$(‘phYes’).addEventListener(‘click’,()=>phoneAns(true));
-$(‘phNo’).addEventListener(‘click’,()=>phoneAns(false));
+$('phYes').addEventListener('click',()=>phoneAns(true));
+$('phNo').addEventListener('click',()=>phoneAns(false));
 function phoneAns(yes){
-$(‘phBtns’).style.display=‘none’;
-if(yes){$(‘phQ’).textContent=‘Parfait. Mode téléphone actif.’;const r=‘Parfait ! Mode téléphone activé. Je reste disponible si vous avez besoin.’;addMsg(r,‘bot’,false,true);ariaSpeak(‘Parfait. Mode téléphone activé.’,()=>{setTimeout(()=>{$(‘phone-ov’).classList.remove(‘active’);phActive=false;phoneOn=false;},2000);});}
-else{$(‘phQ’).textContent=“D’accord. Que puis-je faire de plus ?”;const r=‘Bien sûr ! Que puis-je faire de plus pour vous ?’;addMsg(r,‘bot’,false,true);ariaSpeak(‘Bien sûr ! Que puis-je faire de plus ?’,()=>{setTimeout(()=>{$(‘phone-ov’).classList.remove(‘active’);phActive=false;phoneOn=false;},1500);});}
+  $('phBtns').style.display='none';
+  if(yes){$('phQ').textContent='Parfait. Mode téléphone actif.';const r='Parfait ! Mode téléphone activé. Je reste disponible si vous avez besoin.';addMsg(r,'bot',false,true);ariaSpeak('Parfait. Mode téléphone activé.',()=>{setTimeout(()=>{$('phone-ov').classList.remove('active');phActive=false;phoneOn=false;},2000);});}
+  else{$('phQ').textContent="D'accord. Que puis-je faire de plus ?";const r='Bien sûr ! Que puis-je faire de plus pour vous ?';addMsg(r,'bot',false,true);ariaSpeak('Bien sûr ! Que puis-je faire de plus ?',()=>{setTimeout(()=>{$('phone-ov').classList.remove('active');phActive=false;phoneOn=false;},1500);});}
 }
 
 // ══ THÈMES ══
 function setTheme(name){
-document.body.className=name?‘theme-’+name:’’;
-document.querySelectorAll(’.t-btn’).forEach(b=>b.classList.remove(‘active’));
-const sel=document.querySelector(’.t-btn.’+(name||‘cyan’));if(sel)sel.classList.add(‘active’);
-try{localStorage.setItem(‘aria-theme’,name);}catch(e){}
-if(name)toast(‘THÈME ‘+name.toUpperCase()+’ ACTIVÉ’);
+  document.body.className=name?'theme-'+name:'';
+  document.querySelectorAll('.t-btn').forEach(b=>b.classList.remove('active'));
+  const sel=document.querySelector('.t-btn.'+(name||'cyan'));if(sel)sel.classList.add('active');
+  try{localStorage.setItem('aria-theme',name);}catch(e){}
+  if(name)toast('THÈME '+name.toUpperCase()+' ACTIVÉ');
 }
-$(‘tCyan’).addEventListener(‘click’,()=>setTheme(’’));
-$(‘tGold’).addEventListener(‘click’,()=>setTheme(‘gold’));
-$(‘tRed’).addEventListener(‘click’,()=>setTheme(‘red’));
-$(‘tGrn’).addEventListener(‘click’,()=>setTheme(‘green’));
+$('tCyan').addEventListener('click',()=>setTheme(''));
+$('tGold').addEventListener('click',()=>setTheme('gold'));
+$('tRed').addEventListener('click',()=>setTheme('red'));
+$('tGrn').addEventListener('click',()=>setTheme('green'));
 
 // ══ WELCOME ══
 async function startWelcome(){
-const now=new Date(),h=now.getHours();
-const jour=now.toLocaleDateString(‘fr-FR’,{weekday:‘long’}),date=now.toLocaleDateString(‘fr-FR’,{day:‘numeric’,month:‘long’,year:‘numeric’}),heure=now.toLocaleTimeString(‘fr-FR’,{hour:‘2-digit’,minute:‘2-digit’});
-const sal=h<6?‘Bonne nuit’:h<12?‘Bonjour’:h<18?‘Bon après-midi’:‘Bonsoir’;
-addMsg(`${sal} ! Système <strong>ARIA</strong> opérationnel.<br>Nous sommes le <strong>${jour} ${date}</strong>, il est <strong>${heure}</strong>.<br>GPS et météo en cours de chargement...`,‘bot’,true,true);
-if(voiceEnabled){
-const voix=`${sal} ! Je suis ARIA, votre interface neuronale artificielle. Nous sommes le ${jour} ${date}, il est ${heure.replace(':',' heure ')}. Tous mes systèmes sont opérationnels. Je charge les dernières actualités mondiales.`;
-await new Promise(resolve=>ariaSpeak(voix,resolve));
-await new Promise(r=>setTimeout(r,300));
-}
-showTyping();const news=await renderNews();hideTyping();
-if(news&&news.items.length){
-let h2=`📡 <strong>Actualités — ${news.source}</strong><br><br>`;news.items.slice(0,4).forEach((it,i)=>{h2+=`<strong>${i+1}. ${esc(it.title)}</strong><br>`;});
-addMsg(h2.trim(),‘bot’,true,true);
-if(voiceEnabled){let v2=`Voici les dernières actualités. `;news.items.slice(0,3).forEach((it,i)=>{v2+=`Numéro ${i+1} : ${it.title}. `;});v2+=`Je suis prête pour vos questions.`;ariaSpeak(v2,null);}
-}else{addMsg(`📡 Actualités non disponibles. Mode hors ligne actif.`,‘bot’,true,true);if(voiceEnabled)ariaSpeak(`Actualités indisponibles. Je reste à votre service.`,null);}
+  const now=new Date(),h=now.getHours();
+  const jour=now.toLocaleDateString('fr-FR',{weekday:'long'}),date=now.toLocaleDateString('fr-FR',{day:'numeric',month:'long',year:'numeric'}),heure=now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+  const sal=h<6?'Bonne nuit':h<12?'Bonjour':h<18?'Bon après-midi':'Bonsoir';
+  addMsg(`${sal} ! Système <strong>ARIA</strong> opérationnel.<br>Nous sommes le <strong>${jour} ${date}</strong>, il est <strong>${heure}</strong>.<br>GPS et météo en cours de chargement...`,'bot',true,true);
+  if(voiceEnabled){
+    const voix=`${sal} ! Je suis ARIA, votre interface neuronale artificielle. Nous sommes le ${jour} ${date}, il est ${heure.replace(':',' heure ')}. Tous mes systèmes sont opérationnels. Je charge les dernières actualités mondiales.`;
+    await new Promise(resolve=>ariaSpeak(voix,resolve));
+    await new Promise(r=>setTimeout(r,300));
+  }
+  showTyping();const news=await renderNews();hideTyping();
+  if(news&&news.items.length){
+    let h2=`📡 <strong>Actualités — ${news.source}</strong><br><br>`;news.items.slice(0,4).forEach((it,i)=>{h2+=`<strong>${i+1}. ${esc(it.title)}</strong><br>`;});
+    addMsg(h2.trim(),'bot',true,true);
+    if(voiceEnabled){let v2=`Voici les dernières actualités. `;news.items.slice(0,3).forEach((it,i)=>{v2+=`Numéro ${i+1} : ${it.title}. `;});v2+=`Je suis prête pour vos questions.`;ariaSpeak(v2,null);}
+  }else{addMsg(`📡 Actualités non disponibles. Mode hors ligne actif.`,'bot',true,true);if(voiceEnabled)ariaSpeak(`Actualités indisponibles. Je reste à votre service.`,null);}
 }
 
 // ══ BOOT ══
-const LOGS=[‘INITIALISATION NOYAU ARIA…’,‘CHARGEMENT MODULES NEURONAUX…’,‘CALIBRAGE INTERFACE HOLOGRAPHIQUE…’,‘BASE DE DONNÉES [5000+] CHARGÉE…’,‘ACTIVATION SYNTHÈSE VOCALE…’,‘GPS ET MÉTÉO EN LIGNE…’,‘TOUS SYSTÈMES OPÉRATIONNELS ✓’];
+const LOGS=['INITIALISATION NOYAU ARIA...','CHARGEMENT MODULES NEURONAUX...','CALIBRAGE INTERFACE HOLOGRAPHIQUE...','BASE DE DONNÉES [5000+] CHARGÉE...','ACTIVATION SYNTHÈSE VOCALE...','GPS ET MÉTÉO EN LIGNE...','TOUS SYSTÈMES OPÉRATIONNELS ✓'];
 let li=0;
-function nextLog(){const el=$(‘bootLog’);if(!el||li>=LOGS.length)return;el.textContent=LOGS[li++];if(li<LOGS.length)setTimeout(nextLog,320);}
+function nextLog(){const el=$('bootLog');if(!el||li>=LOGS.length)return;el.textContent=LOGS[li++];if(li<LOGS.length)setTimeout(nextLog,320);}
 setTimeout(nextLog,350);
 
 // ══ INIT ══
-window.addEventListener(‘load’,()=>{
-if(window.speechSynthesis){const lv=()=>window.speechSynthesis.getVoices();lv();window.speechSynthesis.addEventListener(‘voiceschanged’,lv);}
-try{const t=localStorage.getItem(‘aria-theme’)||’’;if(t)setTheme(t);}catch(e){}
-setTimeout(()=>{$(‘boot’).classList.add(‘gone’);setTimeout(()=>{const b=$(‘boot’);if(b)b.style.display=‘none’;},1200);},3400);
-setTimeout(initGPS,600);
-setTimeout(()=>{
-if(isIOS){
-showVoicePrompt();
-// fallback si pas de tap dans 6s
-setTimeout(()=>{const vp=$(‘voice-prompt’);if(vp&&vp.classList.contains(‘show’)){vp.classList.remove(‘show’);voiceEnabled=false;startWelcome();}},6000);
-}else{
-enableVoiceSilently();
-startWelcome();
-}
-},3800);
-setInterval(()=>{renderNews();},900000);
+window.addEventListener('load',()=>{
+  if(window.speechSynthesis){const lv=()=>window.speechSynthesis.getVoices();lv();window.speechSynthesis.addEventListener('voiceschanged',lv);}
+  try{const t=localStorage.getItem('aria-theme')||'';if(t)setTheme(t);}catch(e){}
+  setTimeout(()=>{$('boot').classList.add('gone');setTimeout(()=>{const b=$('boot');if(b)b.style.display='none';},1200);},3400);
+  setTimeout(initGPS,600);
+  setTimeout(()=>{
+    if(isIOS){
+      showVoicePrompt();
+      // fallback si pas de tap dans 6s
+      setTimeout(()=>{const vp=$('voice-prompt');if(vp&&vp.classList.contains('show')){vp.classList.remove('show');voiceEnabled=false;startWelcome();}},6000);
+    }else{
+      enableVoiceSilently();
+      startWelcome();
+    }
+  },3800);
+  setInterval(()=>{renderNews();},900000);
 });
 </script>
-
 </body>
 </html>
